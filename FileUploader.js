@@ -2,10 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import RaisedButton from 'material-ui/RaisedButton'
-
-import service from 'api/service'
-import FormStyles from 'src/Form.css'
 import FileUploadPreview from './FileUploadPreview'
 import Styles from './FileUploader.css'
 
@@ -102,7 +98,7 @@ class FileUploader extends React.Component {
 
   uploadFile = async (fileWithMeta) => {
     const { file, meta: { name } } = fileWithMeta
-    const { data } = await service.getUploadUrl(name)
+    const { data } = await this.props.getUploadUrl(name)
     if (!data) {
       fileWithMeta.meta.status = 'error_upload_url'
       this.forceUpdate()
@@ -234,11 +230,8 @@ class FileUploader extends React.Component {
 
         {this._files.length > 0 &&
           <div className={Styles.buttonContainer}>
-            <RaisedButton
-              backgroundColor="#3DC59F"
-              labelColor="#ffffff"
-              className={FormStyles.primaryButton}
-              label="SUBIR"
+            <button
+              className={Styles.primaryButton}
               onClick={this.handleSubmit}
               disabled={disabled
                 || this._files.some(f => f.meta.status === 'uploading')
@@ -254,6 +247,7 @@ class FileUploader extends React.Component {
 
 FileUploader.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  getUploadUrl: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   instructions: PropTypes.string,
   subInstructions: PropTypes.string,
