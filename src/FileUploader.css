@@ -1,4 +1,4 @@
-.dropzone {
+.uploader-dropzone {
   height: 60vh;
   max-width: 100%;
   overflow: scroll;
@@ -8,7 +8,7 @@
   transition: all .15s linear;
 }
 
-.link {
+.uploader-link {
   font-family: 'nunito-sans', sans-serif;
   font-size: 15px;
   margin-top: 8px;
@@ -21,7 +21,7 @@
   transition: all .15s linear;
 }
 
-.dropzoneInstructions {
+.uploader-dropzoneInstructions {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,11 +29,11 @@
   height: 100%;
 }
 
-.previewListContainer {
+.uploader-previewListContainer {
   margin-top: 40px;
 }
 
-.largeText {
+.uploader-largeText {
   font-family: 'work-sans-300', sans-serif;
   font-size: 22px;
   color: #141418;
@@ -42,7 +42,7 @@
   margin-bottom: 10px;
 }
 
-.smallText {
+.uploader-smallText {
   font-family: 'work-sans-300', sans-serif;
   font-size: 18px;
   color: #141418;
@@ -51,16 +51,16 @@
   margin-bottom: 20px;
 }
 
-.active {
+.uploader-active {
   background-color: #F6F8FA;
   border: 4px solid #3DC59F;
 }
 
-.input {
+.uploader-input {
   display: none;
 }
 
-.inputLabel {
+.uploader-inputLabel {
   font-family: 'nunito-sans-700', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -76,26 +76,26 @@
   transition: all .15s linear;
 }
 
-.inputLabel:hover {
+.uploader-inputLabel:hover {
   border: 1px solid #01886C;
 }
 
-.addFiles {
+.uploader-addFiles {
   padding-left: 5%;
   margin-bottom: 20px;
 }
 
-.addFiles .inputLabel {
+.uploader-addFiles .inputLabel {
   color: 000000;
   opacity: 0.8;
   border: 1px solid #141418;
 }
 
-.addFiles .inputLabel:hover {
+.uploader-addFiles .inputLabel:hover {
   border: 1px solid #4D4D4D;
 }
 
-.previewContainer {
+.uploader-previewContainer {
   padding: 0 13% 0 5%;
   margin-bottom: 20px;
   display: flex;
@@ -105,24 +105,24 @@
   position: relative;
 }
 
-.statusContainer {
+.uploader-statusContainer {
   display: flex;
   align-items: center;
 }
 
-.preview {
+.uploader-preview {
   height: 70px;
   width: auto;
   max-width: 140px;
 }
 
-.buttonContainer {
+.uploader-buttonContainer {
   border-top: 1px solid #E1E7ED;
   padding: 20px 5%;
 }
 
-.abortButton {
-  background: no-repeat url("assets/img/close-modal.svg") top right;
+.uploader-abortButton {
+  background: no-repeat url("./assets/close-modal.svg") top right;
   background-size: 10px 10px;
   background-position: center;
   width: 25px;
@@ -131,9 +131,4 @@
   z-index: 11;
   opacity: 1.0;
   margin: 0 0 2px 10px;
-}
-
-.primaryButton {
-  border-radius: 2px;
-  box-shadow: unset !important;
 }

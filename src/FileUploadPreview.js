@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { formatBytes } from './string'
 import Styles from './FileUploader.css'
 
-
 class FileUploadPreview extends React.PureComponent {
   render() {
     const { name = '', percent = 0, size = 0, previewUrl, type, status, onCancel, onRemove } = this.props

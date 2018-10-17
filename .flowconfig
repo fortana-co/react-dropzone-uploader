@@ -1,0 +1,16 @@
+[declarations]
+<PROJECT_ROOT>/node_modules/.*
+
+[ignore]
+<PROJECT_ROOT>/node_modules/npm/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.name_mapper='^src' -> '<PROJECT_ROOT>/src'
+
+[strict]

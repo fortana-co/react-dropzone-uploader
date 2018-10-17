@@ -1,10 +1,8 @@
-/* eslint-disable no-param-reassign */
 import React from 'react'
 import PropTypes from 'prop-types'
 
 import FileUploadPreview from './FileUploadPreview'
-import Styles from './FileUploader.css'
-
+import './FileUploader.css'
 
 let id = 0
 
@@ -15,19 +13,18 @@ class FileUploader extends React.Component {
       active: false,
     }
     this._files = []
-    this.dropzone = React.createRef()
-  }
-
-  handleDragEnter = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    this.setState({ active: true })
   }
 
   componentWillUnmount() {
     for (const file of this._files) {
       if (file.meta.status === 'uploading') file.xhr.abort()
     }
+  }
+
+  handleDragEnter = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.setState({ active: true })
   }
 
   handleDragOver = (e) => {
@@ -61,12 +58,12 @@ class FileUploader extends React.Component {
   }
 
   handleFile = (file) => {
-    const { name, size, type } = file
-    const { maxSizeBytes, maxFiles, allowedTypePrefixes } = this.props
+    const { name, size, type, lastModified } = file
+    const { maxSizeBytes, maxFiles, allowedTypePrefixes, onReady } = this.props
     if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
     if (this._files.length >= maxFiles) return
 
-    const fileWithMeta = { file, meta: { name, size, type, status: 'uploading', percent: 0, id } }
+    const fileWithMeta = { file, meta: { name, size, type, lastModified, status: 'uploading', percent: 0, id } }
     this._files.push(fileWithMeta)
     id += 1
 
@@ -75,13 +72,9 @@ class FileUploader extends React.Component {
       return
     }
     this.previewFile(fileWithMeta)
+    if (onReady) onReady(fileWithMeta)
     this.uploadFile(fileWithMeta)
     this.forceUpdate()
-    setTimeout(this.scrollToBottom, 500)
-  }
-
-  scrollToBottom = () => {
-    this.dropzone.current.scrollTop = this.dropzone.current.scrollHeight
   }
 
   previewFile = (fileWithMeta) => {
@@ -91,6 +84,13 @@ class FileUploader extends React.Component {
     const reader = new FileReader()
     reader.readAsDataURL(fileWithMeta.file)
     reader.onloadend = () => {
+      const img = new Image()
+      img.src = reader.result
+      img.onload = () => {
+        fileWithMeta.meta.width = img.width
+        fileWithMeta.meta.height = img.height
+      }
+
       fileWithMeta.meta.previewUrl = reader.result
       this.forceUpdate()
     }
@@ -98,7 +98,7 @@ class FileUploader extends React.Component {
 
   uploadFile = async (fileWithMeta) => {
     const { file, meta: { name } } = fileWithMeta
-    const { data } = await this.props.getUploadUrl(name)
+    const { data } = await service.getUploadUrl(name)
     if (!data) {
       fileWithMeta.meta.status = 'error_upload_url'
       this.forceUpdate()
@@ -115,18 +115,20 @@ class FileUploader extends React.Component {
 
     // update progress (can be used to show progress indicator)
     xhr.upload.addEventListener('progress', (e) => {
-      fileWithMeta.meta.percent = (e.loaded * 100.0 / e.total) || 100
+      fileWithMeta.meta.percent = ((e.loaded * 100.0) / e.total) || 100
       this.forceUpdate()
     })
 
     xhr.addEventListener('readystatechange', (e) => {
       if (xhr.readyState !== 4) return // `readyState` of 4 corresponds to `XMLHttpRequest.DONE`
+
       if (xhr.status === 0) {
         fileWithMeta.meta.status = 'aborted'
         this.forceUpdate()
       } else if (xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         fileWithMeta.meta.status = 'done'
+        if (this.props.onUpload) this.props.onUpload(fileWithMeta)
         this.forceUpdate()
       } else {
         fileWithMeta.meta.status = 'error_upload'
@@ -162,7 +164,7 @@ class FileUploader extends React.Component {
   }
 
   render() {
-    const { disabled = false, instructions, subInstructions, maxFiles, allowedTypeString } = this.props
+    const { disabled = false, instructions, subInstructions, maxFiles, allowedTypeString, onSubmit } = this.props
     const { active } = this.state
 
     const chooseFiles = (add = false) => {
@@ -170,13 +172,13 @@ class FileUploader extends React.Component {
         <React.Fragment>
           <label
             htmlFor="fileUploaderInputId"
-            className={Styles.inputLabel}
+            className={'uploader-inputLabel'}
           >
-            {add ? 'Agregar' : 'Escoger archivos'}
+            {add ? 'Add' : 'Choose Files'}
           </label>
           <input
             id="fileUploaderInputId"
-            className={Styles.input}
+            className={'uploader-input'}
             type="file"
             multiple
             accept={allowedTypeString || '*'}
@@ -200,44 +202,45 @@ class FileUploader extends React.Component {
     return (
       <React.Fragment>
         <div
-          className={`${Styles.dropzone} ${active ? Styles.active : Styles.inactive}`}
+          className={`${'uploader-dropzone'} ${active ? 'uploader-active' : 'uploader-inactive'}`}
           onDragEnter={this.handleDragEnter}
           onDragOver={this.handleDragOver}
           onDragLeave={this.handleDragLeave}
           onDrop={this.handleDrop}
-          ref={this.dropzone}
         >
           {this._files.length === 0 &&
-            <div className={Styles.dropzoneInstructions}>
-              <span className={Styles.largeText}>
+            <div className={'uploader-dropzoneInstructions'}>
+              <span className={'uploader-largeText'}>
                 {instructions || `Arrastra hasta ${maxFiles} archivo${maxFiles === 1 ? '' : 's'}`}
               </span>
-              {subInstructions && <span className={Styles.smallText}>{subInstructions}</span>}
-              <span className={Styles.smallText}>- o puedes -</span>
+              {subInstructions && <span className={'uploader-smallText'}>{subInstructions}</span>}
+              <span className={'uploader-smallText'}>- or you can -</span>
               {chooseFiles(false)}
             </div>
           }
 
           {this._files.length > 0 &&
-            <div className={Styles.previewListContainer}>
+            <div className={'uploader-previewListContainer'}>
               {files}
               {this._files.length > 0 && this._files.length < maxFiles &&
-                <div className={Styles.addFiles}>{chooseFiles(true)}</div>
+                <div className={'uploader-addFiles'}>{chooseFiles(true)}</div>
               }
             </div>
           }
         </div>
 
-        {this._files.length > 0 &&
-          <div className={Styles.buttonContainer}>
+        {this._files.length > 0 && onSubmit &&
+          <div className={'uploader-buttonContainer'}>
             <button
-              className={Styles.primaryButton}
+              className=""
               onClick={this.handleSubmit}
               disabled={disabled
                 || this._files.some(f => f.meta.status === 'uploading')
                 || !this._files.some(f => f.meta.status === 'done')
               }
-            />
+            >
+              UPLOAD
+            </button>
           </div>
         }
       </React.Fragment>
@@ -246,8 +249,9 @@ class FileUploader extends React.Component {
 }
 
 FileUploader.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  getUploadUrl: PropTypes.func.isRequired,
+  onReady: PropTypes.func,
+  onUpload: PropTypes.func,
+  onSubmit: PropTypes.func,
   disabled: PropTypes.bool,
   instructions: PropTypes.string,
   subInstructions: PropTypes.string,
