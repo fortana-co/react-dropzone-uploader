@@ -1,8 +1,5 @@
 module.exports = {
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype",
-  ],
   "extends": "airbnb",
   "globals": {
     "FileReader": true,

@@ -1,4 +1,11 @@
 {
-  "presets": ["env", "react", "stage-0", "flow"],
-  "plugins": ["flow-react-proptypes"]
+  "presets": [
+    "@babel/env",
+    "@babel/react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-function-bind",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
