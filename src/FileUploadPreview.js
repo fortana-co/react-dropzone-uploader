@@ -6,7 +6,12 @@ import './FileUploader.css'
 
 class FileUploadPreview extends React.PureComponent {
   render() {
-    const { showProgress, name = '', percent = 0, size = 0, previewUrl, type, status, onCancel, onRemove } = this.props
+    const {
+      meta: { name = '', percent = 0, size = 0, previewUrl, type, status },
+      showProgress,
+      onCancel,
+      onRemove,
+    } = this.props
     const title = `${name || '?'}, ${formatBytes(size)}`
 
     if (status === 'error_file_size') {
@@ -39,15 +44,17 @@ class FileUploadPreview extends React.PureComponent {
 }
 
 FileUploadPreview.propTypes = {
+  meta: PropTypes.shape({
+    name: PropTypes.string,
+    percent: PropTypes.number,
+    size: PropTypes.number,
+    previewUrl: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    status: PropTypes.oneOf(
+      ['uploading', 'error_file_size', 'error_upload_params', 'aborted', 'done', 'error_upload']
+    ).isRequired,
+  }).isRequired,
   showProgress: PropTypes.bool.isRequired,
-  name: PropTypes.string,
-  percent: PropTypes.number,
-  size: PropTypes.number,
-  previewUrl: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(
-    ['uploading', 'error_file_size', 'error_upload_params', 'aborted', 'done', 'error_upload']
-  ).isRequired,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
 }

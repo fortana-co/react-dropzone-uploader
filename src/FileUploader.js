@@ -62,12 +62,18 @@ class FileUploader extends React.Component {
     if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
     if (this._files.length >= maxFiles) return
 
-    const fileWithMeta = { file, meta: { name, size, type, lastModified, status: 'uploading', percent: 0, id } }
+    const uploadedDate = new Date().toISOString()
+    const lastModifiedDate = lastModified && new Date(lastModified).toISOString()
+    const fileWithMeta = {
+      file,
+      meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'uploading', percent: 0, id },
+    }
     this._files.push(fileWithMeta)
     id += 1
 
     if (size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
+      this.forceUpdate()
       return
     }
     this.previewFile(fileWithMeta)
@@ -173,6 +179,7 @@ class FileUploader extends React.Component {
       onSubmit,
       getUploadParams,
       filePreviewComponent,
+      dropzoneClassName = '',
     } = this.props
     const { active } = this.state
 
@@ -197,21 +204,12 @@ class FileUploader extends React.Component {
       )
     }
 
+    const filePreview = filePreviewComponent || FileUploadPreview
     const files = this._files.map((f) => {
-      if (filePreviewComponent) {
-        return (
-          <filePreviewComponent
-            key={f.meta.id}
-            meta={{ ...f.meta }}
-            onCancel={() => this.handleCancel(f.meta.id)}
-            onRemove={() => this.handleRemove(f.meta.id)}
-          />
-        )
-      }
       return (
-        <FileUploadPreview
+        <filePreview
           key={f.meta.id}
-          {...f.meta}
+          meta={{ ...f.meta }}
           showProgress={Boolean(getUploadParams)}
           onCancel={() => this.handleCancel(f.meta.id)}
           onRemove={() => this.handleRemove(f.meta.id)}
@@ -222,7 +220,7 @@ class FileUploader extends React.Component {
     return (
       <React.Fragment>
         <div
-          className={`${'uploader-dropzone'} ${active ? 'uploader-active' : 'uploader-inactive'}`}
+          className={`${'uploader-dropzone'} ${active ? 'uploader-active' : 'uploader-inactive'} ${dropzoneClassName}`}
           onDragEnter={this.handleDragEnter}
           onDragOver={this.handleDragOver}
           onDragLeave={this.handleDragLeave}
@@ -252,7 +250,6 @@ class FileUploader extends React.Component {
         {this._files.length > 0 && onSubmit &&
           <div className={'uploader-buttonContainer'}>
             <button
-              className=""
               onClick={this.handleSubmit}
               disabled={
                 this._files.some(f => f.meta.status === 'uploading') || !this._files.some(f => f.meta.status === 'done')
@@ -272,13 +269,16 @@ FileUploader.propTypes = {
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, url = '' }
   onUpload: PropTypes.func,
   onSubmit: PropTypes.func,
-  filePreviewComponent: PropTypes.func,
+  filePreviewComponent: PropTypes.any,
+  submitButtonComponent: PropTypes.any,
   instructions: PropTypes.string,
   subInstructions: PropTypes.string,
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
   allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
   accept: PropTypes.string, // the accept attribute of the input
+
+  dropzoneClassName: PropTypes.string,
 }
 
 export default FileUploader

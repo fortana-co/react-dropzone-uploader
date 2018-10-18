@@ -9,7 +9,7 @@
 }
 
 .uploader-link {
-  font-family: 'nunito-sans', sans-serif;
+  font-family: 'roboto', sans-serif;
   font-size: 15px;
   margin-top: 8px;
   color: #3DC59F;
@@ -34,7 +34,7 @@
 }
 
 .uploader-largeText {
-  font-family: 'work-sans-300', sans-serif;
+  font-family: 'roboto', sans-serif;
   font-size: 22px;
   color: #141418;
   letter-spacing: 0;
@@ -43,7 +43,7 @@
 }
 
 .uploader-smallText {
-  font-family: 'work-sans-300', sans-serif;
+  font-family: 'roboto', sans-serif;
   font-size: 18px;
   color: #141418;
   letter-spacing: 0;
@@ -61,7 +61,7 @@
 }
 
 .uploader-inputLabel {
-  font-family: 'nunito-sans-700', sans-serif;
+  font-family: 'roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 13px;
