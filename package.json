@@ -28,6 +28,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-function-bind": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^7.2.3",
@@ -50,8 +51,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.build.config.js",
-    "example:dev": "webpack-dev-server --mode development",
-    "example:prod": "NODE_ENV=production webpack --mode production",
+    "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
     "lint": "eslint src example/src"
   }
 }

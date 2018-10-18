@@ -1,37 +1,33 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: {
-    index: './example/src/index',
-  },
+  devtool: 'inline-source-map',
+  entry: './example/src/index.js',
   output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'example/dist'),
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'example', 'dist'),
+    publicPath: '/',
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'babel-loader',
+        test: /\.js?$/,
         exclude: /node_modules/,
+        use: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loaders: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader?limit=10000',
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'example/src/index.html'),
-      filename: path.join(__dirname, 'example/dist/index.html'),
-      chunks: ['index'],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'example/src/responsive_example.html'),
-      filename: path.join(__dirname, 'example/dist/responsive_example.html'),
-      chunks: ['responsive_example'],
-    }),
-  ],
   devServer: {
-    contentBase: './example',
-    host: '0.0.0.0',
+    contentBase: path.resolve(__dirname, 'example', 'dist'),
   },
 }

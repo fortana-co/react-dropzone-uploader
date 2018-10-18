@@ -13,9 +13,9 @@ module.exports = {
     filename: 'FileUploader.js',
     libraryTarget: 'commonjs2',
   },
-  plugins: [
-    new UglifyJSPlugin(),
-  ],
+  optimization: {
+    minimizer: [new UglifyJSPlugin()],
+  },
   module: {
     rules: [
       {
