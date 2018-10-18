@@ -1,11 +1,23 @@
 {
   "name": "FileUploader",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "author": "Kyle Bebak <kylebebak@gmail.com>",
+  "description": "React file upload dropzone: fully customizable, progess indicators, cancellable uploads, zero deps",
   "main": "./src/FileUploader.js",
-  "engines": {
-    "node": "8.11.4"
+  "keywords": [
+    "react",
+    "react-component",
+    "file",
+    "dropzone",
+    "uploader",
+    "progress",
+    "s3"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fortana/react-dropzone-uploader.git"
   },
+  "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.10"
   },
