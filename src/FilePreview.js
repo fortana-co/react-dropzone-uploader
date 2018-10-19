@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { formatBytes } from './string'
 import './FileUploader.css'
 
-class FileUploadPreview extends React.PureComponent {
+class FilePreview extends React.PureComponent {
   render() {
     const {
       meta: { name = '', percent = 0, size = 0, previewUrl, type, status },
@@ -47,7 +47,7 @@ class FileUploadPreview extends React.PureComponent {
   }
 }
 
-FileUploadPreview.propTypes = {
+FilePreview.propTypes = {
   meta: PropTypes.shape({
     status: PropTypes.oneOf(
       ['preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'done']
@@ -67,4 +67,4 @@ FileUploadPreview.propTypes = {
   onRemove: PropTypes.func,
 }
 
-export default FileUploadPreview
+export default FilePreview

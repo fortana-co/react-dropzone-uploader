@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FileUploadPreview from './FileUploadPreview'
+import FilePreview from './FilePreview'
+import SubmitButton from './SubmitButton'
 import './FileUploader.css'
 
 let id = 0
@@ -79,6 +80,11 @@ class FileUploader extends React.Component {
     files.forEach(this.handleFile)
   }
 
+  handleChangeStatus = (fileWithMeta) => {
+    if (!this.props.onChangeStatus) return
+    this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status)
+  }
+
   handleFile = (file) => {
     const { name, size, type, lastModified } = file
     const {
@@ -87,9 +93,7 @@ class FileUploader extends React.Component {
       allowedTypePrefixes,
       generatePreview,
       getUploadParams,
-      onFileDropped,
       onUploadReady,
-      onUploadFail,
     } = this.props
 
     if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
@@ -102,12 +106,13 @@ class FileUploader extends React.Component {
       meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'preparing', percent: 0, id },
     }
     this._files.push(fileWithMeta)
-    if (onFileDropped) onFileDropped(fileWithMeta)
+    this.handleChangeStatus(fileWithMeta)
+    this.forceUpdate()
     id += 1
 
     if (size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
-      if (onUploadFail) onUploadFail(fileWithMeta)
+      this.handleChangeStatus(fileWithMeta)
       this.forceUpdate()
       return
     }
@@ -126,6 +131,7 @@ class FileUploader extends React.Component {
       } else {
         fileWithMeta.meta.status = 'done'
       }
+      this.handleChangeStatus(fileWithMeta)
       this.forceUpdate()
     }
 
@@ -158,13 +164,13 @@ class FileUploader extends React.Component {
   }
 
   uploadFile = async (fileWithMeta) => {
-    const { getUploadParams, onUploadSuccess, onUploadFail } = this.props
+    const { getUploadParams } = this.props
     const params = await getUploadParams(fileWithMeta)
     const { fields = {}, headers = {}, meta: extraMeta = {}, url } = params || {}
 
     if (!url) {
       fileWithMeta.meta.status = 'error_upload_params'
-      if (onUploadFail) onUploadFail(fileWithMeta)
+      this.handleChangeStatus(fileWithMeta)
       this.forceUpdate()
       return
     }
@@ -189,16 +195,16 @@ class FileUploader extends React.Component {
 
       if (xhr.status === 0) {
         fileWithMeta.meta.status = 'aborted'
-        if (onUploadFail) onUploadFail(fileWithMeta)
+        this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       } else if (xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         fileWithMeta.meta.status = 'done'
-        if (onUploadSuccess) onUploadSuccess(fileWithMeta)
+        this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       } else {
         fileWithMeta.meta.status = 'error_upload'
-        if (onUploadFail) onUploadFail(fileWithMeta)
+        this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       }
     })
@@ -217,6 +223,7 @@ class FileUploader extends React.Component {
       onSubmit,
       getUploadParams,
       FilePreviewComponent,
+      SubmitButtonComponent,
       dropzoneClassName,
       dropzoneActiveClassName,
       submitButtonClassName,
@@ -247,10 +254,10 @@ class FileUploader extends React.Component {
       )
     }
 
-    const FilePreview = FilePreviewComponent || FileUploadPreview
+    const File = FilePreviewComponent || FilePreview
     const files = this._files.map((f) => {
       return (
-        <FilePreview
+        <File
           key={f.meta.id}
           meta={{ ...f.meta }}
           showProgress={Boolean(getUploadParams)}
@@ -262,6 +269,8 @@ class FileUploader extends React.Component {
 
     let containerClassName = dropzoneClassName || 'uploader-dropzone'
     if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'uploader-active'}`
+
+    const Button = SubmitButtonComponent || SubmitButton
 
     return (
       <React.Fragment>
@@ -275,9 +284,11 @@ class FileUploader extends React.Component {
           {this._files.length === 0 &&
             <div className={instructionsClassName || 'uploader-dropzoneInstructions'}>
               <span className="uploader-largeText">
-                {instructions || `Drag up to ${maxFiles} file${maxFiles === 1 ? '' : 's'}`}
+                {instructions || maxFiles.length === 1 ? 'Drag a File' : 'Drag Files'}
               </span>
+
               {subInstructions && <span className="uploader-smallText">{subInstructions}</span>}
+
               <span className="uploader-smallText">- or you can -</span>
               {chooseFiles(maxFiles.length === 1 ? 'Choose a File' : 'Choose Files')}
             </div>
@@ -294,16 +305,14 @@ class FileUploader extends React.Component {
         </div>
 
         {this._files.length > 0 && onSubmit &&
-          <div className={submitButtonClassName || 'uploader-buttonContainer'}>
-            <button
-              onClick={this.handleSubmit}
-              disabled={
-                this._files.some(f => f.meta.status === 'uploading') || !this._files.some(f => f.meta.status === 'done')
-              }
-            >
-              UPLOAD
-            </button>
-          </div>
+          <Button
+            onSubmit={this.handleSubmit}
+            disabled={
+              this._files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
+              !this._files.some(f => f.meta.status === 'done')
+            }
+            submitButtonClassName={submitButtonClassName}
+          />
         }
       </React.Fragment>
     )
@@ -311,11 +320,10 @@ class FileUploader extends React.Component {
 }
 
 FileUploader.propTypes = {
-  onFileDropped: PropTypes.func,
+  onChangeStatus: PropTypes.func,
   onUploadReady: PropTypes.func,
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, url = '' }
-  onUploadSuccess: PropTypes.func,
-  onUploadFail: PropTypes.func,
+
   onSubmit: PropTypes.func,
   onRemove: PropTypes.func,
 
@@ -325,6 +333,7 @@ FileUploader.propTypes = {
   generatePreview: PropTypes.bool,
 
   FilePreviewComponent: PropTypes.any,
+  SubmitButtonComponent: PropTypes.any,
 
   allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
   accept: PropTypes.string, // the accept attribute of the input
