@@ -166,7 +166,7 @@ class FileUploader extends React.Component {
   uploadFile = async (fileWithMeta) => {
     const { getUploadParams } = this.props
     const params = await getUploadParams(fileWithMeta)
-    const { fields = {}, headers = {}, meta: extraMeta = {}, url } = params || {}
+    const { fields = {}, headers = {}, meta: extraMeta = {}, method = 'POST', url } = params || {}
 
     if (!url) {
       fileWithMeta.meta.status = 'error_upload_params'
@@ -177,7 +177,7 @@ class FileUploader extends React.Component {
 
     const xhr = new XMLHttpRequest()
     const formData = new FormData()
-    xhr.open('POST', url, true)
+    xhr.open(method, url, true)
 
     for (const field of Object.keys(fields)) formData.append(field, fields[field])
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
