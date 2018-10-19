@@ -80,8 +80,16 @@ class FileUploader extends React.Component {
   handleFile = (file) => {
     const { name, size, type, lastModified } = file
     const {
-      maxSizeBytes, maxFiles, allowedTypePrefixes, getUploadParams, onFileDropped, onUploadReady, onUploadFail,
+      maxSizeBytes,
+      maxFiles,
+      allowedTypePrefixes,
+      generatePreview,
+      getUploadParams,
+      onFileDropped,
+      onUploadReady,
+      onUploadFail,
     } = this.props
+
     if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
     if (this._files.length >= maxFiles) return
 
@@ -101,7 +109,8 @@ class FileUploader extends React.Component {
       this.forceUpdate()
       return
     }
-    this.previewFile(fileWithMeta)
+
+    if (generatePreview) this.generatePreview(fileWithMeta)
 
     let triggered = false
     const triggerUpload = () => {
@@ -127,7 +136,7 @@ class FileUploader extends React.Component {
     triggerUpload()
   }
 
-  previewFile = (fileWithMeta) => {
+  generatePreview = (fileWithMeta) => {
     const { meta: { type } } = fileWithMeta
     if (!type.startsWith('image/')) return
 
@@ -310,6 +319,7 @@ FileUploader.propTypes = {
   submitAll: PropTypes.bool,
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
+  generatePreview: PropTypes.bool,
 
   FilePreviewComponent: PropTypes.any,
 
@@ -331,6 +341,7 @@ FileUploader.defaultProps = {
   submitAll: false,
   canCancel: true,
   canRemove: true,
+  generatePreview: true,
   accept: '*',
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
