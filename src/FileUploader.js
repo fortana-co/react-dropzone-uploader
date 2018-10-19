@@ -100,12 +100,24 @@ class FileUploader extends React.Component {
     }
     this.previewFile(fileWithMeta)
 
-    if (onUploadReady) onUploadReady(fileWithMeta)
+    let triggered = false
+    const triggerUpload = () => {
+      // becomes a NOOP after first invocation
+      if (triggered) return
+      triggered = true
 
-    if (getUploadParams) this.uploadFile(fileWithMeta)
-    else fileWithMeta.meta.status = 'done'
+      if (getUploadParams) this.uploadFile(fileWithMeta)
+      else fileWithMeta.meta.status = 'done'
+      this.forceUpdate()
+    }
 
-    this.forceUpdate()
+    if (onUploadReady) {
+      fileWithMeta.triggerUpload = triggerUpload
+      const { delayUpload } = onUploadReady(fileWithMeta) || {}
+      if (delayUpload === true) return
+    }
+
+    triggerUpload()
   }
 
   previewFile = (fileWithMeta) => {
