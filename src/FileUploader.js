@@ -79,7 +79,9 @@ class FileUploader extends React.Component {
 
   handleFile = (file) => {
     const { name, size, type, lastModified } = file
-    const { maxSizeBytes, maxFiles, allowedTypePrefixes, getUploadParams, onUploadReady, onUploadFail } = this.props
+    const {
+      maxSizeBytes, maxFiles, allowedTypePrefixes, getUploadParams, onFileDropped, onUploadReady, onUploadFail,
+    } = this.props
     if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
     if (this._files.length >= maxFiles) return
 
@@ -90,6 +92,7 @@ class FileUploader extends React.Component {
       meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'preparing', percent: 0, id },
     }
     this._files.push(fileWithMeta)
+    if (onFileDropped) onFileDropped(fileWithMeta)
     id += 1
 
     if (size > maxSizeBytes) {
@@ -297,6 +300,7 @@ class FileUploader extends React.Component {
 }
 
 FileUploader.propTypes = {
+  onFileDropped: PropTypes.func,
   onUploadReady: PropTypes.func,
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, url = '' }
   onUploadSuccess: PropTypes.func,
