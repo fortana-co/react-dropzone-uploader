@@ -65,8 +65,10 @@ class FileUploader extends React.Component {
   }
 
   handleRemove = (_id) => {
+    const { onRemove } = this.props
     const index = this._files.findIndex(f => f.meta.id === _id)
     if (index !== -1) {
+      if (onRemove) onRemove(this._files[index])
       this._files.splice(index, 1)
       this.forceUpdate()
     }
@@ -315,6 +317,7 @@ FileUploader.propTypes = {
   onUploadSuccess: PropTypes.func,
   onUploadFail: PropTypes.func,
   onSubmit: PropTypes.func,
+  onRemove: PropTypes.func,
 
   submitAll: PropTypes.bool,
   canCancel: PropTypes.bool,
