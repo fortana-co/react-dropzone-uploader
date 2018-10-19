@@ -50,7 +50,7 @@ class FileUploadPreview extends React.PureComponent {
 FileUploadPreview.propTypes = {
   meta: PropTypes.shape({
     status: PropTypes.oneOf(
-      ['uploading', 'error_file_size', 'error_upload_params', 'aborted', 'done', 'error_upload']
+      ['preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'done']
     ).isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string,

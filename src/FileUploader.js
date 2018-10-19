@@ -87,7 +87,7 @@ class FileUploader extends React.Component {
     const lastModifiedDate = lastModified && new Date(lastModified).toISOString()
     const fileWithMeta = {
       file,
-      meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'uploading', percent: 0, id },
+      meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'preparing', percent: 0, id },
     }
     this._files.push(fileWithMeta)
     id += 1
@@ -106,15 +106,19 @@ class FileUploader extends React.Component {
       if (triggered) return
       triggered = true
 
-      if (getUploadParams) this.uploadFile(fileWithMeta)
-      else fileWithMeta.meta.status = 'done'
+      if (getUploadParams) {
+        this.uploadFile(fileWithMeta)
+        fileWithMeta.meta.status = 'uploading'
+      } else {
+        fileWithMeta.meta.status = 'done'
+      }
       this.forceUpdate()
     }
 
     if (onUploadReady) {
       fileWithMeta.triggerUpload = triggerUpload
-      const { delayUpload } = onUploadReady(fileWithMeta) || {}
-      if (delayUpload === true) return
+      const r = onUploadReady(fileWithMeta)
+      if (r && r.delayUpload === true) return
     }
 
     triggerUpload()
