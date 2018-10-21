@@ -10,3 +10,9 @@ export const formatBytes = (b) => {
 
   return `${n.toFixed(n >= 10 || l < 1 ? 0 : 1)}${units[l]}`
 }
+
+export const formatDuration = (seconds) => {
+  const date = new Date(null)
+  date.setSeconds(seconds)
+  return date.toISOString().substr(11, 8)
+}

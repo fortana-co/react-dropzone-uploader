@@ -1,6 +1,6 @@
 import React from 'react'
 
-import FileUploader from '../..'
+import FileUploader from '../../src/FileUploader'
 
 const App = () => {
   const getUploadParams = ({ file, meta }) => {
@@ -25,7 +25,7 @@ const App = () => {
   return (
     <FileUploader
       getUploadParams={getUploadParams}
-      onUploadReady={handleUploadReady}
+      // onUploadReady={handleUploadReady}
       onChangeStatus={onChangeStatus}
       onSubmit={handleSubmit}
       maxSizeBytes={1024 * 1024 * 100}

@@ -7,13 +7,14 @@ import './FileUploader.css'
 class FilePreview extends React.PureComponent {
   render() {
     const {
-      meta: { name = '', percent = 0, size = 0, previewUrl, type, status },
-      showProgress,
+      meta: { name = '', percent = 0, size = 0, previewUrl, type, status, duration },
+      isUpload,
       onCancel,
       onRemove,
     } = this.props
 
     let title = `${name || '?'}, ${formatBytes(size)}`
+    if (duration) title = `${title}, ${duration}`
 
     if (status === 'error_file_size') {
       let tooBig = <span>File exceeds size limit...</span>
@@ -38,7 +39,7 @@ class FilePreview extends React.PureComponent {
         {!previewUrl && <span>{title}</span>}
 
         <div className="uploader-statusContainer">
-          {showProgress && <progress max={100} value={status === 'done' ? 100 : percent} />}
+          {isUpload && <progress max={100} value={status === 'done' ? 100 : percent} />}
           {status === 'uploading' && onCancel && <span className="uploader-abortButton" onClick={onCancel} />}
           {status !== 'uploading' && onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
         </div>
@@ -50,7 +51,7 @@ class FilePreview extends React.PureComponent {
 FilePreview.propTypes = {
   meta: PropTypes.shape({
     status: PropTypes.oneOf(
-      ['preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'done']
+      ['preparing', 'error_file_size', 'error_upload_params', 'uploading', 'aborted', 'error_upload', 'done']
     ).isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string,
@@ -62,7 +63,7 @@ FilePreview.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
   }).isRequired,
-  showProgress: PropTypes.bool.isRequired,
+  isUpload: PropTypes.bool.isRequired,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
 }

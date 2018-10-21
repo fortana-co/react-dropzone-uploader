@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import FilePreview from './FilePreview'
 import SubmitButton from './SubmitButton'
+import { formatDuration } from './string'
 import './FileUploader.css'
 
 let id = 0
@@ -117,7 +118,9 @@ class FileUploader extends React.Component {
       return
     }
 
-    if (generatePreview) this.generatePreview(fileWithMeta)
+    if (generatePreview) {
+      try { this.generatePreview(fileWithMeta) } catch (e) {}
+    }
 
     let triggered = false
     const triggerUpload = () => {
@@ -146,21 +149,33 @@ class FileUploader extends React.Component {
 
   generatePreview = (fileWithMeta) => {
     const { meta: { type } } = fileWithMeta
-    if (!type.startsWith('image/')) return
+    if (!type.startsWith('image/') && !type.startsWith('audio/')) return
 
     const reader = new FileReader()
     reader.readAsDataURL(fileWithMeta.file)
-    reader.onloadend = () => {
-      const img = new Image()
-      img.src = reader.result
-      img.onload = () => {
-        fileWithMeta.meta.width = img.width
-        fileWithMeta.meta.height = img.height
-      }
 
-      fileWithMeta.meta.previewUrl = reader.result
-      this.forceUpdate()
+    if (type.startsWith('image/')) {
+      reader.onloadend = () => {
+        const img = new Image()
+        img.src = reader.result
+        img.onload = () => {
+          fileWithMeta.meta.width = img.width
+          fileWithMeta.meta.height = img.height
+        }
+        fileWithMeta.meta.previewUrl = reader.result
+      }
     }
+
+    if (type.startsWith('audio/')) {
+      reader.onloadend = () => {
+        const audio = new Audio()
+        audio.src = reader.result
+        audio.oncanplaythrough = () => {
+          fileWithMeta.meta.duration = formatDuration(audio.duration)
+        }
+      }
+    }
+    this.forceUpdate()
   }
 
   uploadFile = async (fileWithMeta) => {
@@ -260,7 +275,7 @@ class FileUploader extends React.Component {
         <File
           key={f.meta.id}
           meta={{ ...f.meta }}
-          showProgress={Boolean(getUploadParams)}
+          isUpload={Boolean(getUploadParams)}
           onCancel={canCancel && (() => this.handleCancel(f.meta.id))}
           onRemove={canRemove && (() => this.handleRemove(f.meta.id))}
         />

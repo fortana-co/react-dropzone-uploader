@@ -6,6 +6,7 @@ module.exports = {
     "XMLHttpRequest": true,
     "FormData": true,
     "Image": true,
+    "Audio": true,
     "document": true,
   },
   "rules": {
