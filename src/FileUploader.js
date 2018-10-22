@@ -146,18 +146,17 @@ class FileUploader extends React.Component {
 
   generatePreview = (fileWithMeta) => {
     const { previewTypes } = this.props
-    if (!previewTypes) return
 
-    const { meta: { type } } = fileWithMeta
+    const { meta: { type }, file } = fileWithMeta
     const isImage = type.startsWith('image/')
     const isAudio = type.startsWith('audio/')
     const isVideo = type.startsWith('video/')
     if (!isImage && !isAudio && !isVideo) return
 
-    const reader = new FileReader()
-    reader.readAsDataURL(fileWithMeta.file)
-
     if (isImage && previewTypes.includes('image')) {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+
       reader.onloadend = () => {
         const img = new Image()
         img.src = reader.result
@@ -169,24 +168,30 @@ class FileUploader extends React.Component {
       }
     }
 
-    if (isAudio && previewTypes.includes('audio')) {
-      reader.onloadend = () => {
-        const audio = new Audio()
-        audio.src = reader.result
-        audio.oncanplaythrough = () => {
-          fileWithMeta.meta.duration = formatDuration(audio.duration)
-        }
-      }
-    }
+    const objectUrl = URL.createObjectURL(file)
 
-    if (isVideo && previewTypes.includes('video')) {
-      reader.onloadend = () => {
-        const video = document.createElement('video')
-        video.src = reader.result
-        video.oncanplaythrough = () => {
-          fileWithMeta.meta.duration = formatDuration(video.duration)
+    try {
+      if (isAudio && previewTypes.includes('audio')) {
+        const audio = new Audio()
+        audio.src = objectUrl
+        audio.onloadedmetadata = () => {
+          fileWithMeta.meta.duration = formatDuration(audio.duration)
+          URL.revokeObjectURL(objectUrl)
         }
       }
+
+      if (isVideo && previewTypes.includes('video')) {
+        const video = document.createElement('video')
+        video.src = objectUrl
+        video.onloadedmetadata = () => {
+          fileWithMeta.meta.duration = formatDuration(video.duration)
+          fileWithMeta.meta.videoWidth = formatDuration(video.videoWidth)
+          fileWithMeta.meta.videoHeight = formatDuration(video.videoHeight)
+          URL.revokeObjectURL(objectUrl)
+        }
+      }
+    } catch (e) {
+      URL.revokeObjectURL(objectUrl)
     }
     this.forceUpdate()
   }
@@ -358,10 +363,7 @@ FileUploader.propTypes = {
   submitAll: PropTypes.bool,
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
-  previewTypes: PropTypes.oneOf([
-    null,
-    PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
-  ]),
+  previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   FilePreviewComponent: PropTypes.any,
   SubmitButtonComponent: PropTypes.any,
