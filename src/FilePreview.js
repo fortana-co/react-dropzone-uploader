@@ -51,17 +51,20 @@ class FilePreview extends React.PureComponent {
 FilePreview.propTypes = {
   meta: PropTypes.shape({
     status: PropTypes.oneOf(
-      ['preparing', 'error_file_size', 'error_upload_params', 'uploading', 'aborted', 'error_upload', 'done']
+      ['preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'done']
     ).isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string,
+    uploadedDate: PropTypes.string.isRequired,
     percent: PropTypes.number,
     size: PropTypes.number,
-    previewUrl: PropTypes.string,
-    uploadedDate: PropTypes.string.isRequired,
     lastModifiedDate: PropTypes.string,
+    previewUrl: PropTypes.string,
+    duration: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
+    videoWidth: PropTypes.number,
+    videoHeight: PropTypes.number,
   }).isRequired,
   isUpload: PropTypes.bool.isRequired,
   onCancel: PropTypes.func,

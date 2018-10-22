@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import './FileUploader.css'
 
-const SubmitButton = ({ onSubmit, disabled, submitButtonClassName }) => {
+const SubmitButton = ({ onSubmit, disabled, className }) => {
   return (
-    <div className={submitButtonClassName || 'uploader-buttonContainer'}>
+    <div className={className || 'uploader-buttonContainer'}>
       <button onClick={onSubmit} disabled={disabled}>UPLOAD</button>
     </div>
   )
@@ -14,7 +14,7 @@ const SubmitButton = ({ onSubmit, disabled, submitButtonClassName }) => {
 SubmitButton.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  submitButtonClassName: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export default SubmitButton

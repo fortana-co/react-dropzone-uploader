@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FilePreview from './FilePreview'
-import SubmitButton from './SubmitButton'
+import FilePreviewDefault from './FilePreview'
+import SubmitButtonDefault from './SubmitButton'
+import DropzoneContentDefault from './DropzoneContent'
+import { formatBytes, formatDuration } from './string'
 import './FileUploader.css'
 
 let id = 0
@@ -62,14 +64,16 @@ class FileUploader extends React.Component {
 
   handleCancel = (_id) => {
     const index = this._files.findIndex(f => f.meta.id === _id)
-    if (index !== -1 && this._files[index].xhr) this._files[index].xhr.abort()
+    if (index !== -1 && this._files[index].xhr) {
+      if (this.props.onCancel) this.props.onCancel(this._files[index])
+      this._files[index].xhr.abort()
+    }
   }
 
   handleRemove = (_id) => {
-    const { onRemove } = this.props
     const index = this._files.findIndex(f => f.meta.id === _id)
     if (index !== -1) {
-      if (onRemove) onRemove(this._files[index])
+      if (this.props.onRemove) this.props.onRemove(this._files[index])
       this._files.splice(index, 1)
       this.forceUpdate()
     }
@@ -241,48 +245,32 @@ class FileUploader extends React.Component {
 
   render() {
     const {
-      instructions,
-      subInstructions,
       maxFiles,
       accept,
       onSubmit,
       getUploadParams,
+      canCancel,
+      canRemove,
       FilePreviewComponent,
       SubmitButtonComponent,
+      DropzoneContentComponent,
       dropzoneClassName,
       dropzoneActiveClassName,
       submitButtonClassName,
-      instructionsClassName,
-      canCancel,
-      canRemove,
+      dropzoneContentClassName,
     } = this.props
     const { active } = this.state
 
-    const chooseFiles = (text) => {
-      return (
-        <React.Fragment>
-          <label
-            htmlFor="fileUploaderInputId"
-            className="uploader-inputLabel"
-          >
-            {text}
-          </label>
-          <input
-            id="fileUploaderInputId"
-            className="uploader-input"
-            type="file"
-            multiple
-            accept={accept}
-            onChange={e => this.handleFiles(Array.from(e.target.files))}
-          />
-        </React.Fragment>
-      )
-    }
+    const FilePreview = FilePreviewComponent || FilePreviewDefault
+    const SubmitButton = SubmitButtonComponent || SubmitButtonDefault
+    const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
 
-    const File = FilePreviewComponent || FilePreview
+    let containerClassName = dropzoneClassName || 'uploader-dropzone'
+    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'uploader-active'}`
+
     const files = this._files.map((f) => {
       return (
-        <File
+        <FilePreview
           key={f.meta.id}
           meta={{ ...f.meta }}
           isUpload={Boolean(getUploadParams)}
@@ -291,11 +279,6 @@ class FileUploader extends React.Component {
         />
       )
     })
-
-    let containerClassName = dropzoneClassName || 'uploader-dropzone'
-    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'uploader-active'}`
-
-    const Button = SubmitButtonComponent || SubmitButton
 
     return (
       <React.Fragment>
@@ -306,37 +289,23 @@ class FileUploader extends React.Component {
           onDragLeave={this.handleDragLeave}
           onDrop={this.handleDrop}
         >
-          {this._files.length === 0 &&
-            <div className={instructionsClassName || 'uploader-dropzoneInstructions'}>
-              <span className="uploader-largeText">
-                {instructions || maxFiles.length === 1 ? 'Drag a File' : 'Drag Files'}
-              </span>
-
-              {subInstructions && <span className="uploader-smallText">{subInstructions}</span>}
-
-              <span className="uploader-smallText">- or you can -</span>
-              {chooseFiles(maxFiles.length === 1 ? 'Choose a File' : 'Choose Files')}
-            </div>
-          }
-
-          {this._files.length > 0 &&
-            <div className="uploader-previewListContainer">
-              {files}
-              {this._files.length < maxFiles &&
-                <div className="uploader-addFiles">{chooseFiles('Add')}</div>
-              }
-            </div>
-          }
+          <DropzoneContent
+            className={dropzoneContentClassName}
+            accept={accept}
+            maxFiles={maxFiles}
+            handleFiles={this.handleFiles}
+            files={files}
+          />
         </div>
 
         {this._files.length > 0 && onSubmit &&
-          <Button
+          <SubmitButton
+            className={submitButtonClassName}
             onSubmit={this.handleSubmit}
             disabled={
               this._files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
               !this._files.some(f => f.meta.status === 'done')
             }
-            submitButtonClassName={submitButtonClassName}
           />
         }
       </React.Fragment>
@@ -350,6 +319,7 @@ FileUploader.propTypes = {
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, url = '' }
 
   onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
   onRemove: PropTypes.func,
 
   submitAll: PropTypes.bool,
@@ -357,20 +327,18 @@ FileUploader.propTypes = {
   canRemove: PropTypes.bool,
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
-  FilePreviewComponent: PropTypes.any,
-  SubmitButtonComponent: PropTypes.any,
-
   allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
   accept: PropTypes.string, // the accept attribute of the input
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
 
-  instructions: PropTypes.string,
-  subInstructions: PropTypes.string,
+  FilePreviewComponent: PropTypes.any,
+  SubmitButtonComponent: PropTypes.any,
+  DropzoneContentComponent: PropTypes.any,
 
   dropzoneClassName: PropTypes.string,
   dropzoneActiveClassName: PropTypes.string,
-  instructionsClassName: PropTypes.string,
+  dropzoneContentClassName: PropTypes.string,
   submitButtonClassName: PropTypes.string,
 }
 
@@ -385,3 +353,4 @@ FileUploader.defaultProps = {
 }
 
 export default FileUploader
+export { formatBytes, formatDuration }
