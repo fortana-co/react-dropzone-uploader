@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { formatBytes } from './string'
+import { formatBytes, formatDuration } from './string'
 import './FileUploader.css'
 
 class FilePreview extends React.PureComponent {
@@ -14,7 +14,7 @@ class FilePreview extends React.PureComponent {
     } = this.props
 
     let title = `${name || '?'}, ${formatBytes(size)}`
-    if (duration) title = `${title}, ${duration}`
+    if (duration) title = `${title}, ${formatDuration(duration)}`
 
     if (status === 'error_file_size') {
       let tooBig = <span>File exceeds size limit...</span>

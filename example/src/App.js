@@ -14,8 +14,8 @@ const App = () => {
   }
 
   const handleUploadReady = ({ triggerUpload }) => {
-    setTimeout(triggerUpload, 3000)
-    return { delayUpload: true }
+    // setTimeout(triggerUpload, 3000)
+    // return { delayUpload: true }
   }
 
   const onChangeStatus = ({ meta }, status) => {
@@ -25,10 +25,10 @@ const App = () => {
   return (
     <FileUploader
       getUploadParams={getUploadParams}
-      // onUploadReady={handleUploadReady}
+      onUploadReady={handleUploadReady}
       onChangeStatus={onChangeStatus}
       onSubmit={handleSubmit}
-      maxSizeBytes={1024 * 1024 * 100}
+      maxSizeBytes={1024 * 1024 * 1000}
     />
   )
 }

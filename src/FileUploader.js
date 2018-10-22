@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import FilePreview from './FilePreview'
 import SubmitButton from './SubmitButton'
-import { formatDuration } from './string'
 import './FileUploader.css'
 
 let id = 0
@@ -117,11 +116,11 @@ class FileUploader extends React.Component {
       return
     }
 
-    try { this.generatePreview(fileWithMeta) } catch (e) {}
+    this.generatePreview(fileWithMeta)
 
     let triggered = false
     const triggerUpload = () => {
-      // becomes a NOOP after first invocation
+      // becomes NOOP after first invocation
       if (triggered) return
       triggered = true
 
@@ -153,29 +152,25 @@ class FileUploader extends React.Component {
     const isVideo = type.startsWith('video/')
     if (!isImage && !isAudio && !isVideo) return
 
-    if (isImage && previewTypes.includes('image')) {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-
-      reader.onloadend = () => {
-        const img = new Image()
-        img.src = reader.result
-        img.onload = () => {
-          fileWithMeta.meta.width = img.width
-          fileWithMeta.meta.height = img.height
-        }
-        fileWithMeta.meta.previewUrl = reader.result
-      }
-    }
-
     const objectUrl = URL.createObjectURL(file)
 
     try {
+      if (isImage && previewTypes.includes('image')) {
+        const img = new Image()
+        img.src = objectUrl
+        fileWithMeta.meta.previewUrl = objectUrl
+        img.onload = () => {
+          fileWithMeta.meta.width = img.width
+          fileWithMeta.meta.height = img.height
+          URL.revokeObjectURL(objectUrl)
+        }
+      }
+
       if (isAudio && previewTypes.includes('audio')) {
         const audio = new Audio()
         audio.src = objectUrl
         audio.onloadedmetadata = () => {
-          fileWithMeta.meta.duration = formatDuration(audio.duration)
+          fileWithMeta.meta.duration = audio.duration
           URL.revokeObjectURL(objectUrl)
         }
       }
@@ -184,15 +179,13 @@ class FileUploader extends React.Component {
         const video = document.createElement('video')
         video.src = objectUrl
         video.onloadedmetadata = () => {
-          fileWithMeta.meta.duration = formatDuration(video.duration)
-          fileWithMeta.meta.videoWidth = formatDuration(video.videoWidth)
-          fileWithMeta.meta.videoHeight = formatDuration(video.videoHeight)
+          fileWithMeta.meta.duration = video.duration
+          fileWithMeta.meta.videoWidth = video.videoWidth
+          fileWithMeta.meta.videoHeight = video.videoHeight
           URL.revokeObjectURL(objectUrl)
         }
       }
-    } catch (e) {
-      URL.revokeObjectURL(objectUrl)
-    }
+    } catch (e) { URL.revokeObjectURL(objectUrl) }
     this.forceUpdate()
   }
 

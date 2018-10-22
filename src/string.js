@@ -14,5 +14,7 @@ export const formatBytes = (b) => {
 export const formatDuration = (seconds) => {
   const date = new Date(null)
   date.setSeconds(seconds)
-  return date.toISOString().substr(11, 8)
+  const dateString = date.toISOString().slice(11, 19)
+  if (seconds < 3600) return dateString.slice(3)
+  return dateString
 }
