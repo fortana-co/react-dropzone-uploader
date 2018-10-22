@@ -54,14 +54,6 @@ class FileUploader extends React.Component {
     this.handleFiles([...files])
   }
 
-  handleSubmit = () => {
-    const { onSubmit, submitAll } = this.props
-    if (!onSubmit) return
-
-    if (submitAll) onSubmit(this._files)
-    else onSubmit(this._files.filter(f => f.meta.status === 'done'))
-  }
-
   handleCancel = (_id) => {
     const index = this._files.findIndex(f => f.meta.id === _id)
     if (index !== -1 && this._files[index].xhr) {
@@ -300,14 +292,11 @@ class FileUploader extends React.Component {
           />
         </div>
 
-        {this._files.length > 0 && onSubmit &&
+        {this._files.length > 0 &&
           <SubmitButton
             className={submitButtonClassName}
-            onSubmit={this.handleSubmit}
-            disabled={
-              this._files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
-              !this._files.some(f => ['headers_received', 'done'].includes(f.meta.status))
-            }
+            onSubmit={onSubmit}
+            files={this._files}
           />
         }
       </React.Fragment>
@@ -324,7 +313,6 @@ FileUploader.propTypes = {
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
 
-  submitAll: PropTypes.bool,
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
@@ -345,7 +333,6 @@ FileUploader.propTypes = {
 }
 
 FileUploader.defaultProps = {
-  submitAll: false,
   canCancel: true,
   canRemove: true,
   previewTypes: ['image', 'audio', 'video'],
