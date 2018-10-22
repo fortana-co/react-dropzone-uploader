@@ -85,7 +85,7 @@ class FileUploader extends React.Component {
     this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status)
   }
 
-  handleFile = (file) => {
+  handleFile = async (file) => {
     const { name, size, type, lastModified } = file
     const {
       maxSizeBytes,
@@ -116,7 +116,7 @@ class FileUploader extends React.Component {
       return
     }
 
-    this.generatePreview(fileWithMeta)
+    await this.generatePreview(fileWithMeta)
 
     let triggered = false
     const triggerUpload = () => {
@@ -143,7 +143,7 @@ class FileUploader extends React.Component {
     triggerUpload()
   }
 
-  generatePreview = (fileWithMeta) => {
+  generatePreview = async (fileWithMeta) => {
     const { previewTypes } = this.props
 
     const { meta: { type }, file } = fileWithMeta
@@ -154,37 +154,36 @@ class FileUploader extends React.Component {
 
     const objectUrl = URL.createObjectURL(file)
 
+    const fileCallbackToPromise = (fileObj, callback) => {
+      return new Promise((resolve) => { fileObj[callback] = resolve })
+    }
+
     try {
       if (isImage && previewTypes.includes('image')) {
         const img = new Image()
         img.src = objectUrl
         fileWithMeta.meta.previewUrl = objectUrl
-        img.onload = () => {
-          fileWithMeta.meta.width = img.width
-          fileWithMeta.meta.height = img.height
-          URL.revokeObjectURL(objectUrl)
-        }
+        await fileCallbackToPromise(img, 'onload')
+        fileWithMeta.meta.width = img.width
+        fileWithMeta.meta.height = img.height
       }
 
       if (isAudio && previewTypes.includes('audio')) {
         const audio = new Audio()
         audio.src = objectUrl
-        audio.onloadedmetadata = () => {
-          fileWithMeta.meta.duration = audio.duration
-          URL.revokeObjectURL(objectUrl)
-        }
+        await fileCallbackToPromise(audio, 'onloadedmetadata')
+        fileWithMeta.meta.duration = audio.duration
       }
 
       if (isVideo && previewTypes.includes('video')) {
         const video = document.createElement('video')
         video.src = objectUrl
-        video.onloadedmetadata = () => {
-          fileWithMeta.meta.duration = video.duration
-          fileWithMeta.meta.videoWidth = video.videoWidth
-          fileWithMeta.meta.videoHeight = video.videoHeight
-          URL.revokeObjectURL(objectUrl)
-        }
+        await fileCallbackToPromise(video, 'onloadedmetadata')
+        fileWithMeta.meta.duration = video.duration
+        fileWithMeta.meta.videoWidth = video.videoWidth
+        fileWithMeta.meta.videoHeight = video.videoHeight
       }
+      URL.revokeObjectURL(objectUrl)
     } catch (e) { URL.revokeObjectURL(objectUrl) }
     this.forceUpdate()
   }
@@ -216,7 +215,7 @@ class FileUploader extends React.Component {
       this.forceUpdate()
     })
 
-    xhr.addEventListener('readystatechange', (e) => {
+    xhr.addEventListener('readystatechange', () => {
       if (xhr.readyState !== 4) return // `readyState` of 4 corresponds to `XMLHttpRequest.DONE`
 
       if (xhr.status === 0) {
@@ -287,8 +286,8 @@ class FileUploader extends React.Component {
           key={f.meta.id}
           meta={{ ...f.meta }}
           isUpload={Boolean(getUploadParams)}
-          onCancel={canCancel && (() => this.handleCancel(f.meta.id))}
-          onRemove={canRemove && (() => this.handleRemove(f.meta.id))}
+          onCancel={canCancel ? () => this.handleCancel(f.meta.id) : undefined}
+          onRemove={canRemove ? () => this.handleRemove(f.meta.id) : undefined}
         />
       )
     })
