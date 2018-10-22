@@ -92,7 +92,6 @@ class FileUploader extends React.Component {
       maxSizeBytes,
       maxFiles,
       allowedTypePrefixes,
-      generatePreview,
       getUploadParams,
       onUploadReady,
     } = this.props
@@ -118,9 +117,7 @@ class FileUploader extends React.Component {
       return
     }
 
-    if (generatePreview) {
-      try { this.generatePreview(fileWithMeta) } catch (e) {}
-    }
+    try { this.generatePreview(fileWithMeta) } catch (e) {}
 
     let triggered = false
     const triggerUpload = () => {
@@ -148,13 +145,19 @@ class FileUploader extends React.Component {
   }
 
   generatePreview = (fileWithMeta) => {
+    const { previewTypes } = this.props
+    if (!previewTypes) return
+
     const { meta: { type } } = fileWithMeta
-    if (!type.startsWith('image/') && !type.startsWith('audio/')) return
+    const isImage = type.startsWith('image/')
+    const isAudio = type.startsWith('audio/')
+    const isVideo = type.startsWith('video/')
+    if (!isImage && !isAudio && !isVideo) return
 
     const reader = new FileReader()
     reader.readAsDataURL(fileWithMeta.file)
 
-    if (type.startsWith('image/')) {
+    if (isImage && previewTypes.includes('image')) {
       reader.onloadend = () => {
         const img = new Image()
         img.src = reader.result
@@ -166,12 +169,22 @@ class FileUploader extends React.Component {
       }
     }
 
-    if (type.startsWith('audio/')) {
+    if (isAudio && previewTypes.includes('audio')) {
       reader.onloadend = () => {
         const audio = new Audio()
         audio.src = reader.result
         audio.oncanplaythrough = () => {
           fileWithMeta.meta.duration = formatDuration(audio.duration)
+        }
+      }
+    }
+
+    if (isVideo && previewTypes.includes('video')) {
+      reader.onloadend = () => {
+        const video = document.createElement('video')
+        video.src = reader.result
+        video.oncanplaythrough = () => {
+          fileWithMeta.meta.duration = formatDuration(video.duration)
         }
       }
     }
@@ -345,7 +358,10 @@ FileUploader.propTypes = {
   submitAll: PropTypes.bool,
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
-  generatePreview: PropTypes.bool,
+  previewTypes: PropTypes.oneOf([
+    null,
+    PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
+  ]),
 
   FilePreviewComponent: PropTypes.any,
   SubmitButtonComponent: PropTypes.any,
@@ -368,7 +384,7 @@ FileUploader.defaultProps = {
   submitAll: false,
   canCancel: true,
   canRemove: true,
-  generatePreview: true,
+  previewTypes: ['image', 'audio', 'video'],
   accept: '*',
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
