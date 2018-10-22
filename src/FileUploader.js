@@ -220,7 +220,8 @@ class FileUploader extends React.Component {
     })
 
     xhr.addEventListener('readystatechange', () => {
-      if (xhr.readyState !== 4) return // `readyState` of 4 corresponds to `XMLHttpRequest.DONE`
+      // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+      if (xhr.readyState !== 2 && xhr.readyState !== 4) return
 
       if (xhr.status === 0) {
         fileWithMeta.meta.status = 'aborted'
@@ -228,7 +229,8 @@ class FileUploader extends React.Component {
         this.forceUpdate()
       } else if (xhr.status < 400) {
         fileWithMeta.meta.percent = 100
-        fileWithMeta.meta.status = 'done'
+        if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
+        if (xhr.readyState === 4) fileWithMeta.meta.status = 'done'
         this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       } else {
@@ -304,7 +306,7 @@ class FileUploader extends React.Component {
             onSubmit={this.handleSubmit}
             disabled={
               this._files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
-              !this._files.some(f => f.meta.status === 'done')
+              !this._files.some(f => ['headers_received', 'done'].includes(f.meta.status))
             }
           />
         }

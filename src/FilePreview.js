@@ -39,7 +39,9 @@ class FilePreview extends React.PureComponent {
         {!previewUrl && <span>{title}</span>}
 
         <div className="uploader-statusContainer">
-          {isUpload && <progress max={100} value={status === 'done' ? 100 : percent} />}
+          {isUpload &&
+            <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
+          }
           {status === 'uploading' && onCancel && <span className="uploader-abortButton" onClick={onCancel} />}
           {status !== 'uploading' && onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
         </div>
@@ -50,9 +52,16 @@ class FilePreview extends React.PureComponent {
 
 FilePreview.propTypes = {
   meta: PropTypes.shape({
-    status: PropTypes.oneOf(
-      ['preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'done']
-    ).isRequired,
+    status: PropTypes.oneOf([
+      'preparing',
+      'error_file_size',
+      'uploading',
+      'error_upload_params',
+      'aborted',
+      'error_upload',
+      'headers_received',
+      'done',
+    ]).isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string,
     uploadedDate: PropTypes.string.isRequired,
