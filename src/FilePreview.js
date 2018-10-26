@@ -11,6 +11,7 @@ class FilePreview extends React.PureComponent {
       isUpload,
       onCancel,
       onRemove,
+      onRestart,
     } = this.props
 
     let title = `${name || '?'}, ${formatBytes(size)}`
@@ -43,7 +44,10 @@ class FilePreview extends React.PureComponent {
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }
           {status === 'uploading' && onCancel && <span className="uploader-abortButton" onClick={onCancel} />}
-          {status !== 'uploading' && onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
+          {status !== 'uploading' && status !== 'preparing' &&
+            onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
+          {(status === 'error_upload_params' || 'error_upload' || status === 'aborted') &&
+            onRestart && <span className="uploader-restartButton" onClick={onRestart} />}
         </div>
       </div>
     )
@@ -78,6 +82,7 @@ FilePreview.propTypes = {
   isUpload: PropTypes.bool.isRequired,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
+  onRestart: PropTypes.func,
 }
 
 export default FilePreview

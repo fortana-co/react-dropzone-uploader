@@ -54,21 +54,26 @@ class FileUploader extends React.Component {
     this.handleFiles([...files])
   }
 
-  handleCancel = (_id) => {
-    const index = this._files.findIndex(f => f.meta.id === _id)
-    if (index !== -1 && this._files[index].xhr) {
-      if (this.props.onCancel) this.props.onCancel(this._files[index])
-      this._files[index].xhr.abort()
-    }
+  handleCancel = (fileWithMeta) => {
+    if (!fileWithMeta.xhr) return
+    fileWithMeta.xhr.abort()
+    if (this.props.onCancel) this.props.onCancel(fileWithMeta)
   }
 
-  handleRemove = (_id) => {
-    const index = this._files.findIndex(f => f.meta.id === _id)
+  handleRemove = (fileWithMeta) => {
+    const index = this._files.findIndex(f => f.meta.id === fileWithMeta.meta.id)
     if (index !== -1) {
-      if (this.props.onRemove) this.props.onRemove(this._files[index])
+      if (this.props.onRemove) this.props.onRemove(fileWithMeta)
       this._files.splice(index, 1)
       this.forceUpdate()
     }
+  }
+
+  handleRestart = (fileWithMeta) => {
+    this.uploadFile(fileWithMeta)
+    fileWithMeta.meta.status = 'uploading'
+    this.forceUpdate()
+    if (this.props.onRestart) this.props.onRestart(fileWithMeta)
   }
 
   // expects an array of File objects
@@ -245,6 +250,7 @@ class FileUploader extends React.Component {
       getUploadParams,
       canCancel,
       canRemove,
+      canRestart,
       FilePreviewComponent,
       SubmitButtonComponent,
       DropzoneContentComponent,
@@ -268,8 +274,9 @@ class FileUploader extends React.Component {
           key={f.meta.id}
           meta={{ ...f.meta }}
           isUpload={Boolean(getUploadParams)}
-          onCancel={canCancel ? () => this.handleCancel(f.meta.id) : undefined}
-          onRemove={canRemove ? () => this.handleRemove(f.meta.id) : undefined}
+          onCancel={canCancel ? () => this.handleCancel(f) : undefined}
+          onRemove={canRemove ? () => this.handleRemove(f) : undefined}
+          onRestart={canRestart ? () => this.handleRestart(f) : undefined}
         />
       )
     })
@@ -312,9 +319,11 @@ FileUploader.propTypes = {
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
+  onRestart: PropTypes.func,
 
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
+  canRestart: PropTypes.bool,
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
@@ -335,6 +344,7 @@ FileUploader.propTypes = {
 FileUploader.defaultProps = {
   canCancel: true,
   canRemove: true,
+  canRestart: true,
   previewTypes: ['image', 'audio', 'video'],
   accept: '*',
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
