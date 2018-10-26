@@ -4,9 +4,9 @@ import FileUploader from '../../src/FileUploader'
 
 const App = () => {
   const getUploadParams = ({ file, meta }) => {
-    const url = 'http://httpbin.org/post'
+    const url = 'https://httpbin.org/post'
     const fileUrl = `${url}/${encodeURIComponent(meta.name)}`
-    return { url: 'http://httpbin.org/post', meta: { fileUrl } }
+    return { url, meta: { fileUrl } }
   }
 
   const handleSubmit = (files) => {

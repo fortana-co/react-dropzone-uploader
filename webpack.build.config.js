@@ -5,34 +5,46 @@ if (process.env.NODE_ENV !== 'production') {
   throw new Error('Production builds must have NODE_ENV=production.')
 }
 
-module.exports = {
-  mode: 'production',
-  entry: './src/FileUploader.js',
-  output: {
-    path: path.resolve('dist'),
-    filename: 'FileUploader.js',
-    libraryTarget: 'commonjs2',
-  },
-  optimization: {
-    minimizer: [new UglifyJSPlugin()],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js?$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        loaders: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        exclude: /node_modules/,
-        loader: 'url-loader?limit=10000',
-      },
-    ],
-  },
+function createConfig(output) {
+  return {
+    mode: 'production',
+    entry: './src/FileUploader.js',
+    output,
+    optimization: {
+      minimizer: [new UglifyJSPlugin()],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js?$/,
+          exclude: /node_modules/,
+          use: 'babel-loader',
+        },
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
+          loaders: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+          exclude: /node_modules/,
+          loader: 'url-loader?limit=10000',
+        },
+      ],
+    },
+  }
 }
+
+module.exports = [
+  createConfig({
+    path: path.resolve('dist'),
+    libraryTarget: 'commonjs2',
+    filename: 'react-dropzone-uploader.js',
+  }),
+  createConfig({
+    path: path.resolve('dist'),
+    libraryTarget: 'umd',
+    filename: 'react-dropzone-uploader.umd.js',
+    library: 'ReactDropzoneUploader',
+  }),
+]

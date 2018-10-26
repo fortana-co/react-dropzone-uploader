@@ -6,7 +6,8 @@ import './FileUploader.css'
 const SubmitButton = ({ onSubmit, files, className }) => {
   if (!onSubmit) return null
 
-  const disabled = files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
+  const disabled =
+    files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
     !files.some(f => ['headers_received', 'done'].includes(f.meta.status))
 
   const handleSubmit = () => {

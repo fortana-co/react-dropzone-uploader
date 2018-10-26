@@ -342,4 +342,4 @@ FileUploader.defaultProps = {
 }
 
 export default FileUploader
-export { formatBytes, formatDuration }
+export { FileUploader, formatBytes, formatDuration }
