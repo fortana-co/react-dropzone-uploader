@@ -286,26 +286,23 @@ class Dropzone extends React.Component {
     })
 
     return (
-      <React.Fragment>
-        <div
-          className={containerClassName}
-          onDragEnter={this.handleDragEnter}
-          onDragOver={this.handleDragOver}
-          onDragLeave={this.handleDragLeave}
-          onDrop={this.handleDrop}
-        >
-          <DropzoneContent
-            className={contentClassName}
-            withFilesClassName={contentWithFilesClassName}
-            inputClassName={contentInputClassName}
-            accept={accept}
-            maxFiles={maxFiles}
-            handleFiles={this.handleFiles}
-            filePreviews={filePreviews}
-            files={this._files}
-          />
-        </div>
-
+      <div
+        className={containerClassName}
+        onDragEnter={this.handleDragEnter}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={this.handleDrop}
+      >
+        <DropzoneContent
+          className={contentClassName}
+          withFilesClassName={contentWithFilesClassName}
+          inputClassName={contentInputClassName}
+          accept={accept}
+          maxFiles={maxFiles}
+          handleFiles={this.handleFiles}
+          filePreviews={filePreviews}
+          files={this._files}
+        />
         <SubmitButton
           className={submitButtonContainerClassName}
           buttonClassName={submitButtonClassName}
@@ -313,7 +310,7 @@ class Dropzone extends React.Component {
           onSubmit={onSubmit}
           files={this._files}
         />
-      </React.Fragment>
+      </div>
     )
   }
 }
