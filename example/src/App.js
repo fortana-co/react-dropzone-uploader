@@ -13,11 +13,6 @@ const App = () => {
     console.log(files.map(f => f.meta))
   }
 
-  const handleUploadReady = ({ triggerUpload }) => {
-    // setTimeout(triggerUpload, 3000)
-    // return { delayUpload: true }
-  }
-
   const onChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
   }
@@ -25,7 +20,6 @@ const App = () => {
   return (
     <Dropzone
       getUploadParams={getUploadParams}
-      onUploadReady={handleUploadReady}
       onChangeStatus={onChangeStatus}
       onSubmit={handleSubmit}
       maxSizeBytes={1024 * 1024 * 1000}

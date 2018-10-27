@@ -277,6 +277,7 @@ class Dropzone extends React.Component {
     if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-dropzoneActive'}`
 
     const filePreviews = this._files.map((f) => {
+      if (FilePreview === null) return null
       return (
         <FilePreview
           key={f.meta.id}
@@ -297,24 +298,28 @@ class Dropzone extends React.Component {
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
       >
-        <DropzoneContent
-          className={contentClassName}
-          withFilesClassName={contentWithFilesClassName}
-          inputClassName={contentInputClassName}
-          accept={accept}
-          maxFiles={maxFiles}
-          handleFiles={this.handleFiles}
-          filePreviews={filePreviews}
-          files={this._files}
-          active={active}
-        />
-        <SubmitButton
-          className={submitButtonContainerClassName}
-          buttonClassName={submitButtonClassName}
-          text={submitButtonText}
-          onSubmit={onSubmit}
-          files={this._files}
-        />
+        {DropzoneContentComponent !== null &&
+          <DropzoneContent
+            className={contentClassName}
+            withFilesClassName={contentWithFilesClassName}
+            inputClassName={contentInputClassName}
+            accept={accept}
+            maxFiles={maxFiles}
+            handleFiles={this.handleFiles}
+            filePreviews={filePreviews}
+            files={this._files}
+            active={active}
+          />
+        }
+        {SubmitButtonComponent !== null &&
+          <SubmitButton
+            className={submitButtonContainerClassName}
+            buttonClassName={submitButtonClassName}
+            text={submitButtonText}
+            onSubmit={onSubmit}
+            files={this._files}
+          />
+        }
       </div>
     )
   }
