@@ -12,6 +12,7 @@ const DropzoneContent = (props) => {
     maxFiles,
     handleFiles,
     filePreviews,
+    active,
   } = props
 
   const chooseFileInput = (text) => {
@@ -60,6 +61,7 @@ DropzoneContent.propTypes = {
   className: PropTypes.string,
   withFilesClassName: PropTypes.string,
   inputClassName: PropTypes.string,
+  active: PropTypes.bool.isRequired,
   accept: PropTypes.string.isRequired,
   maxFiles: PropTypes.number.isRequired,
   handleFiles: PropTypes.func.isRequired,

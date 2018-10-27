@@ -33,7 +33,7 @@ class Dropzone extends React.Component {
   handleDragOver = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    clearTimeout(this._timeoutId)
+    clearTimeout(this._dragTimeoutId)
     this.setState({ active: true })
   }
 
@@ -42,7 +42,7 @@ class Dropzone extends React.Component {
     e.stopPropagation()
     // prevents repeated toggling of `active` state when file is dragged over children of uploader
     // see: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-    this._timeoutId = setTimeout(() => this.setState({ active: false }), 150)
+    this._dragTimeoutId = setTimeout(() => this.setState({ active: false }), 150)
   }
 
   handleDrop = (e) => {
@@ -88,23 +88,27 @@ class Dropzone extends React.Component {
 
   handleFile = async (file) => {
     const { name, size, type, lastModified } = file
-    const {
-      maxSizeBytes,
-      maxFiles,
-      allowedTypePrefixes,
-      getUploadParams,
-      onUploadReady,
-    } = this.props
-
-    if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) return
-    if (this._files.length >= maxFiles) return
+    const { maxSizeBytes, maxFiles, allowedTypePrefixes, getUploadParams, onUploadReady } = this.props
 
     const uploadedDate = new Date().toISOString()
     const lastModifiedDate = lastModified && new Date(lastModified).toISOString()
     const fileWithMeta = {
       file,
-      meta: { name, size, type, lastModifiedDate, uploadedDate, status: 'preparing', percent: 0, id },
+      meta: { name, size, type, lastModifiedDate, uploadedDate, percent: 0, id },
     }
+
+    if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) {
+      fileWithMeta.meta.status = 'rejected_file_type'
+      this.handleChangeStatus(fileWithMeta)
+      return
+    }
+    if (this._files.length >= maxFiles) {
+      fileWithMeta.meta.status = 'rejected_max_files'
+      this.handleChangeStatus(fileWithMeta)
+      return
+    }
+
+    fileWithMeta.meta.status = 'preparing'
     this._files.push(fileWithMeta)
     this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
@@ -302,6 +306,7 @@ class Dropzone extends React.Component {
           handleFiles={this.handleFiles}
           filePreviews={filePreviews}
           files={this._files}
+          active={active}
         />
         <SubmitButton
           className={submitButtonContainerClassName}
