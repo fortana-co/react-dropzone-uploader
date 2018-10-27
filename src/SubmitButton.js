@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import './styles.css'
 
-const SubmitButton = ({ onSubmit, files, className }) => {
-  if (!onSubmit) return null
+const SubmitButton = ({ onSubmit, files, className, buttonClassName, text = 'Submit' }) => {
+  if (!onSubmit || files.length === 0) return null
 
   const disabled =
     files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
@@ -16,13 +16,15 @@ const SubmitButton = ({ onSubmit, files, className }) => {
 
   return (
     <div className={className || 'dzu-buttonContainer'}>
-      <button onClick={handleSubmit} disabled={disabled}>UPLOAD</button>
+      <button className={buttonClassName || 'dzu-button'}onClick={handleSubmit} disabled={disabled}>{text}</button>
     </div>
   )
 }
 
 SubmitButton.propTypes = {
   className: PropTypes.string,
+  buttonClassName: PropTypes.string,
+  text: PropTypes.string,
   onSubmit: PropTypes.func,
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
 }

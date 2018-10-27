@@ -18,14 +18,10 @@ class FilePreview extends React.PureComponent {
     if (duration) title = `${title}, ${formatDuration(duration)}`
 
     if (status === 'error_file_size') {
-      let tooBig = <span>File exceeds size limit...</span>
-      if (type.startsWith('image/')) tooBig = <span>Image exceeds size limit...</span>
-      if (type.startsWith('video/')) tooBig = <div><span>Video exceeds size limit...</span></div>
-
       return (
         <div className="dzu-previewContainer">
           <span>{title}</span>
-          {tooBig}
+          <span>File exceeds size limit...</span>
           {onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
         </div>
       )

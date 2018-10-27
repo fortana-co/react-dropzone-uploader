@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import DropzoneContentDefault from './DropzoneContent'
 import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
-import DropzoneContentDefault from './DropzoneContent'
 import { formatBytes, formatDuration } from './string'
 import './styles.css'
 
@@ -254,8 +254,10 @@ class Dropzone extends React.Component {
       FilePreviewComponent,
       SubmitButtonComponent,
       DropzoneContentComponent,
+      submitButtonText,
       dropzoneClassName,
       dropzoneActiveClassName,
+      submitButtonContainerClassName,
       submitButtonClassName,
       dropzoneContentClassName,
     } = this.props
@@ -299,13 +301,13 @@ class Dropzone extends React.Component {
           />
         </div>
 
-        {this._files.length > 0 &&
-          <SubmitButton
-            className={submitButtonClassName}
-            onSubmit={onSubmit}
-            files={this._files}
-          />
-        }
+        <SubmitButton
+          className={submitButtonContainerClassName}
+          buttonClassName={submitButtonClassName}
+          text={submitButtonText}
+          onSubmit={onSubmit}
+          files={this._files}
+        />
       </React.Fragment>
     )
   }
@@ -335,9 +337,12 @@ Dropzone.propTypes = {
   SubmitButtonComponent: PropTypes.any,
   DropzoneContentComponent: PropTypes.any,
 
+  submitButtonText: PropTypes.string,
+
   dropzoneClassName: PropTypes.string,
   dropzoneActiveClassName: PropTypes.string,
   dropzoneContentClassName: PropTypes.string,
+  submitButtonContainerClassName: PropTypes.string,
   submitButtonClassName: PropTypes.string,
 }
 
@@ -352,4 +357,11 @@ Dropzone.defaultProps = {
 }
 
 export default Dropzone
-export { Dropzone, formatBytes, formatDuration }
+export {
+  Dropzone,
+  DropzoneContentDefault as DropzoneContent,
+  FilePreviewDefault as FilePreview,
+  SubmitButtonDefault as SubmitButton,
+  formatBytes,
+  formatDuration,
+}
