@@ -42,7 +42,7 @@ class FilePreview extends React.PureComponent {
           {status === 'uploading' && onCancel && <span className="dzu-abortButton" onClick={onCancel} />}
           {status !== 'uploading' && status !== 'preparing' &&
             onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
-          {(status === 'error_upload_params' || 'error_upload' || status === 'aborted') &&
+          {(status === 'error_upload_params' || status === 'error_upload' || status === 'aborted') &&
             onRestart && <span className="dzu-restartButton" onClick={onRestart} />}
         </div>
       </div>
