@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
 function createConfig(output) {
   return {
     mode: 'production',
-    entry: './src/FileUploader.js',
+    entry: './src/Dropzone.js',
     output,
     optimization: {
       minimizer: [new UglifyJSPlugin()],

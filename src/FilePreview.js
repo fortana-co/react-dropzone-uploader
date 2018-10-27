@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { formatBytes, formatDuration } from './string'
-import './FileUploader.css'
+import './styles.css'
 
 class FilePreview extends React.PureComponent {
   render() {
@@ -23,10 +23,10 @@ class FilePreview extends React.PureComponent {
       if (type.startsWith('video/')) tooBig = <div><span>Video exceeds size limit...</span></div>
 
       return (
-        <div className="uploader-previewContainer">
+        <div className="dzu-previewContainer">
           <span>{title}</span>
           {tooBig}
-          {onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
+          {onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
         </div>
       )
     }
@@ -35,19 +35,19 @@ class FilePreview extends React.PureComponent {
     if (status === 'aborted') title = `${title} (cancelled)`
 
     return (
-      <div className="uploader-previewContainer">
-        {previewUrl && <img className="uploader-preview" src={previewUrl} alt={title} title={title} />}
+      <div className="dzu-previewContainer">
+        {previewUrl && <img className="dzu-preview" src={previewUrl} alt={title} title={title} />}
         {!previewUrl && <span>{title}</span>}
 
-        <div className="uploader-statusContainer">
+        <div className="dzu-statusContainer">
           {isUpload &&
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }
-          {status === 'uploading' && onCancel && <span className="uploader-abortButton" onClick={onCancel} />}
+          {status === 'uploading' && onCancel && <span className="dzu-abortButton" onClick={onCancel} />}
           {status !== 'uploading' && status !== 'preparing' &&
-            onRemove && <span className="uploader-abortButton" onClick={onRemove} />}
+            onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
           {(status === 'error_upload_params' || 'error_upload' || status === 'aborted') &&
-            onRestart && <span className="uploader-restartButton" onClick={onRestart} />}
+            onRestart && <span className="dzu-restartButton" onClick={onRestart} />}
         </div>
       </div>
     )

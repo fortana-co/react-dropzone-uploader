@@ -1,6 +1,6 @@
 import React from 'react'
 
-import FileUploader from '../../src/FileUploader'
+import Dropzone from '../../src/Dropzone'
 
 const App = () => {
   const getUploadParams = ({ file, meta }) => {
@@ -23,7 +23,7 @@ const App = () => {
   }
 
   return (
-    <FileUploader
+    <Dropzone
       getUploadParams={getUploadParams}
       onUploadReady={handleUploadReady}
       onChangeStatus={onChangeStatus}

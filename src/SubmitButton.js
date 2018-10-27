@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './FileUploader.css'
+import './styles.css'
 
 const SubmitButton = ({ onSubmit, files, className }) => {
   if (!onSubmit) return null
@@ -15,7 +15,7 @@ const SubmitButton = ({ onSubmit, files, className }) => {
   }
 
   return (
-    <div className={className || 'uploader-buttonContainer'}>
+    <div className={className || 'dzu-buttonContainer'}>
       <button onClick={handleSubmit} disabled={disabled}>UPLOAD</button>
     </div>
   )

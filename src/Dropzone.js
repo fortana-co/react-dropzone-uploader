@@ -5,11 +5,11 @@ import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
 import DropzoneContentDefault from './DropzoneContent'
 import { formatBytes, formatDuration } from './string'
-import './FileUploader.css'
+import './styles.css'
 
 let id = 0
 
-class FileUploader extends React.Component {
+class Dropzone extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -265,8 +265,8 @@ class FileUploader extends React.Component {
     const SubmitButton = SubmitButtonComponent || SubmitButtonDefault
     const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
 
-    let containerClassName = dropzoneClassName || 'uploader-dropzone'
-    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'uploader-active'}`
+    let containerClassName = dropzoneClassName || 'dzu-dropzone'
+    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-active'}`
 
     const files = this._files.map((f) => {
       return (
@@ -311,7 +311,7 @@ class FileUploader extends React.Component {
   }
 }
 
-FileUploader.propTypes = {
+Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
   onUploadReady: PropTypes.func,
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, url = '' }
@@ -341,7 +341,7 @@ FileUploader.propTypes = {
   submitButtonClassName: PropTypes.string,
 }
 
-FileUploader.defaultProps = {
+Dropzone.defaultProps = {
   canCancel: true,
   canRemove: true,
   canRestart: true,
@@ -351,5 +351,5 @@ FileUploader.defaultProps = {
   maxFiles: Number.MAX_SAFE_INTEGER,
 }
 
-export default FileUploader
-export { FileUploader, formatBytes, formatDuration }
+export default Dropzone
+export { Dropzone, formatBytes, formatDuration }

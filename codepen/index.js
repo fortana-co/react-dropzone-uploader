@@ -22,7 +22,7 @@ const App = () => {
   }
 
   return (
-    <ReactDropzoneUploader.FileUploader
+    <ReactDropzoneUploader.Dropzone
       getUploadParams={getUploadParams}
       onChangeStatus={onChangeStatus}
       onSubmit={handleSubmit}
