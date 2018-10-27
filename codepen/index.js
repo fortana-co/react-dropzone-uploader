@@ -1,5 +1,4 @@
 /**
-https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js
 https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js
