@@ -8,20 +8,12 @@
   transition: all .15s linear;
 }
 
-.dzu-link {
-  font-family: 'roboto', sans-serif;
-  font-size: 15px;
-  margin-top: 8px;
-  color: #3DC59F;
-  letter-spacing: 0.4px;
-  line-height: 16px;
-  text-decoration: none;
-  display: table;
-  cursor: pointer;
-  transition: all .15s linear;
+.dzu-dropzoneActive {
+  background-color: #F6F8FA;
+  border: 4px solid #3DC59F;
 }
 
-.dzu-dropzoneInstructions {
+.dzu-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,8 +21,8 @@
   height: 100%;
 }
 
-.dzu-previewListContainer {
-  margin-top: 40px;
+.dzu-contentWithFiles {
+  padding: 3% 5%;
 }
 
 .dzu-largeText {
@@ -49,11 +41,6 @@
   letter-spacing: 0;
   line-height: 32px;
   margin-bottom: 20px;
-}
-
-.dzu-active {
-  background-color: #F6F8FA;
-  border: 4px solid #3DC59F;
 }
 
 .dzu-input {
@@ -80,23 +67,7 @@
   border: 1px solid #01886C;
 }
 
-.dzu-addFiles {
-  padding-left: 5%;
-  margin-bottom: 20px;
-}
-
-.dzu-addFiles .inputLabel {
-  color: 000000;
-  opacity: 0.8;
-  border: 1px solid #141418;
-}
-
-.dzu-addFiles .inputLabel:hover {
-  border: 1px solid #4D4D4D;
-}
-
 .dzu-previewContainer {
-  padding: 0 13% 0 5%;
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
@@ -105,21 +76,23 @@
   position: relative;
 }
 
-.dzu-statusContainer {
+.dzu-previewStatusContainer {
   display: flex;
   align-items: center;
 }
 
-.dzu-preview {
+.dzu-previewImage {
   height: 70px;
   width: auto;
   max-width: 140px;
 }
 
-.dzu-buttonContainer {
+.dzu-submitButtonContainer {
   border-top: 1px solid #E1E7ED;
   padding: 20px 5%;
 }
+
+.dzu-submitButton {}
 
 .dzu-abortButton {
   background: no-repeat url("./assets/close-modal.svg") top right;

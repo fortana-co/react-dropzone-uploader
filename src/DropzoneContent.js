@@ -3,13 +3,23 @@ import PropTypes from 'prop-types'
 
 import './styles.css'
 
-const DropzoneContent = ({ className, accept, maxFiles, handleFiles, files }) => {
+const DropzoneContent = (props) => {
+  const {
+    className,
+    withFilesClassName,
+    inputClassName,
+    accept,
+    maxFiles,
+    handleFiles,
+    filePreviews,
+  } = props
+
   const chooseFileInput = (text) => {
     return (
       <React.Fragment>
         <label
           htmlFor="dropzoneInputId"
-          className="dzu-inputLabel"
+          className={inputClassName || 'dzu-inputLabel'}
         >
           {text}
         </label>
@@ -25,36 +35,35 @@ const DropzoneContent = ({ className, accept, maxFiles, handleFiles, files }) =>
     )
   }
 
-  if (files.length === 0) {
+  if (filePreviews.length === 0) {
     return (
-      <div className={className || 'dzu-dropzoneInstructions'}>
-        <span className="dzu-largeText">
-          {maxFiles === 1 ? 'Drag a File' : 'Drag Files'}
-        </span>
+      <div className={className || 'dzu-content'}>
+        <span className="dzu-largeText">Drag Files</span>
 
-        <span className="dzu-smallText">- or you can -</span>
+        <span className="dzu-smallText">- or -</span>
 
-        {chooseFileInput(maxFiles === 1 ? 'Choose a File' : 'Choose Files')}
+        {chooseFileInput('Choose Files')}
       </div>
     )
   }
 
   return (
-    <div className={className || 'dzu-previewListContainer'}>
-      {files}
-      {files.length < maxFiles &&
-        <div className="dzu-addFiles">{chooseFileInput('Add')}</div>
-      }
+    <div className={withFilesClassName || 'dzu-contentWithFiles'}>
+      {filePreviews}
+
+      {filePreviews.length < maxFiles && chooseFileInput('Add')}
     </div>
   )
 }
 
 DropzoneContent.propTypes = {
   className: PropTypes.string,
+  withFilesClassName: PropTypes.string,
+  inputClassName: PropTypes.string,
   accept: PropTypes.string.isRequired,
   maxFiles: PropTypes.number.isRequired,
   handleFiles: PropTypes.func.isRequired,
-  files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  filePreviews: PropTypes.arrayOf(PropTypes.any).isRequired,
 }
 
 export default DropzoneContent

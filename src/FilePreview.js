@@ -32,10 +32,10 @@ class FilePreview extends React.PureComponent {
 
     return (
       <div className="dzu-previewContainer">
-        {previewUrl && <img className="dzu-preview" src={previewUrl} alt={title} title={title} />}
+        {previewUrl && <img className="dzu-previewImage" src={previewUrl} alt={title} title={title} />}
         {!previewUrl && <span>{title}</span>}
 
-        <div className="dzu-statusContainer">
+        <div className="dzu-previewStatusContainer">
           {isUpload &&
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }

@@ -15,8 +15,14 @@ const SubmitButton = ({ onSubmit, files, className, buttonClassName, text = 'Sub
   }
 
   return (
-    <div className={className || 'dzu-buttonContainer'}>
-      <button className={buttonClassName || 'dzu-button'}onClick={handleSubmit} disabled={disabled}>{text}</button>
+    <div className={className || 'dzu-submitButtonContainer'}>
+      <button
+        className={buttonClassName || 'dzu-submitButton'}
+        onClick={handleSubmit}
+        disabled={disabled}
+      >
+        {text}
+      </button>
     </div>
   )
 }

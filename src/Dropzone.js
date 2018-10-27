@@ -259,7 +259,9 @@ class Dropzone extends React.Component {
       dropzoneActiveClassName,
       submitButtonContainerClassName,
       submitButtonClassName,
-      dropzoneContentClassName,
+      contentClassName,
+      contentWithFilesClassName,
+      contentInputClassName,
     } = this.props
     const { active } = this.state
 
@@ -268,9 +270,9 @@ class Dropzone extends React.Component {
     const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
 
     let containerClassName = dropzoneClassName || 'dzu-dropzone'
-    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-active'}`
+    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-dropzoneActive'}`
 
-    const files = this._files.map((f) => {
+    const filePreviews = this._files.map((f) => {
       return (
         <FilePreview
           key={f.meta.id}
@@ -293,11 +295,14 @@ class Dropzone extends React.Component {
           onDrop={this.handleDrop}
         >
           <DropzoneContent
-            className={dropzoneContentClassName}
+            className={contentClassName}
+            withFilesClassName={contentWithFilesClassName}
+            inputClassName={contentInputClassName}
             accept={accept}
             maxFiles={maxFiles}
             handleFiles={this.handleFiles}
-            files={files}
+            filePreviews={filePreviews}
+            files={this._files}
           />
         </div>
 
@@ -341,7 +346,9 @@ Dropzone.propTypes = {
 
   dropzoneClassName: PropTypes.string,
   dropzoneActiveClassName: PropTypes.string,
-  dropzoneContentClassName: PropTypes.string,
+  contentClassName: PropTypes.string,
+  contentWithFilesClassName: PropTypes.string,
+  contentInputClassName: PropTypes.string,
   submitButtonContainerClassName: PropTypes.string,
   submitButtonClassName: PropTypes.string,
 }
