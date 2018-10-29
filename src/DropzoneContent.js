@@ -43,9 +43,9 @@ const DropzoneContent = (props) => {
 DropzoneContent.propTypes = {
   className: PropTypes.string,
   withFilesClassName: PropTypes.string,
-  fileInput: PropTypes.any.isRequired,
-  filePreviews: PropTypes.arrayOf(PropTypes.any).isRequired,
-  submitButton: PropTypes.any.isRequired,
+  fileInput: PropTypes.any,
+  filePreviews: PropTypes.arrayOf(PropTypes.any),
+  submitButton: PropTypes.any,
   extra: PropTypes.object.isRequired,
 }
 

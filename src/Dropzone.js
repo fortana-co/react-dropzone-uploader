@@ -281,7 +281,7 @@ class Dropzone extends React.Component {
     const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
 
     const filePreviews = this._files.map((f) => {
-      if (FilePreview === null) return null
+      if (FilePreviewComponent === null) return null
       return (
         <FilePreview
           key={f.meta.id}
