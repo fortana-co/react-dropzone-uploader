@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import DropzoneContentDefault from './DropzoneContent'
+import FileInputDefault from './FileInput'
 import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
 import { formatBytes, formatDuration } from './string'
@@ -257,9 +258,12 @@ class Dropzone extends React.Component {
       canCancel,
       canRemove,
       canRestart,
+      FileInputComponent,
       FilePreviewComponent,
       SubmitButtonComponent,
       DropzoneContentComponent,
+      fileInputText,
+      fileInputWithFilesText,
       submitButtonText,
       dropzoneClassName,
       dropzoneActiveClassName,
@@ -267,16 +271,14 @@ class Dropzone extends React.Component {
       submitButtonClassName,
       contentClassName,
       contentWithFilesClassName,
-      contentInputClassName,
+      inputClassName,
     } = this.props
     const { active } = this.state
 
+    const FileInput = FileInputComponent || FileInputDefault
     const FilePreview = FilePreviewComponent || FilePreviewDefault
     const SubmitButton = SubmitButtonComponent || SubmitButtonDefault
     const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
-
-    let containerClassName = dropzoneClassName || 'dzu-dropzone'
-    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-dropzoneActive'}`
 
     const filePreviews = this._files.map((f) => {
       if (FilePreview === null) return null
@@ -285,12 +287,39 @@ class Dropzone extends React.Component {
           key={f.meta.id}
           meta={{ ...f.meta }}
           isUpload={Boolean(getUploadParams)}
-          onCancel={canCancel ? () => this.handleCancel(f) : undefined}
-          onRemove={canRemove ? () => this.handleRemove(f) : undefined}
-          onRestart={canRestart ? () => this.handleRestart(f) : undefined}
+          onCancel={() => this.handleCancel(f)}
+          onRemove={() => this.handleRemove(f)}
+          onRestart={() => this.handleRestart(f)}
+          canCancel={canCancel}
+          canRemove={canRemove}
+          canRestart={canRestart}
         />
       )
     })
+
+    const fileInput = FileInputComponent !== null ? (
+      <FileInput
+        className={inputClassName}
+        accept={accept}
+        text={fileInputText}
+        withFilesText={fileInputWithFilesText}
+        onFiles={this.handleFiles}
+        files={this._files}
+      />
+    ) : null
+
+    const submitButton = SubmitButtonComponent !== null ? (
+      <SubmitButton
+        className={submitButtonContainerClassName}
+        buttonClassName={submitButtonClassName}
+        text={submitButtonText}
+        onSubmit={onSubmit}
+        files={this._files}
+      />
+    ) : null
+
+    let containerClassName = dropzoneClassName || 'dzu-dropzone'
+    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName || 'dzu-dropzoneActive'}`
 
     return (
       <div
@@ -304,8 +333,9 @@ class Dropzone extends React.Component {
           <DropzoneContent
             className={contentClassName}
             withFilesClassName={contentWithFilesClassName}
-            inputClassName={contentInputClassName}
+            fileInput={fileInput}
             filePreviews={filePreviews}
+            submitButton={submitButton}
             extra={{
               files: this._files,
               active,
@@ -317,28 +347,12 @@ class Dropzone extends React.Component {
               canRemove,
               canRestart,
               onSubmit,
-              handleFiles: this.handleFiles,
-              handleCancel: this.handleCancel,
-              handleRemove: this.handleRemove,
-              handleRestart: this.handleRestart,
+              onFiles: this.handleFiles,
+              onCancelFile: this.handleCancel,
+              onRemoveFile: this.handleRemove,
+              onRestartFile: this.handleRestart,
               isUpload: Boolean(getUploadParams),
             }}
-            active={active}
-            accept={accept}
-            maxFiles={maxFiles}
-            handleFiles={this.handleFiles}
-            handleCancel
-            handleRemove
-            handleRestart
-          />
-        }
-        {SubmitButtonComponent !== null &&
-          <SubmitButton
-            className={submitButtonContainerClassName}
-            buttonClassName={submitButtonClassName}
-            text={submitButtonText}
-            files={this._files}
-            onSubmit={onSubmit}
           />
         }
       </div>
@@ -359,6 +373,7 @@ Dropzone.propTypes = {
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
   canRestart: PropTypes.bool,
+
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
@@ -366,17 +381,20 @@ Dropzone.propTypes = {
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
 
+  FileInputComponent: PropTypes.any,
   FilePreviewComponent: PropTypes.any,
   SubmitButtonComponent: PropTypes.any,
   DropzoneContentComponent: PropTypes.any,
 
+  fileInputText: PropTypes.string,
+  fileInputWithFilesText: PropTypes.string,
   submitButtonText: PropTypes.string,
 
   dropzoneClassName: PropTypes.string,
   dropzoneActiveClassName: PropTypes.string,
   contentClassName: PropTypes.string,
   contentWithFilesClassName: PropTypes.string,
-  contentInputClassName: PropTypes.string,
+  inputClassName: PropTypes.string,
   submitButtonContainerClassName: PropTypes.string,
   submitButtonClassName: PropTypes.string,
 }
@@ -395,6 +413,7 @@ export default Dropzone
 export {
   Dropzone,
   DropzoneContentDefault as DropzoneContent,
+  FileInputDefault as FileInput,
   FilePreviewDefault as FilePreview,
   SubmitButtonDefault as SubmitButton,
   formatBytes,

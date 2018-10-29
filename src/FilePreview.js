@@ -7,11 +7,14 @@ import './styles.css'
 class FilePreview extends React.PureComponent {
   render() {
     const {
-      meta: { name = '', percent = 0, size = 0, previewUrl, type, status, duration },
+      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration },
       isUpload,
       onCancel,
       onRemove,
       onRestart,
+      canCancel,
+      canRemove,
+      canRestart,
     } = this.props
 
     let title = `${name || '?'}, ${formatBytes(size)}`
@@ -39,11 +42,11 @@ class FilePreview extends React.PureComponent {
           {isUpload &&
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }
-          {status === 'uploading' && onCancel && <span className="dzu-abortButton" onClick={onCancel} />}
+          {status === 'uploading' && canCancel && <span className="dzu-abortButton" onClick={onCancel} />}
           {status !== 'uploading' && status !== 'preparing' &&
-            onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
+            canRemove && <span className="dzu-abortButton" onClick={onRemove} />}
           {(status === 'error_upload_params' || status === 'error_upload' || status === 'aborted') &&
-            onRestart && <span className="dzu-restartButton" onClick={onRestart} />}
+            canRestart && <span className="dzu-restartButton" onClick={onRestart} />}
         </div>
       </div>
     )
@@ -76,9 +79,12 @@ FilePreview.propTypes = {
     videoHeight: PropTypes.number,
   }).isRequired,
   isUpload: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func,
-  onRemove: PropTypes.func,
-  onRestart: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onRestart: PropTypes.func.isRequired,
+  canCancel: PropTypes.bool.isRequired,
+  canRemove: PropTypes.bool.isRequired,
+  canRestart: PropTypes.bool.isRequired,
 }
 
 export default FilePreview
