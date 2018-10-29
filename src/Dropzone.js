@@ -248,8 +248,10 @@ class Dropzone extends React.Component {
 
   render() {
     const {
-      maxFiles,
+      allowedTypePrefixes,
       accept,
+      maxFiles,
+      maxSizeBytes,
       onSubmit,
       getUploadParams,
       canCancel,
@@ -303,12 +305,31 @@ class Dropzone extends React.Component {
             className={contentClassName}
             withFilesClassName={contentWithFilesClassName}
             inputClassName={contentInputClassName}
+            filePreviews={filePreviews}
+            extra={{
+              files: this._files,
+              active,
+              allowedTypePrefixes,
+              accept,
+              maxSizeBytes,
+              maxFiles,
+              canCancel,
+              canRemove,
+              canRestart,
+              onSubmit,
+              handleFiles: this.handleFiles,
+              handleCancel: this.handleCancel,
+              handleRemove: this.handleRemove,
+              handleRestart: this.handleRestart,
+              isUpload: Boolean(getUploadParams),
+            }}
+            active={active}
             accept={accept}
             maxFiles={maxFiles}
             handleFiles={this.handleFiles}
-            filePreviews={filePreviews}
-            files={this._files}
-            active={active}
+            handleCancel
+            handleRemove
+            handleRestart
           />
         }
         {SubmitButtonComponent !== null &&
@@ -316,8 +337,8 @@ class Dropzone extends React.Component {
             className={submitButtonContainerClassName}
             buttonClassName={submitButtonClassName}
             text={submitButtonText}
-            onSubmit={onSubmit}
             files={this._files}
+            onSubmit={onSubmit}
           />
         }
       </div>
