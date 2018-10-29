@@ -265,6 +265,7 @@ class Dropzone extends React.Component {
       fileInputText,
       fileInputWithFilesText,
       submitButtonText,
+      submitButtonDisabled,
       dropzoneClassName,
       dropzoneActiveClassName,
       submitButtonContainerClassName,
@@ -313,6 +314,7 @@ class Dropzone extends React.Component {
         className={submitButtonContainerClassName}
         buttonClassName={submitButtonClassName}
         text={submitButtonText}
+        disabled={submitButtonDisabled}
         onSubmit={onSubmit}
         files={this._files}
       />
@@ -389,6 +391,7 @@ Dropzone.propTypes = {
   fileInputText: PropTypes.string,
   fileInputWithFilesText: PropTypes.string,
   submitButtonText: PropTypes.string,
+  submitButtonDisabled: PropTypes.bool,
 
   dropzoneClassName: PropTypes.string,
   dropzoneActiveClassName: PropTypes.string,
@@ -407,6 +410,7 @@ Dropzone.defaultProps = {
   accept: '*',
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
+  submitButtonDisabled: false,
 }
 
 export default Dropzone
