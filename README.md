@@ -192,6 +192,36 @@ If you use the component injection API, you'll want to know which props are pass
 
 
 ## Example: S3 Uploader
+Let's say you want to upload a file to one of your S3 buckets. You have an API service class, `myApiService`, that can send requests to your API to get file upload params.
+
+Maybe your API [uses Boto to do this](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.generate_presigned_post). If a request is successful, it returns `{ fields, uploadUrl, fileUrl }`, else it returns `{}`. A successful response looks like this:
+
+~~~json
+{
+  "fields": {
+    "AWSAccessKeyId": "AKIAJSQUO7ORWYVCSV6Q",
+    "acl": "public-read",
+    "key": "files/89789486-d94a-4251-a42d-18af752ab7d2-test.txt",
+    "policy": "eyJleHBpcmF0aW9uIjogIjIwMTgtMTAtMzBUMjM6MTk6NDdaIiwgImNvbmRpdGlvbnMiOiBbeyJhY2wiOiAicHVibGljLXJlYWQifSwgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDEwLCAzMTQ1NzI4MF0sIHsiYnVja2V0IjogImJlYW10ZWNoLWZpbGUifSwgeyJrZXkiOiAiY29tcGFueS8zLzg5Nzg5NDg2LWQ5NGEtNDI1MS1hNDJkLTE4YWY3NTJhYjdkMi10ZXN0LnR4dCJ9XX0=",
+    "signature": "L7r3KBtyOXjUKy31g42JTYb1sio="
+  },
+  "fullUrl": "https://my-bucket.s3.amazonaws.com/files/89789486-d94a-4251-a42d-18af752ab7d2-test.txt",
+  "uploadUrl": "https://my-bucket.s3.amazonaws.com/"
+}
+~~~
+
+Fields has everything you need to authenticate with your S3 bucket, but you need to add them to the request sent by RDU. It turns out __this is ridiculously easy__.
+
+~~~js
+const getUploadParams = async ({ meta: { name } }) => {
+  const { fields, uploadUrl, fileUrl } = await myApiService.getPresignedUploadParams(name)
+  return { fields, meta: { fileUrl }, url: uploadUrl }
+}
+~~~
+
+That's it. If `myApiService.getPresignedUploadParams` is successful, you merge `fileUrl` into your file's meta so you can use it later, and you return `uploadUrl` as `url`. RDU will take care of the rest, including appending the fields to the the `formData` instance used in the `XMLHttpRequest`.
+
+If `myApiService.getPresignedUploadParams` fails, `uploadUrl`, and hence `url`, are undefined. RDU abandons the upload and changes the file's status to `'error_upload_params'`. At this point you might show the user an error message, and the user might remove the file or restart the upload.
 
 
 ## Thanks

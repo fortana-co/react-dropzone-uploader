@@ -71,11 +71,12 @@ class Dropzone extends React.Component {
   }
 
   handleRestart = (fileWithMeta) => {
-    this.uploadFile(fileWithMeta)
+    if (!this.props.getUploadParams) return
     fileWithMeta.meta.status = 'uploading'
     this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
     if (this.props.onRestart) this.props.onRestart(fileWithMeta)
+    this.uploadFile(fileWithMeta)
   }
 
   // expects an array of File objects

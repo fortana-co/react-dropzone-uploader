@@ -19,10 +19,12 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  position: relative;
 }
 
 .dzu-contentWithFiles {
   padding: 3% 5%;
+  position: relative;
 }
 
 .dzu-largeText {
@@ -85,6 +87,7 @@
   height: 70px;
   width: auto;
   max-width: 140px;
+  z-index: 1;
 }
 
 .dzu-submitButtonContainer {

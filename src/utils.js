@@ -1,5 +1,5 @@
 export const formatBytes = (b) => {
-  const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   let l = 0
   let n = b
 
