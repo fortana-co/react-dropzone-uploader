@@ -5,7 +5,7 @@ import DropzoneContentDefault from './DropzoneContent'
 import FileInputDefault from './FileInput'
 import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
-import { formatBytes, formatDuration } from './string'
+import { formatBytes, formatDuration, accepts } from './string'
 import './styles.css'
 
 let id = 0
@@ -89,7 +89,7 @@ class Dropzone extends React.Component {
 
   handleFile = async (file) => {
     const { name, size, type, lastModified } = file
-    const { maxSizeBytes, maxFiles, allowedTypePrefixes, getUploadParams, onUploadReady } = this.props
+    const { minSizeBytes, maxSizeBytes, maxFiles, accept, getUploadParams, onUploadReady } = this.props
 
     const uploadedDate = new Date().toISOString()
     const lastModifiedDate = lastModified && new Date(lastModified).toISOString()
@@ -98,7 +98,9 @@ class Dropzone extends React.Component {
       meta: { name, size, type, lastModifiedDate, uploadedDate, percent: 0, id },
     }
 
-    if (allowedTypePrefixes && !allowedTypePrefixes.some(p => type.startsWith(p))) {
+    // firefox versions prior to 53 return a bogus mime type for file drag events,
+    // so files with that mime type are always accepted
+    if (file.type !== 'application/x-moz-file' && !accepts(file, accept)) {
       fileWithMeta.meta.status = 'rejected_file_type'
       this.handleChangeStatus(fileWithMeta)
       return
@@ -115,7 +117,7 @@ class Dropzone extends React.Component {
     this.forceUpdate()
     id += 1
 
-    if (size > maxSizeBytes) {
+    if (size < minSizeBytes || size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
       this.handleChangeStatus(fileWithMeta)
       this.forceUpdate()
@@ -249,9 +251,9 @@ class Dropzone extends React.Component {
 
   render() {
     const {
-      allowedTypePrefixes,
       accept,
       maxFiles,
+      minSizeBytes,
       maxSizeBytes,
       onSubmit,
       getUploadParams,
@@ -345,8 +347,8 @@ class Dropzone extends React.Component {
             extra={{
               files: this._files,
               active,
-              allowedTypePrefixes,
               accept,
+              minSizeBytes,
               maxSizeBytes,
               maxFiles,
               canCancel,
@@ -382,8 +384,8 @@ Dropzone.propTypes = {
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
-  allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
   accept: PropTypes.string, // the accept attribute of the input
+  minSizeBytes: PropTypes.number.isRequired,
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
 
@@ -414,6 +416,7 @@ Dropzone.defaultProps = {
   canRestart: true,
   previewTypes: ['image', 'audio', 'video'],
   accept: '*',
+  minSizeBytes: 0,
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
   submitButtonDisabled: false,

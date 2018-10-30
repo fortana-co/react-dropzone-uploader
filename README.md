@@ -4,7 +4,7 @@
 [![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 
-React Dropzone Uploader is a customizable file dropzone and uploader, with progress indicators, upload cancellation and restart, and minimal dependencies.
+React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for React, with progress indicators, upload cancellation and restart, and minimal dependencies.
 
 
 ## Features
@@ -14,7 +14,7 @@ React Dropzone Uploader is a customizable file dropzone and uploader, with progr
 - Trivially set auth headers and additional upload fields for any upload (see S3 example)
 - Modular design allows for use as standalone file dropzone, file input, file uploader
 - Easily customizable and themeable
-- Lightweight at ~15kB, including styles
+- Lightweight at ~12kB, including styles
 
 
 ## Installation
@@ -22,9 +22,9 @@ Run `npm install --save react-dropzone-uploader`.
 
 
 ## Getting Started
-RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone and file input that upload files to `https://httpbin.org/post`, with a button to submit the files when they're done.
+RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit the files when they're done.
 
-The `onChangeStatus` prop is thrown in just to show the status values a file is assigned as it's dropped or chosen and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0110).
+The `onChangeStatus` prop is thrown in to show the status values a file is assigned as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0110).
 
 ~~~js
 import Dropzone from 'react-dropzone-uploader'
@@ -52,11 +52,15 @@ const MyUploader = () => {
 }
 ~~~
 
-Want to disable the file input? Just pass `null` for `FileInputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop. Don't want to upload files at all? Omit `getUploadParams`, and you'll simply have a dropzone that calls your `handleChangeStatus` every time you add a file.
+Want to disable the file input? Just pass `null` for `FileInputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
 
-By the way, `getUploadParams` can be async, in case you need to go over the network to get upload params for a file, as would be the case if you use, for example, [presigned upload URLs with S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html).
+Don't want to upload files at all? Omit `getUploadParams`, and you'll just have a dropzone that calls your `handleChangeStatus` every time you add a file. This callback receives a `fileWithMeta` object and the file's `status`. If status is `'done'`, the file was accepted. Add it to an array of accepted files, or do whatever you want with it. And don't worry, `handleChangeStatus` will never be called more than once for any given status.
 
-To filter which files can be dropped or chosen, you can use the `allowedTypePrefixes` and `accept` props (for the dropzone and file input, respectively), as well as the `maxFiles` and `maxSizeBytes` props. Files whose size exceeds the limit set in `maxSizeBytes` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the props section below.
+By the way, `getUploadParams` can be async, in case you need to go over the network to get upload params for a file. This would be the case if you use, for example, [presigned upload URLs with S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html).
+
+To filter which files can be dropped or picked, you can use `accept` prop, which is really the [HTML5 input accept attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types). Also available are the `maxFiles`, `minSizeBytes` and `maxSizeBytes` props.
+
+Files whose size fall outside the limits set in `minSizeBytes` and `maxSizeBytes` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the props section below.
 
 
 ## fileWithMeta Objects
@@ -96,36 +100,36 @@ Dropzone.propTypes = {
   onRemove: PropTypes.func, // called when file is removed; receives fileWithMeta object
   onRestart: PropTypes.func, // called when upload is restarted; receives fileWithMeta object
 
-  canCancel: PropTypes.bool, // pass false to negate upload cancel button in file preview
-  canRemove: PropTypes.bool, // pass false to negate file remove button in file preview
-  canRestart: PropTypes.bool, // pass false to negate upload restart button in file preview
+  canCancel: PropTypes.bool, // false to negate cancel upload button in file preview
+  canRemove: PropTypes.bool, // false to negate remove file button in file preview
+  canRestart: PropTypes.bool, // false to negate restart upload button in file preview
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])), // generate rich previews for these file types
 
-  allowedTypePrefixes: PropTypes.arrayOf(PropTypes.string),
   accept: PropTypes.string, // the accept attribute of the file input
+  minSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 is 1MB)
   maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 is 1MB)
   maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by a given dropzone
 
-  FileInputComponent: PropTypes.any, // overrides FileInput; pass null to negate
-  FilePreviewComponent: PropTypes.any, // overrides FilePreview; pass null to negate
-  SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; pass null to negate
-  DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; pass null to negate
+  FileInputComponent: PropTypes.any, // overrides FileInput; null to negate
+  FilePreviewComponent: PropTypes.any, // overrides FilePreview; null to negate
+  SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; null to negate
+  DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to negate
 
-  instructions: PropTypes.any, // JSX for dropzone instructions; pass null to negate
-  withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains one or more files; pass null to negate
-  fileInputText: PropTypes.string, // pass '' to negate
-  fileInputWithFilesText: PropTypes.string, // pass '' to negate
-  submitButtonText: PropTypes.string, // pass '' to negate
+  instructions: PropTypes.any, // JSX for dropzone instructions; null to negate
+  withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains one or more files; null to negate
+  fileInputText: PropTypes.string, // '' to negate
+  fileInputWithFilesText: PropTypes.string, // '' to negate
+  submitButtonText: PropTypes.string, // '' to negate
   submitButtonDisabled: PropTypes.bool,
 
-  dropzoneClassName: PropTypes.string, // wrapper class of root div; pass '' to negate
-  dropzoneActiveClassName: PropTypes.string, // wrapper class of root div when file(s) have been dragged into dropzone; pass '' to negate
-  contentClassName: PropTypes.string, // wrapper class for DropzoneContent; pass '' to negate
-  contentWithFilesClassName: PropTypes.string, // wrapper class for DropzoneContent with one or more files present; pass '' to negate
-  inputClassName: PropTypes.string, // pass '' to negate
-  submitButtonContainerClassName: PropTypes.string, // pass '' to negate
-  submitButtonClassName: PropTypes.string, // pass '' to negate
+  dropzoneClassName: PropTypes.string, // wrapper class of root div; '' to negate
+  dropzoneActiveClassName: PropTypes.string, // wrapper class of root div when file(s) have been dragged into dropzone; '' to negate
+  contentClassName: PropTypes.string, // wrapper class for DropzoneContent; '' to negate
+  contentWithFilesClassName: PropTypes.string, // wrapper class for DropzoneContent with one or more files present; '' to negate
+  inputClassName: PropTypes.string, // wrapper class for input label; '' to negate
+  submitButtonContainerClassName: PropTypes.string, // '' to negate
+  submitButtonClassName: PropTypes.string, // '' to negate
 }
 ~~~
 

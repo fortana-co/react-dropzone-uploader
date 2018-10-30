@@ -18,3 +18,22 @@ export const formatDuration = (seconds) => {
   if (seconds < 3600) return dateString.slice(3)
   return dateString
 }
+
+// adapted from: https://github.com/okonet/attr-accept/blob/master/src/index.js
+export const accepts = (file, accept) => {
+  if (!file || !accept || accept === '*') return true
+
+  const fileName = file.name || ''
+  const mimeType = file.type || ''
+  const baseMimeType = mimeType.replace(/\/.*$/, '')
+
+  return accept.split(',').map(t => t.trim()).some((type) => {
+    if (type.charAt(0) === '.') {
+      return fileName.toLowerCase().endsWith(type.toLowerCase())
+    } else if (type.endsWith('/*')) {
+      // this is something like an image/* mime type
+      return baseMimeType === type.replace(/\/.*$/, '')
+    }
+    return mimeType === type
+  })
+}
