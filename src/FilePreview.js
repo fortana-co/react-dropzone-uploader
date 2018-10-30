@@ -15,6 +15,7 @@ class FilePreview extends React.PureComponent {
       canCancel,
       canRemove,
       canRestart,
+      extra: { minSizeBytes },
     } = this.props
 
     let title = `${name || '?'}, ${formatBytes(size)}`
@@ -24,7 +25,7 @@ class FilePreview extends React.PureComponent {
       return (
         <div className="dzu-previewContainer">
           <span>{title}</span>
-          <span>File exceeds size limit...</span>
+          <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>
           {onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
         </div>
       )
@@ -85,6 +86,13 @@ FilePreview.propTypes = {
   canCancel: PropTypes.bool.isRequired,
   canRemove: PropTypes.bool.isRequired,
   canRestart: PropTypes.bool.isRequired,
+  extra: PropTypes.shape({
+    active: PropTypes.bool.isRequired,
+    accept: PropTypes.string.isRequired,
+    minSizeBytes: PropTypes.number.isRequired,
+    maxSizeBytes: PropTypes.number.isRequired,
+    maxFiles: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default FilePreview

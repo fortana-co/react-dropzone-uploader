@@ -34,6 +34,13 @@ FileInput.propTypes = {
   withFilesText: PropTypes.string,
   onFiles: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  extra: PropTypes.shape({
+    active: PropTypes.bool.isRequired,
+    accept: PropTypes.string.isRequired,
+    minSizeBytes: PropTypes.number.isRequired,
+    maxSizeBytes: PropTypes.number.isRequired,
+    maxFiles: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default FileInput

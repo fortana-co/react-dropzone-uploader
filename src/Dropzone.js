@@ -73,6 +73,7 @@ class Dropzone extends React.Component {
   handleRestart = (fileWithMeta) => {
     this.uploadFile(fileWithMeta)
     fileWithMeta.meta.status = 'uploading'
+    this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
     if (this.props.onRestart) this.props.onRestart(fileWithMeta)
   }
@@ -307,6 +308,8 @@ class Dropzone extends React.Component {
       },
     } = mergeStyles(classNames, styles)
 
+    const extra = { active, accept, minSizeBytes, maxSizeBytes, maxFiles }
+
     const filePreviews = this._files.map((f) => {
       if (FilePreviewComponent === null) return null
       return (
@@ -320,6 +323,7 @@ class Dropzone extends React.Component {
           canCancel={canCancel}
           canRemove={canRemove}
           canRestart={canRestart}
+          extra={extra}
         />
       )
     })
@@ -333,6 +337,7 @@ class Dropzone extends React.Component {
         withFilesText={fileInputWithFilesText}
         onFiles={this.handleFiles}
         files={this._files}
+        extra={extra}
       />
     ) : null
 
@@ -346,6 +351,7 @@ class Dropzone extends React.Component {
         disabled={submitButtonDisabled}
         onSubmit={onSubmit}
         files={this._files}
+        extra={extra}
       />
     ) : null
 
