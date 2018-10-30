@@ -5,8 +5,10 @@ import './styles.css'
 
 const DropzoneContent = (props) => {
   const {
-    className = 'dzu-content',
-    withFilesClassName = 'dzu-contentWithFiles',
+    className,
+    withFilesClassName,
+    style,
+    withFilesStyle,
     instructions,
     withFilesInstructions,
     fileInput,
@@ -18,7 +20,7 @@ const DropzoneContent = (props) => {
   if (filePreviews.length === 0) {
     return (
       <React.Fragment>
-        <div className={className}>
+        <div className={className} style={style}>
           {instructions === undefined ?
             <React.Fragment>
               <span className="dzu-largeText">Drop Files</span>
@@ -35,7 +37,7 @@ const DropzoneContent = (props) => {
 
   return (
     <React.Fragment>
-      <div className={withFilesClassName}>
+      <div className={withFilesClassName} style={withFilesStyle}>
         {withFilesInstructions === undefined ? null : withFilesInstructions}
 
         {filePreviews}
@@ -50,6 +52,8 @@ const DropzoneContent = (props) => {
 DropzoneContent.propTypes = {
   className: PropTypes.string,
   withFilesClassName: PropTypes.string,
+  style: PropTypes.object,
+  withFilesStyle: PropTypes.object,
   instructions: PropTypes.any,
   withFilesInstructions: PropTypes.any,
   fileInput: PropTypes.any,

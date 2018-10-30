@@ -60,7 +60,7 @@ By the way, `getUploadParams` can be async, in case you need to go over the netw
 
 To filter which files can be dropped or picked, you can use `accept` prop, which is really the [HTML5 input accept attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types). Also available are the `maxFiles`, `minSizeBytes` and `maxSizeBytes` props.
 
-Files whose size fall outside the limits set in `minSizeBytes` and `maxSizeBytes` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the props section below.
+Files whose size fall outside the limits set in `minSizeBytes` and `maxSizeBytes` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the __Props__ section below.
 
 
 ## fileWithMeta Objects
@@ -73,20 +73,36 @@ Want to change `submitButtonText` from its default value of __"Submit"__? Just p
 
 
 ### Custom Styles
-RDU's default styles are defined using CSS. They can be overridden using various __...ClassName__ props, which are listed below. They can be removed entirely by passing an empty string for any of these props.
+RDU's default styles are defined using CSS. They can be overridden using the `classNames` and `styles` props, which expose RDU's simple, flexible styling framework.
+
+Both `classNames` and `styles` should be objects containing a subset of the following keys:
+
+- `dropzone`, wrapper for entire dropzone
+- `dropzoneActive`, wrapper for entire dropzone when dropzone contains file(s); this is __added__ to the `dropzone` class
+- `content`, wrapper for DropzoneContentComponent with no files present
+- `contentWithFiles`, wrapper for DropzoneContentComponent with file(s) present
+- `input`, applied directly input label
+- `submitButtonContainer`, wrapper for root submit button div
+- `submitButton`, applied directly to submit button
+
+Each key points to a default CSS class bundled with RDU. A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
+
+If you prefer to use style object literals instead of CSS classes, simply point a key to a corresponding style object.
+
+Note that if you point a key to a style object in your `styles` prop, it will override the corresponding class in the `classNames` prop. Check out the demo in the __Getting Started__ section to see how this works!
 
 
 ### Component Injection API
-If no combination of props controlling styles and layout creates the look and feel you want, RDU provides a component injection API as an escape hatch. The `FileInputComponent`, `FilePreviewComponent`, `SubmitButtonComponent`, `DropzoneContentComponent` can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files.
+If no combination of props controlling styles and layout creates the look and feel you want, RDU provides a component injection API as an escape hatch. The `FileInputComponent`, `FilePreviewComponent`, `SubmitButtonComponent`, `DropzoneContentComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
 
 `null`ing any of these props prevents its corresponding component from being rendered. 
 
-The file input and submit button are simple, and it's usually easy to specify their look and feel with a few of RDU's __...Text__ and __...ClassName__ props. For the file input, text and className props might not be enough to get the right look and feel, and in this case you can pass a custom `FilePreviewComponent`. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to specify their look and feel with RDU's __...Text__ and __classNames__ props. For the file preview, these props might not be enough to get the right look and feel, and in this case you could pass a custom `FilePreviewComponent`. The custom component receives the same props that would have been passed to the default component.
 
-It's worth noting that `DropzoneContentComponent` receives an `extra` prop, an object literal that contains every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in very rare cases.
+It's worth noting that `DropzoneContentComponent` receives an `extra` prop, an object containing every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
 
 
-## Props and Component Prop Types
+## Props
 The following props can be passed to `Dropzone`.
 
 ~~~js
@@ -100,9 +116,9 @@ Dropzone.propTypes = {
   onRemove: PropTypes.func, // called when file is removed; receives fileWithMeta object
   onRestart: PropTypes.func, // called when upload is restarted; receives fileWithMeta object
 
-  canCancel: PropTypes.bool, // false to negate cancel upload button in file preview
-  canRemove: PropTypes.bool, // false to negate remove file button in file preview
-  canRestart: PropTypes.bool, // false to negate restart upload button in file preview
+  canCancel: PropTypes.bool, // false to remove cancel upload button in file preview
+  canRemove: PropTypes.bool, // false to remove remove file button in file preview
+  canRestart: PropTypes.bool, // false to remove restart upload button in file preview
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])), // generate rich previews for these file types
 
@@ -111,27 +127,31 @@ Dropzone.propTypes = {
   maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 is 1MB)
   maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by a given dropzone
 
-  FileInputComponent: PropTypes.any, // overrides FileInput; null to negate
-  FilePreviewComponent: PropTypes.any, // overrides FilePreview; null to negate
-  SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; null to negate
-  DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to negate
+  FileInputComponent: PropTypes.any, // overrides FileInput; null to remove
+  FilePreviewComponent: PropTypes.any, // overrides FilePreview; null to remove
+  SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; null to remove
+  DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to remove
 
-  instructions: PropTypes.any, // JSX for dropzone instructions; null to negate
-  withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains one or more files; null to negate
-  fileInputText: PropTypes.string, // '' to negate
-  fileInputWithFilesText: PropTypes.string, // '' to negate
-  submitButtonText: PropTypes.string, // '' to negate
+  instructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains no files; null to remove
+  withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains file(s); null to remove
+  fileInputText: PropTypes.string, // '' to remove
+  fileInputWithFilesText: PropTypes.string, // '' to remove
+  submitButtonText: PropTypes.string, // '' to remove
   submitButtonDisabled: PropTypes.bool,
 
-  dropzoneClassName: PropTypes.string, // wrapper class of root div; '' to negate
-  dropzoneActiveClassName: PropTypes.string, // wrapper class of root div when file(s) have been dragged into dropzone; '' to negate
-  contentClassName: PropTypes.string, // wrapper class for DropzoneContent; '' to negate
-  contentWithFilesClassName: PropTypes.string, // wrapper class for DropzoneContent with one or more files present; '' to negate
-  inputClassName: PropTypes.string, // wrapper class for input label; '' to negate
-  submitButtonContainerClassName: PropTypes.string, // '' to negate
-  submitButtonClassName: PropTypes.string, // '' to negate
+  classNames: PropTypes.object, // see "Custom Styles" section
+  styles: PropTypes.object, // see "Custom Styles" section
 }
 ~~~
+
+
+### Props Passed to Injected Components
+If you use the component injection API, you'll want to know which props are passed to your injected components. Just scroll to the bottom of any of the following files to see their corresponding prop types.
+
+- [DropzoneContentComponent](./blob/master/src/DropzoneContent.js)
+- [FilePreviewComponent](./blob/master/src/FilePreview.js)
+- [FileInputComponent](./blob/master/src/FileInput.js)
+- [SubmitButtonComponent](./blob/master/src/SubmitButton.js)
 
 
 ## Examples: S3 Uploader

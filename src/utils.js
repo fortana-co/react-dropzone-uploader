@@ -37,3 +37,22 @@ export const accepts = (file, accept) => {
     return mimeType === type
   })
 }
+
+export const baseClassNames = {
+  dropzone: 'dzu-dropzone',
+  dropzoneActive: 'dzu-dropzoneActive',
+  content: 'dzu-content',
+  contentWithFiles: 'dzu-contentWithFiles',
+  input: 'dzu-inputLabel',
+  submitButtonContainer: 'dzu-submitButtonContainer',
+  submitButton: 'dzu-submitButton',
+}
+
+export const mergeClassNamesAndStyles = (classNames, styles) => {
+  const mergedClassNames = { ...baseClassNames, ...classNames }
+  for (const sk of Object.keys(styles)) {
+    delete mergedClassNames[sk]
+  }
+
+  return { classNames: mergedClassNames, styles }
+}

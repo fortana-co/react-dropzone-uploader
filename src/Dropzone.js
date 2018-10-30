@@ -5,7 +5,7 @@ import DropzoneContentDefault from './DropzoneContent'
 import FileInputDefault from './FileInput'
 import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
-import { formatBytes, formatDuration, accepts } from './string'
+import { formatBytes, formatDuration, accepts, baseClassNames, mergeClassNamesAndStyles } from './utils'
 import './styles.css'
 
 let id = 0
@@ -270,13 +270,8 @@ class Dropzone extends React.Component {
       fileInputWithFilesText,
       submitButtonText,
       submitButtonDisabled,
-      dropzoneClassName,
-      dropzoneActiveClassName,
-      submitButtonContainerClassName,
-      submitButtonClassName,
-      contentClassName,
-      contentWithFilesClassName,
-      inputClassName,
+      classNames,
+      styles,
     } = this.props
     const { active } = this.state
 
@@ -284,6 +279,27 @@ class Dropzone extends React.Component {
     const FilePreview = FilePreviewComponent || FilePreviewDefault
     const SubmitButton = SubmitButtonComponent || SubmitButtonDefault
     const DropzoneContent = DropzoneContentComponent || DropzoneContentDefault
+
+    const {
+      classNames: {
+        dropzone: dropzoneClassName,
+        dropzoneActive: dropzoneActiveClassName,
+        content: contentClassName,
+        contentWithFiles: contentWithFilesClassName,
+        input: inputClassName,
+        submitButtonContainer: submitButtonContainerClassName,
+        submitButton: submitButtonClassName,
+      },
+      styles: {
+        dropzone: dropzoneStyle,
+        dropzoneActive: dropzoneActiveStyle,
+        content: contentStyle,
+        contentWithFiles: contentWithFilesStyle,
+        input: inputStyle,
+        submitButtonContainer: submitButtonContainerStyle,
+        submitButton: submitButtonStyle,
+      },
+    } = mergeClassNamesAndStyles(classNames, styles)
 
     const filePreviews = this._files.map((f) => {
       if (FilePreviewComponent === null) return null
@@ -305,6 +321,7 @@ class Dropzone extends React.Component {
     const fileInput = FileInputComponent !== null ? (
       <FileInput
         className={inputClassName}
+        style={inputStyle}
         accept={accept}
         text={fileInputText}
         withFilesText={fileInputWithFilesText}
@@ -317,6 +334,8 @@ class Dropzone extends React.Component {
       <SubmitButton
         className={submitButtonContainerClassName}
         buttonClassName={submitButtonClassName}
+        style={submitButtonContainerStyle}
+        buttonStyle={submitButtonStyle}
         text={submitButtonText}
         disabled={submitButtonDisabled}
         onSubmit={onSubmit}
@@ -325,11 +344,18 @@ class Dropzone extends React.Component {
     ) : null
 
     let containerClassName = dropzoneClassName
-    if (active) containerClassName = `${containerClassName} ${dropzoneActiveClassName}`
+    let containerStyle = dropzoneStyle
+    if (active) {
+      if (!dropzoneActiveStyle) {
+        containerClassName = `${dropzoneClassName || ''} ${dropzoneActiveClassName || ''}`.trim()
+      }
+      containerStyle = { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) }
+    }
 
     return (
       <div
-        className={containerClassName}
+        className={containerClassName || undefined}
+        style={Object.keys(containerStyle).length > 0 ? containerStyle : undefined}
         onDragEnter={this.handleDragEnter}
         onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
@@ -339,6 +365,8 @@ class Dropzone extends React.Component {
           <DropzoneContent
             className={contentClassName}
             withFilesClassName={contentWithFilesClassName}
+            style={contentStyle}
+            withFilesStyle={contentWithFilesStyle}
             instructions={instructions}
             withFilesInstructions={withFilesInstructions}
             fileInput={fileInput}
@@ -401,13 +429,8 @@ Dropzone.propTypes = {
   submitButtonText: PropTypes.string,
   submitButtonDisabled: PropTypes.bool,
 
-  dropzoneClassName: PropTypes.string,
-  dropzoneActiveClassName: PropTypes.string,
-  contentClassName: PropTypes.string,
-  contentWithFilesClassName: PropTypes.string,
-  inputClassName: PropTypes.string,
-  submitButtonContainerClassName: PropTypes.string,
-  submitButtonClassName: PropTypes.string,
+  classNames: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired,
 }
 
 Dropzone.defaultProps = {
@@ -420,8 +443,8 @@ Dropzone.defaultProps = {
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
   submitButtonDisabled: false,
-  dropzoneClassName: 'dzu-dropzone',
-  dropzoneActiveClassName: 'dzu-dropzoneActive',
+  classNames: {},
+  styles: {},
 }
 
 export default Dropzone
@@ -433,4 +456,6 @@ export {
   SubmitButtonDefault as SubmitButton,
   formatBytes,
   formatDuration,
+  accepts,
+  baseClassNames,
 }
