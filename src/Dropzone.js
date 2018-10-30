@@ -84,7 +84,12 @@ class Dropzone extends React.Component {
 
   handleChangeStatus = (fileWithMeta) => {
     if (!this.props.onChangeStatus) return
-    this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status)
+    const { meta } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status) || {}
+    if (meta) {
+      delete meta.status
+      fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
+      this.forceUpdate()
+    }
   }
 
   handleFile = async (file) => {
@@ -200,6 +205,7 @@ class Dropzone extends React.Component {
     const { getUploadParams } = this.props
     const params = await getUploadParams(fileWithMeta)
     const { fields = {}, headers = {}, meta: extraMeta = {}, method = 'POST', url } = params || {}
+    delete extraMeta.status
 
     if (!url) {
       fileWithMeta.meta.status = 'error_upload_params'
@@ -444,7 +450,6 @@ Dropzone.defaultProps = {
 
 export default Dropzone
 export {
-  Dropzone,
   DropzoneContentDefault as DropzoneContent,
   FileInputDefault as FileInput,
   FilePreviewDefault as FilePreview,

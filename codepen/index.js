@@ -5,6 +5,13 @@ https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js
 https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js
  */
 
+const styles = {
+  dropzoneActive: {
+    backgroundColor: '#F6F8FA',
+    border: '2px solid #3DC59F',
+  },
+}
+
 const App = () => {
   const getUploadParams = ({ meta }) => {
     const url = 'https://httpbin.org/post'
@@ -21,11 +28,11 @@ const App = () => {
   }
 
   return (
-    <ReactDropzoneUploader.Dropzone
+    <ReactDropzoneUploader.default
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      dropzoneActiveClassName="dropzoneActive"
+      styles={styles}
     />
   )
 }

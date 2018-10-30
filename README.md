@@ -24,7 +24,7 @@ Run `npm install --save react-dropzone-uploader`.
 ## Getting Started
 RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit the files when they're done.
 
-The `onChangeStatus` prop is thrown in to show the status values a file is assigned as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0110).
+The `onChangeStatus` prop is thrown in to show the status values a file is assigned as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
 
 ~~~js
 import Dropzone from 'react-dropzone-uploader'
@@ -58,12 +58,28 @@ Don't want to upload files at all? Omit `getUploadParams`, and you'll just have 
 
 By the way, `getUploadParams` can be async, in case you need to go over the network to get upload params for a file. This would be the case if you use, for example, [presigned upload URLs with S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html).
 
-To filter which files can be dropped or picked, you can use `accept` prop, which is really the [HTML5 input accept attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types). Also available are the `maxFiles`, `minSizeBytes` and `maxSizeBytes` props.
+To filter which files can be dropped or picked, you can use the `accept` prop, which is really the [HTML5 input accept attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types). Also available are the `minSizeBytes`, `maxSizeBytes` and `maxFiles` props.
 
 Files whose size fall outside the limits set in `minSizeBytes` and `maxSizeBytes` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the __Props__ section below.
 
 
 ## fileWithMeta Objects
+RDU maintains a array of files it's currently tracking and rendering. The elements of this array are `fileWithMeta` objects, that contain the following keys:
+
+- `file`
+  + file instance returned by `onDrop` event or by input's `onChange` event
+- `meta`
+  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`; status is one of (__'preparing'__, __'error_file_size'__, __'uploading'__, __'error_upload_params'__, __'aborted'__, __'error_upload'__, __'headers_received'__, __'done'__)
+- `xhr`
+  + optional, instance of `XMLHttpRequest` if the file is being uploaded
+- `triggerUpload`
+  + optional, function that can be invoked once to initiate file upload; this is undefined unless you return `{ delayUpload: true }` from the optional `onUploadReady` prop
+
+RDU's callback props (`onChangeStatus`, `onUploadReady`, `getUploadParams`, `onCancel`, `onRemove`, `onRestart`) all receive a `fileWithMeta` object, except for `onSubmit`, which receives an array of `fileWithMeta` objects.
+
+These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
+
+Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this! The only callbacks with an explicit API for merging new values into a file's meta are `getUploadParams` and `onChangeStatus`. See the __getUploadParams__ section below.
 
 
 ## Customization
@@ -77,19 +93,28 @@ RDU's default styles are defined using CSS. They can be overridden using the `cl
 
 Both `classNames` and `styles` should be objects containing a subset of the following keys:
 
-- `dropzone`, wrapper for entire dropzone
-- `dropzoneActive`, wrapper for entire dropzone when dropzone contains file(s); this is __added__ to the `dropzone` class
-- `content`, wrapper for DropzoneContentComponent with no files present
-- `contentWithFiles`, wrapper for DropzoneContentComponent with file(s) present
-- `input`, applied directly input label
-- `submitButtonContainer`, wrapper for root submit button div
-- `submitButton`, applied directly to submit button
+- `dropzone`
+  + wrapper for entire dropzone
+- `dropzoneActive`
+  + wrapper for entire dropzone when dropzone contains file(s); this is __added__ to the `dropzone` class
+- `content`
+  + wrapper for DropzoneContentComponent with no files present
+- `contentWithFiles`
+  + wrapper for DropzoneContentComponent with file(s) present
+- `input`
+  + applied directly input label
+- `submitButtonContainer`
+  + wrapper for root submit button div
+- `submitButton`
+  + applied directly to submit button
 
 Each key points to a default CSS class bundled with RDU. A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
 
 If you prefer to use style object literals instead of CSS classes, simply point a key to a corresponding style object.
 
 Note that if you point a key to a style object in your `styles` prop, it will override the corresponding class in the `classNames` prop. Check out the demo in the __Getting Started__ section to see how this works!
+
+As with any React component, declaring your `styles` prop inside your render method could hurt performance, because it will cause RDU components that use these style objects to re-render even if their props haven't changed.
 
 
 ### Component Injection API
@@ -107,7 +132,7 @@ The following props can be passed to `Dropzone`.
 
 ~~~js
 Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time file's status is changed (fileWithMeta.meta.status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'headers_received', 'done'}
+  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'headers_received', 'done'}
   onUploadReady: PropTypes.func, // called before file is uploaded; returning `{ delayUpload: true }` from this callback delays upload until fileWithMeta object's triggerUpload function is called
   getUploadParams: PropTypes.func, // called when file meta is ready, before upload; should return { fields (object), headers (object), meta (object), method (string), url (string) }
 
@@ -123,9 +148,9 @@ Dropzone.propTypes = {
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])), // generate rich previews for these file types
 
   accept: PropTypes.string, // the accept attribute of the file input
-  minSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 is 1MB)
+  minSizeBytes: PropTypes.number.isRequired, // min file size in bytes (1024 * 1024 is 1MB)
   maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 is 1MB)
-  maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by a given dropzone
+  maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by this dropzone
 
   FileInputComponent: PropTypes.any, // overrides FileInput; null to remove
   FilePreviewComponent: PropTypes.any, // overrides FilePreview; null to remove
@@ -154,4 +179,5 @@ If you use the component injection API, you'll want to know which props are pass
 - [SubmitButtonComponent](./blob/master/src/SubmitButton.js)
 
 
-## Examples: S3 Uploader
+## getUploadParams
+### Example: S3 Uploader
