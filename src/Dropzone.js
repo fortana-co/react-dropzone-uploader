@@ -5,7 +5,7 @@ import DropzoneContentDefault from './DropzoneContent'
 import FileInputDefault from './FileInput'
 import FilePreviewDefault from './FilePreview'
 import SubmitButtonDefault from './SubmitButton'
-import { formatBytes, formatDuration, accepts, baseClassNames, mergeClassNamesAndStyles } from './utils'
+import { formatBytes, formatDuration, accepts, defaultClassNames, mergeStyles, mergeContainerStyles } from './utils'
 import './styles.css'
 
 let id = 0
@@ -299,7 +299,7 @@ class Dropzone extends React.Component {
         submitButtonContainer: submitButtonContainerStyle,
         submitButton: submitButtonStyle,
       },
-    } = mergeClassNamesAndStyles(classNames, styles)
+    } = mergeStyles(classNames, styles)
 
     const filePreviews = this._files.map((f) => {
       if (FilePreviewComponent === null) return null
@@ -343,19 +343,14 @@ class Dropzone extends React.Component {
       />
     ) : null
 
-    let containerClassName = dropzoneClassName
-    let containerStyle = dropzoneStyle
-    if (active) {
-      if (!dropzoneActiveStyle) {
-        containerClassName = `${dropzoneClassName || ''} ${dropzoneActiveClassName || ''}`.trim()
-      }
-      containerStyle = { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) }
-    }
+    const {
+      containerClassName, containerStyle,
+    } = mergeContainerStyles(active, dropzoneClassName, dropzoneActiveClassName, dropzoneStyle, dropzoneActiveStyle)
 
     return (
       <div
-        className={containerClassName || undefined}
-        style={Object.keys(containerStyle).length > 0 ? containerStyle : undefined}
+        className={containerClassName}
+        style={containerStyle}
         onDragEnter={this.handleDragEnter}
         onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
@@ -457,5 +452,5 @@ export {
   formatBytes,
   formatDuration,
   accepts,
-  baseClassNames,
+  defaultClassNames,
 }

@@ -38,7 +38,7 @@ export const accepts = (file, accept) => {
   })
 }
 
-export const baseClassNames = {
+export const defaultClassNames = {
   dropzone: 'dzu-dropzone',
   dropzoneActive: 'dzu-dropzoneActive',
   content: 'dzu-content',
@@ -48,11 +48,26 @@ export const baseClassNames = {
   submitButton: 'dzu-submitButton',
 }
 
-export const mergeClassNamesAndStyles = (classNames, styles) => {
-  const mergedClassNames = { ...baseClassNames, ...classNames }
+export const mergeStyles = (classNames, styles) => {
+  const mergedClassNames = { ...defaultClassNames, ...classNames }
   for (const sk of Object.keys(styles)) {
     delete mergedClassNames[sk]
   }
 
   return { classNames: mergedClassNames, styles }
+}
+
+export const mergeContainerStyles = (active, className, activeClassName, style, activeStyle) => {
+  let containerClassName = className
+  let containerStyle = style
+  if (active) {
+    if (!activeStyle) {
+      containerClassName = `${className || ''} ${activeClassName || ''}`.trim()
+    }
+    containerStyle = { ...(style || {}), ...(activeStyle || {}) }
+  }
+  return {
+    containerClassName: containerClassName || undefined,
+    containerStyle: containerStyle && Object.keys(containerStyle).length > 0 ? containerStyle : undefined,
+  }
 }

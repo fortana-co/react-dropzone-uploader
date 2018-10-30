@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { formatBytes, formatDuration } from './string'
+import { formatBytes, formatDuration } from './utils'
 import './styles.css'
 
 class FilePreview extends React.PureComponent {
