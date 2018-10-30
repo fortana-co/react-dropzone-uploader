@@ -16,16 +16,15 @@ const App = () => {
     console.log(files.map(f => f.meta))
   }
 
-  const onChangeStatus = ({ meta }, status) => {
-    console.log(status, meta)
+  const handleChangeStatus = ({ meta, file }, status) => {
+    console.log(status, meta, file)
   }
 
   return (
     <ReactDropzoneUploader.Dropzone
       getUploadParams={getUploadParams}
-      onChangeStatus={onChangeStatus}
+      onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      maxSizeBytes={1024 * 1024 * 1000}
       dropzoneActiveClassName="dropzoneActive"
     />
   )

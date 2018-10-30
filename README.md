@@ -1,55 +1,55 @@
 # React Dropzone Uploader
 
 
+[![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
+
 React Dropzone Uploader is a customizable file dropzone and uploader, with progress indicators, upload cancellation and restart, and minimal dependencies.
 
-- Fully controllable via optional props and callbacks
+
+## Features
+- Fully controllable via optional props, callbacks, and component injection API 
 - Rich file metadata and file previews, especially for image, video and audio files
-- Upload status, progress, cancellation, and restart
-- Trivial to set auth headers and additional upload fields for any upload (see S3 example)
+- Detailed upload status and progress, upload cancellation and restart
+- Trivially set auth headers and additional upload fields for any upload (see S3 example)
 - Modular design allows for use as standalone file dropzone, file picker, file uploader
 - Easily customizable and themeable
-- Lightweight at 14kB, including styles
+- Lightweight at ~15kB, including styles
+
+
+## Installation
+Run `npm install --save react-dropzone-uploader`.
+
+
+## Getting Started
+RDU's sensible defaults make it very powerful out of the box. The following code gives your users a dropzone and file picker that uploads files to `https://httpbin.org/post`, with a button to submit the files when they're done.
+
+The `onChangeStatus` prop is thrown in just to show the status values a file is assigned as it's dropped or chosen and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0110).
 
 ~~~js
-import React from 'react'
-
 import Dropzone from 'react-dropzone-uploader'
 
 const Uploader = () => {
-  const getUploadParams = ({ meta }) => {
+  const getUploadParams = ({ meta }) => { // upload `url` and other upload params can be a function of file `meta`
     const url = 'https://httpbin.org/post'
-    const fileUrl = `${url}/${encodeURIComponent(meta.name)}`
+    const fileUrl = `${url}/${encodeURIComponent(meta.name)}` // new value can be merged into file meta
     return { url, meta: { fileUrl } }
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files) => { // array of all files that are done uploading
     console.log(files.map(f => f.meta))
   }
 
-  const onChangeStatus = ({ meta }, status) => {
-    console.log(status, meta)
+  const handleChangeStatus = ({ meta, file }, status) => { // invoked every time a file's `status` changes
+    console.log(status, meta, file)
   }
 
   return (
     <Dropzone
       getUploadParams={getUploadParams}
-      onChangeStatus={onChangeStatus}
+      onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      maxSizeBytes={1024 * 1024 * 1000}
     />
   )
 }
-
-export default Uploader
 ~~~
-
-
-Made the library available as ES Module in addition to CommonJS (@markusenglund)
-https://webpack.js.org/guides/author-libraries/
-
-Only dep @babel/runtime
-<script src="https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js"></script>
-
-
-https://codepen.io/kylebebak/pen/wYRNzY/?editors=0110
