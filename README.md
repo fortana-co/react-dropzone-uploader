@@ -74,7 +74,7 @@ Returning a `meta` object lets you merge new values into the file's `meta`, whic
 
 
 ## fileWithMeta Objects
-RDU maintains an array of files it's currently tracking and rendering. The elements of this array are `fileWithMeta` objects, that contain the following keys:
+RDU maintains an array of files it's currently tracking and rendering. The elements of this array are `fileWithMeta` objects, which contain the following keys:
 
 - `file`
   + file instance returned by `onDrop` event or by input's `onChange` event
@@ -89,7 +89,7 @@ RDU's callback props (`onChangeStatus`, `onUploadReady`, `getUploadParams`, `onC
 
 These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
-Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this! The only callbacks with an explicit API for merging new values into a file's meta are `getUploadParams` and `onChangeStatus`. See the __getUploadParams__ section below.
+Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this! The only callbacks with an explicit API for merging new values into a file's meta are `getUploadParams` and `onChangeStatus`. See the __getUploadParams__ section.
 
 
 ## Customization
