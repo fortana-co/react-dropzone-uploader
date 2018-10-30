@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 
 import './styles.css'
 
-const FileInput = ({ accept, className, text = 'Choose Files', withFilesText = 'Add', onFiles, files }) => {
+const FileInput = (props) => {
+  const { accept, className = 'dzu-inputLabel', text = 'Choose Files', withFilesText = 'Add', onFiles, files } = props
   return (
     <React.Fragment>
       <label
         htmlFor="dropzoneInputId"
-        className={className || 'dzu-inputLabel'}
+        className={className}
       >
         {files.length > 0 ? withFilesText : text}
       </label>

@@ -5,8 +5,10 @@ import './styles.css'
 
 const DropzoneContent = (props) => {
   const {
-    className,
-    withFilesClassName,
+    className = 'dzu-content',
+    withFilesClassName = 'dzu-contentWithFiles',
+    instructions,
+    withFilesInstructions,
     fileInput,
     filePreviews,
     submitButton,
@@ -16,10 +18,13 @@ const DropzoneContent = (props) => {
   if (filePreviews.length === 0) {
     return (
       <React.Fragment>
-        <div className={className || 'dzu-content'}>
-          <span className="dzu-largeText">Drag Files</span>
-
-          <span className="dzu-smallText">- or -</span>
+        <div className={className}>
+          {instructions === undefined ?
+            <React.Fragment>
+              <span className="dzu-largeText">Drop Files</span>
+              <span className="dzu-smallText">- or -</span>
+            </React.Fragment> : instructions
+          }
 
           {fileInput}
         </div>
@@ -30,7 +35,9 @@ const DropzoneContent = (props) => {
 
   return (
     <React.Fragment>
-      <div className={withFilesClassName || 'dzu-contentWithFiles'}>
+      <div className={withFilesClassName}>
+        {withFilesInstructions === undefined ? null : withFilesInstructions}
+
         {filePreviews}
 
         {filePreviews.length < maxFiles && fileInput}
@@ -43,6 +50,8 @@ const DropzoneContent = (props) => {
 DropzoneContent.propTypes = {
   className: PropTypes.string,
   withFilesClassName: PropTypes.string,
+  instructions: PropTypes.any,
+  withFilesInstructions: PropTypes.any,
   fileInput: PropTypes.any,
   filePreviews: PropTypes.arrayOf(PropTypes.any),
   submitButton: PropTypes.any,
