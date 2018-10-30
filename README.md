@@ -63,6 +63,16 @@ To filter which files can be dropped or picked, you can use the `accept` prop, w
 Files whose sizes fall outside the range `[minSizeBytes, maxSizeBytes]` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered. Read more in the __Props__ section below.
 
 
+## getUploadParams
+`getUploadParams` is a regular or async callback that takes a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, then RDU will not initiate and manage file uploads.
+
+It should return an object with `{ fields (object), headers (object), meta (object), method (string), url (string) }`.
+
+The only required key is `url`. __POST__ is the default method. `fields` lets you [append fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) submitted with the request. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
+
+Returning a `meta` object lets you merge new values into the file's `meta`, which is also something you can with `onChangeStatus`.
+
+
 ## fileWithMeta Objects
 RDU maintains an array of files it's currently tracking and rendering. The elements of this array are `fileWithMeta` objects, that contain the following keys:
 
@@ -100,9 +110,9 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 - `dropzoneActive`
   + wrapper for entire dropzone when dropzone contains file(s); this is __added__ to the `dropzone` class
 - `content`
-  + wrapper for DropzoneContentComponent with no files present
+  + wrapper for dropzone content with no files present
 - `contentWithFiles`
-  + wrapper for DropzoneContentComponent with file(s) present
+  + wrapper for dropzone content with file(s) present
 - `input`
   + applied directly input label
 - `submitButtonContainer`
@@ -181,9 +191,10 @@ If you use the component injection API, you'll want to know which props are pass
 - [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
 
 
-## getUploadParams
-### Example: S3 Uploader
+## Example: S3 Uploader
 
 
 ## Thanks
-`react-select`, `react-dropzone`, `react-fine-uploader` for inspiration.
+Thanks to `react-select`, `react-dropzone`, `react-fine-uploader` for inspiration.
+
+This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@VERSION/dist/react-dropzone-uploader.umd.js>.
