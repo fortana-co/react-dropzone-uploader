@@ -73,6 +73,7 @@ class Dropzone extends React.Component {
   handleRestart = (fileWithMeta) => {
     if (!this.props.getUploadParams) return
     fileWithMeta.meta.status = 'uploading'
+    fileWithMeta.meta.percent = 0
     this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
     if (this.props.onRestart) this.props.onRestart(fileWithMeta)
@@ -96,7 +97,7 @@ class Dropzone extends React.Component {
 
   handleFile = async (file) => {
     const { name, size, type, lastModified } = file
-    const { minSizeBytes, maxSizeBytes, maxFiles, accept, getUploadParams, onUploadReady } = this.props
+    const { minSizeBytes, maxSizeBytes, maxFiles, accept, getUploadParams, autoUpload, validate } = this.props
 
     const uploadedDate = new Date().toISOString()
     const lastModifiedDate = lastModified && new Date(lastModified).toISOString()
@@ -133,6 +134,17 @@ class Dropzone extends React.Component {
 
     await this.generatePreview(fileWithMeta)
 
+    if (validate) {
+      const error = validate(fileWithMeta)
+      if (error) {
+        fileWithMeta.meta.status = 'error_validation'
+        fileWithMeta.meta.validationError = error // usually a string, but doesn't have to be
+        this.handleChangeStatus(fileWithMeta)
+        this.forceUpdate()
+        return
+      }
+    }
+
     let triggered = false
     const triggerUpload = () => {
       // becomes NOOP after first invocation
@@ -149,13 +161,14 @@ class Dropzone extends React.Component {
       this.forceUpdate()
     }
 
-    if (onUploadReady) {
+    if (autoUpload) {
+      triggerUpload()
+    } else {
       fileWithMeta.triggerUpload = triggerUpload
-      const r = onUploadReady(fileWithMeta)
-      if (r && r.delayUpload === true) return
+      fileWithMeta.meta.status = 'ready'
+      this.handleChangeStatus(fileWithMeta)
+      this.forceUpdate()
     }
-
-    triggerUpload()
   }
 
   generatePreview = async (fileWithMeta) => {
@@ -316,7 +329,10 @@ class Dropzone extends React.Component {
       return (
         <FilePreview
           key={f.meta.id}
+          file={f.file}
           meta={{ ...f.meta }}
+          xhr={f.xhr}
+          triggerUpload={f.triggerUpload}
           isUpload={Boolean(getUploadParams)}
           onCancel={() => this.handleCancel(f)}
           onRemove={() => this.handleRemove(f)}
@@ -406,17 +422,14 @@ class Dropzone extends React.Component {
 
 Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
-  onUploadReady: PropTypes.func,
+  validate: PropTypes.func,
+  autoUpload: PropTypes.bool,
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, method, url = '' }
 
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   onRemove: PropTypes.func,
   onRestart: PropTypes.func,
-
-  canCancel: PropTypes.bool,
-  canRemove: PropTypes.bool,
-  canRestart: PropTypes.bool,
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
@@ -430,6 +443,10 @@ Dropzone.propTypes = {
   SubmitButtonComponent: PropTypes.any,
   DropzoneContentComponent: PropTypes.any,
 
+  canCancel: PropTypes.bool,
+  canRemove: PropTypes.bool,
+  canRestart: PropTypes.bool,
+
   instructions: PropTypes.any,
   withFilesInstructions: PropTypes.any,
   fileInputText: PropTypes.string,
@@ -442,6 +459,7 @@ Dropzone.propTypes = {
 }
 
 Dropzone.defaultProps = {
+  autoUpload: true,
   canCancel: true,
   canRemove: true,
   canRestart: true,

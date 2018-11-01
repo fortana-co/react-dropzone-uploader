@@ -7,7 +7,7 @@ import './styles.css'
 class FilePreview extends React.PureComponent {
   render() {
     const {
-      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration },
+      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
       isUpload,
       onCancel,
       onRemove,
@@ -21,11 +21,12 @@ class FilePreview extends React.PureComponent {
     let title = `${name || '?'}, ${formatBytes(size)}`
     if (duration) title = `${title}, ${formatDuration(duration)}`
 
-    if (status === 'error_file_size') {
+    if (status === 'error_file_size' || 'error_validation') {
       return (
         <div className="dzu-previewContainer">
           <span>{title}</span>
-          <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>
+          {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
+          {status === 'error_validation' && <span>{String(validationError)}</span>}
           {onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
         </div>
       )
@@ -55,10 +56,13 @@ class FilePreview extends React.PureComponent {
 }
 
 FilePreview.propTypes = {
+  file: PropTypes.any.isRequired,
   meta: PropTypes.shape({
     status: PropTypes.oneOf([
       'preparing',
       'error_file_size',
+      'error_validation',
+      'ready',
       'uploading',
       'error_upload_params',
       'aborted',
@@ -78,7 +82,10 @@ FilePreview.propTypes = {
     height: PropTypes.number,
     videoWidth: PropTypes.number,
     videoHeight: PropTypes.number,
+    validationError: PropTypes.any,
   }).isRequired,
+  xhr: PropTypes.any,
+  triggerUpload: PropTypes.func,
   isUpload: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
