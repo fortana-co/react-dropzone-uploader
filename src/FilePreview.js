@@ -21,7 +21,7 @@ class FilePreview extends React.PureComponent {
     let title = `${name || '?'}, ${formatBytes(size)}`
     if (duration) title = `${title}, ${formatDuration(duration)}`
 
-    if (status === 'error_file_size' || 'error_validation') {
+    if (status === 'error_file_size' || status === 'error_validation') {
       return (
         <div className="dzu-previewContainer">
           <span>{title}</span>
@@ -85,7 +85,6 @@ FilePreview.propTypes = {
     validationError: PropTypes.any,
   }).isRequired,
   xhr: PropTypes.any,
-  triggerUpload: PropTypes.func,
   isUpload: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
