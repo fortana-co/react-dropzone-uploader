@@ -325,7 +325,7 @@ class Dropzone extends React.Component {
       return (
         <FilePreview
           key={f.meta.id}
-          file={f}
+          fileWithMeta={f}
           meta={{ ...f.meta }}
           isUpload={Boolean(getUploadParams)}
           canCancel={canCancel}

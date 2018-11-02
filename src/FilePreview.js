@@ -7,7 +7,7 @@ import './styles.css'
 class FilePreview extends React.PureComponent {
   render() {
     const {
-      file: { cancel, remove, restart },
+      fileWithMeta: { cancel, remove, restart },
       meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
       isUpload,
       canCancel,
@@ -54,7 +54,7 @@ class FilePreview extends React.PureComponent {
 }
 
 FilePreview.propTypes = {
-  file: PropTypes.shape({
+  fileWithMeta: PropTypes.shape({
     file: PropTypes.any.isRequired,
     meta: PropTypes.object.isRequired,
     cancel: PropTypes.func.isRequired,
@@ -62,7 +62,7 @@ FilePreview.propTypes = {
     remove: PropTypes.func.isRequired,
     xhr: PropTypes.any,
   }).isRequired,
-  meta: PropTypes.shape({ // copy of file.meta, won't be mutated
+  meta: PropTypes.shape({ // copy of fileWithMeta.meta, won't be mutated
     status: PropTypes.oneOf([
       'preparing',
       'error_file_size',
