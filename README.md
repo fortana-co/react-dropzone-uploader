@@ -82,18 +82,18 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
   + file instance returned by `onDrop` event or by input's `onChange` event
 - `meta`
   + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`; status is one of (__'preparing'__, __'error_file_size'__, __'uploading'__, __'error_upload_params'__, __'aborted'__, __'error_upload'__, __'headers_received'__, __'done'__)
+- `cancel`, `restart`, `remove`
+  + functions that allow client code to take control of upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone
 - `xhr`
   + optional; instance of `XMLHttpRequest` if the file is being uploaded
-- `triggerUpload`
-  + optional; one-time-use function that can be called to manually initiate file upload; this is undefined unless you pass `false` for `autoUpload`
 
-RDU's callback props (`onChangeStatus`, `getUploadParams`, `onCancel`, `onRemove`, `onRestart`, `validate`) all receive a `fileWithMeta` object, except for `onSubmit`, which receives an array of `fileWithMeta` objects.
+RDU's callback props (`onChangeStatus`, `getUploadParams`, `validate`) receive a `fileWithMeta` object, except for `onSubmit`, which receives an array of `fileWithMeta` objects.
 
 These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
 Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this!
 
-The only callbacks with an explicit API for merging new values into a file's meta are `getUploadParams` and `onChangeStatus`. Returning something like `{ meta: { newKey: newValue } }` from these functions merges the new values into the file's `meta`.
+`getUploadParams` and `onChangeStatus` have an explicit API for merging new values into a file's meta. If you return something like `{ meta: { newKey: newValue } }` from these functions, RDU merges the new values into the file's `meta`.
 
 
 ## Customization
@@ -148,15 +148,11 @@ The following props can be passed to `Dropzone`.
 
 ~~~js
 Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'uploading', 'error_upload_params', 'aborted', 'error_upload', 'headers_received', 'done'}
+  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'}
 
   getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
 
   onSubmit: PropTypes.func, // called when user presses submit button; receives array of fileWithMeta objects whose status is 'headers_received' or 'done'; omit to remove default submit button
-
-  onCancel: PropTypes.func, // called when upload is cancelled; receives fileWithMeta object
-  onRemove: PropTypes.func, // called when file is removed; receives fileWithMeta object
-  onRestart: PropTypes.func, // called when upload is restarted; receives fileWithMeta object
 
   accept: PropTypes.string, // the accept attribute of the file dropzone/input
   minSizeBytes: PropTypes.number.isRequired, // min file size in bytes (1024 * 1024 = 1MB)
@@ -165,7 +161,7 @@ Dropzone.propTypes = {
 
   validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; return falsy value if validation succeeds; return truthy value if validation fails, which will set meta.status to 'error_validation', and set meta.validationError to the returned value
 
-  autoUpload: PropTypes.bool, // pass false to prevent file from being uploaded automatically; sets meta.status to 'ready' (instead of 'uploading') after file is prepared and validated; also sets one-time-use `triggerUpload` function on fileWithMeta object, which can be called whenever you want initiate file upload
+  autoUpload: PropTypes.bool, // pass false to prevent file from being uploaded automatically; sets meta.status to 'ready' (instead of 'uploading') after file is prepared and validated; you can call `fileWithMeta.restart` whenever you want to initiate file upload
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])), // generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance
 
@@ -178,8 +174,8 @@ Dropzone.propTypes = {
   DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to remove
   
   canCancel: PropTypes.bool, // false to remove cancel upload button in file preview
-  canRemove: PropTypes.bool, // false to remove remove file button in file preview
   canRestart: PropTypes.bool, // false to remove restart upload button in file preview
+  canRemove: PropTypes.bool, // false to remove remove file button in file preview
 
   instructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains no files; null to remove
   withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains file(s); null to remove

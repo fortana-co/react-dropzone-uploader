@@ -58,13 +58,13 @@ class Dropzone extends React.Component {
   handleCancel = (fileWithMeta) => {
     if (!fileWithMeta.xhr) return
     fileWithMeta.xhr.abort()
-    if (this.props.onCancel) this.props.onCancel(fileWithMeta)
   }
 
   handleRemove = (fileWithMeta) => {
     const index = this._files.findIndex(f => f.meta.id === fileWithMeta.meta.id)
     if (index !== -1) {
-      if (this.props.onRemove) this.props.onRemove(fileWithMeta)
+      fileWithMeta.meta.status = 'removed'
+      this.handleChangeStatus(fileWithMeta)
       this._files.splice(index, 1)
       this.forceUpdate()
     }
@@ -72,11 +72,15 @@ class Dropzone extends React.Component {
 
   handleRestart = (fileWithMeta) => {
     if (!this.props.getUploadParams) return
+
+    if (fileWithMeta.meta.status === 'ready') fileWithMeta.meta.status = 'started'
+    else fileWithMeta.meta.status = 'restarted'
+    this.handleChangeStatus(fileWithMeta)
+
     fileWithMeta.meta.status = 'uploading'
     fileWithMeta.meta.percent = 0
     this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
-    if (this.props.onRestart) this.props.onRestart(fileWithMeta)
     this.uploadFile(fileWithMeta)
   }
 
@@ -119,6 +123,10 @@ class Dropzone extends React.Component {
       return
     }
 
+    fileWithMeta.cancel = () => this.handleCancel(fileWithMeta)
+    fileWithMeta.remove = () => this.handleRemove(fileWithMeta)
+    fileWithMeta.restart = () => this.handleRestart(fileWithMeta)
+
     fileWithMeta.meta.status = 'preparing'
     this._files.push(fileWithMeta)
     this.handleChangeStatus(fileWithMeta)
@@ -145,30 +153,18 @@ class Dropzone extends React.Component {
       }
     }
 
-    let triggered = false
-    const triggerUpload = () => {
-      // becomes NOOP after first invocation
-      if (triggered) return
-      triggered = true
-
-      if (getUploadParams) {
+    if (getUploadParams) {
+      if (autoUpload) {
         this.uploadFile(fileWithMeta)
         fileWithMeta.meta.status = 'uploading'
       } else {
-        fileWithMeta.meta.status = 'done'
+        fileWithMeta.meta.status = 'ready'
       }
-      this.handleChangeStatus(fileWithMeta)
-      this.forceUpdate()
-    }
-
-    if (autoUpload) {
-      triggerUpload()
     } else {
-      fileWithMeta.triggerUpload = triggerUpload
-      fileWithMeta.meta.status = 'ready'
-      this.handleChangeStatus(fileWithMeta)
-      this.forceUpdate()
+      fileWithMeta.meta.status = 'done'
     }
+    this.handleChangeStatus(fileWithMeta)
+    this.forceUpdate()
   }
 
   generatePreview = async (fileWithMeta) => {
@@ -332,11 +328,10 @@ class Dropzone extends React.Component {
           file={f.file}
           meta={{ ...f.meta }}
           xhr={f.xhr}
-          triggerUpload={f.triggerUpload}
           isUpload={Boolean(getUploadParams)}
-          onCancel={() => this.handleCancel(f)}
-          onRemove={() => this.handleRemove(f)}
-          onRestart={() => this.handleRestart(f)}
+          onCancel={f.cancel}
+          onRemove={f.remove}
+          onRestart={f.restart}
           canCancel={canCancel}
           canRemove={canRemove}
           canRestart={canRestart}
@@ -422,21 +417,19 @@ class Dropzone extends React.Component {
 
 Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
-  validate: PropTypes.func,
-  autoUpload: PropTypes.bool,
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, method, url = '' }
-
   onSubmit: PropTypes.func,
-  onCancel: PropTypes.func,
-  onRemove: PropTypes.func,
-  onRestart: PropTypes.func,
-
-  previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   accept: PropTypes.string, // the accept attribute of the input
   minSizeBytes: PropTypes.number.isRequired,
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
+
+  validate: PropTypes.func,
+
+  autoUpload: PropTypes.bool,
+
+  previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   FileInputComponent: PropTypes.any,
   FilePreviewComponent: PropTypes.any,

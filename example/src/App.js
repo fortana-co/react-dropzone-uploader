@@ -28,9 +28,9 @@ const App = () => {
     console.log(files.map(f => f.meta))
   }
 
-  const onChangeStatus = ({ meta }, status) => {
+  const onChangeStatus = ({ meta, remove }, status) => {
     console.log(status, meta)
-    if (status === 'done') return { meta: { custom: true } }
+    if (status === 'done') remove()
   }
 
   return (
