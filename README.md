@@ -36,11 +36,11 @@ const MyUploader = () => {
     return { url, meta: { fileUrl } }
   }
   
-  // receives array of all files that are done uploading
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
-  
   // called every time a file's `status` changes
   const handleChangeStatus = ({ meta, file }, status) => { console.log(status, meta, file) }
+  
+  // receives array of all files that are done uploading
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
     <Dropzone
@@ -92,6 +92,8 @@ RDU's callback props (`onChangeStatus`, `getUploadParams`, `validate`) receive a
 These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
 Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this!
+
+>This is why, for example, `onChangeStatus` receives (fileWithMeta, status) instead of just (fileWithMeta). Client code gets the correct, immutable value of `status` when `onChangeStatus` was called, even if fileWithMeta is later mutated.
 
 `getUploadParams` and `onChangeStatus` have an explicit API for merging new values into a file's meta. If you return something like `{ meta: { newKey: newValue } }` from these functions, RDU merges the new values into the file's `meta`.
 
@@ -148,9 +150,9 @@ The following props can be passed to `Dropzone`.
 
 ~~~js
 Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'}
+  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); receives (fileWithMeta, status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'}
 
-  getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
+  getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; receives fileWithMeta object; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
 
   onSubmit: PropTypes.func, // called when user presses submit button; receives array of fileWithMeta objects whose status is 'headers_received' or 'done'; omit to remove default submit button
 
@@ -159,7 +161,7 @@ Dropzone.propTypes = {
   maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 = 1MB)
   maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by the dropzone
 
-  validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; return falsy value if validation succeeds; return truthy value if validation fails, which will set meta.status to 'error_validation', and set meta.validationError to the returned value
+  validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; should return falsy value if validation succeeds; should return truthy value if validation fails, which will set meta.status to 'error_validation', and set meta.validationError to the returned value
 
   autoUpload: PropTypes.bool, // pass false to prevent file from being uploaded automatically; sets meta.status to 'ready' (instead of 'uploading') after file is prepared and validated; you can call `fileWithMeta.restart` whenever you want to initiate file upload
 

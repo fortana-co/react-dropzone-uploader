@@ -24,19 +24,19 @@ const App = () => {
     return { url, meta: { fileUrl } }
   }
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
-
-  const onChangeStatus = ({ meta, remove }, status) => {
+  const handleChangeStatus = ({ meta, remove }, status) => {
     console.log(status, meta)
     if (status === 'done') remove()
+  }
+
+  const handleSubmit = (files) => {
+    console.log(files.map(f => f.meta))
   }
 
   return (
     <Dropzone
       getUploadParams={getUploadParams}
-      onChangeStatus={onChangeStatus}
+      onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       maxSizeBytes={1024 * 1024 * 1000}
       styles={styles}

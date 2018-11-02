@@ -19,12 +19,12 @@ const App = () => {
     return { url, meta: { fileUrl } }
   }
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
-
   const handleChangeStatus = ({ meta, file }, status) => {
     console.log(status, meta, file)
+  }
+
+  const handleSubmit = (files) => {
+    console.log(files.map(f => f.meta))
   }
 
   return (

@@ -325,13 +325,9 @@ class Dropzone extends React.Component {
       return (
         <FilePreview
           key={f.meta.id}
-          file={f.file}
+          file={f}
           meta={{ ...f.meta }}
-          xhr={f.xhr}
           isUpload={Boolean(getUploadParams)}
-          onCancel={f.cancel}
-          onRemove={f.remove}
-          onRestart={f.restart}
           canCancel={canCancel}
           canRemove={canRemove}
           canRestart={canRestart}
@@ -431,6 +427,7 @@ Dropzone.propTypes = {
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
+  /* component injection and customization */
   FileInputComponent: PropTypes.any,
   FilePreviewComponent: PropTypes.any,
   SubmitButtonComponent: PropTypes.any,
@@ -452,15 +449,15 @@ Dropzone.propTypes = {
 }
 
 Dropzone.defaultProps = {
-  autoUpload: true,
-  canCancel: true,
-  canRemove: true,
-  canRestart: true,
-  previewTypes: ['image', 'audio', 'video'],
   accept: '*',
   minSizeBytes: 0,
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
+  autoUpload: true,
+  previewTypes: ['image', 'audio', 'video'],
+  canCancel: true,
+  canRemove: true,
+  canRestart: true,
   submitButtonDisabled: false,
   classNames: {},
   styles: {},

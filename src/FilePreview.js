@@ -7,11 +7,9 @@ import './styles.css'
 class FilePreview extends React.PureComponent {
   render() {
     const {
+      file: { cancel, remove, restart },
       meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
       isUpload,
-      onCancel,
-      onRemove,
-      onRestart,
       canCancel,
       canRemove,
       canRestart,
@@ -27,7 +25,7 @@ class FilePreview extends React.PureComponent {
           <span>{title}</span>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
-          {onRemove && <span className="dzu-abortButton" onClick={onRemove} />}
+          {canRemove && <span className="dzu-abortButton" onClick={remove} />}
         </div>
       )
     }
@@ -44,11 +42,11 @@ class FilePreview extends React.PureComponent {
           {isUpload &&
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }
-          {status === 'uploading' && canCancel && <span className="dzu-abortButton" onClick={onCancel} />}
+          {status === 'uploading' && canCancel && <span className="dzu-abortButton" onClick={cancel} />}
           {status !== 'uploading' && status !== 'preparing' &&
-            canRemove && <span className="dzu-abortButton" onClick={onRemove} />}
-          {(status === 'error_upload_params' || status === 'error_upload' || status === 'aborted') &&
-            canRestart && <span className="dzu-restartButton" onClick={onRestart} />}
+            canRemove && <span className="dzu-abortButton" onClick={remove} />}
+          {['error_upload_params', 'error_upload', 'aborted', 'ready'].includes(status) &&
+            canRestart && <span className="dzu-restartButton" onClick={restart} />}
         </div>
       </div>
     )
@@ -56,8 +54,15 @@ class FilePreview extends React.PureComponent {
 }
 
 FilePreview.propTypes = {
-  file: PropTypes.any.isRequired,
-  meta: PropTypes.shape({
+  file: PropTypes.shape({
+    file: PropTypes.any.isRequired,
+    meta: PropTypes.object.isRequired,
+    cancel: PropTypes.func.isRequired,
+    restart: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+    xhr: PropTypes.any,
+  }).isRequired,
+  meta: PropTypes.shape({ // copy of file.meta, won't be mutated
     status: PropTypes.oneOf([
       'preparing',
       'error_file_size',
@@ -84,11 +89,7 @@ FilePreview.propTypes = {
     videoHeight: PropTypes.number,
     validationError: PropTypes.any,
   }).isRequired,
-  xhr: PropTypes.any,
   isUpload: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onRestart: PropTypes.func.isRequired,
   canCancel: PropTypes.bool.isRequired,
   canRemove: PropTypes.bool.isRequired,
   canRestart: PropTypes.bool.isRequired,
