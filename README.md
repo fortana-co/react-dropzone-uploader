@@ -22,9 +22,9 @@ React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for R
 
 
 ## Getting Started
-RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit the files when they're done.
+RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit the files after they've been uploaded.
 
-The `onChangeStatus` prop is thrown in to show how the file's status changes as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+The `onChangeStatus` prop is included to show how a file's status changes as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
 
 ~~~js
 import Dropzone from 'react-dropzone-uploader'
@@ -72,22 +72,22 @@ It should return an object with `{ fields (object), headers (object), meta (obje
 
 The only required key is `url`. __POST__ is the default method. `fields` lets you [append fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) submitted with the request. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
 
-Returning a `meta` object lets you merge new values into the file's `meta`, which is also something you can with `onChangeStatus`.
+Returning a `meta` object lets you merge new values into the file's `meta`, which is also something you can do with `onChangeStatus`.
 
 
 ## fileWithMeta Objects
 RDU maintains an array of files it's currently tracking and rendering. The elements of this array are `fileWithMeta` objects, which contain the following keys:
 
 - `file`
-  + file instance returned by `onDrop` event or by input's `onChange` event
+  + [file instance](https://developer.mozilla.org/en-US/docs/Web/API/File) returned by `onDrop` event or by input's `onChange` event
 - `meta`
-  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`; status is one of (__'preparing'__, __'error_file_size'__, __'uploading'__, __'error_upload_params'__, __'aborted'__, __'error_upload'__, __'headers_received'__, __'done'__)
+  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`; see __Props__ section for possible status values
 - `cancel`, `restart`, `remove`
   + functions that allow client code to take control of upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone
 - `xhr`
-  + optional; instance of `XMLHttpRequest` if the file is being uploaded
+  + instance of `XMLHttpRequest` if the file is being uploaded, else undefined
 
-RDU's callback props (`onChangeStatus`, `getUploadParams`, `validate`) receive a `fileWithMeta` object, except for `onSubmit`, which receives an array of `fileWithMeta` objects.
+RDU's callback props `onChangeStatus`, `getUploadParams`, and `validate` receive a `fileWithMeta` object, while `onSubmit` receives an array of `fileWithMeta` objects.
 
 These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
@@ -138,9 +138,9 @@ As with any React component, declaring your `styles` object inside your render m
 ### Component Injection API
 If no combination of props controlling styles and text achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `FileInputComponent`, `FilePreviewComponent`, `SubmitButtonComponent`, `DropzoneContentComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
 
-`null`ing these props removes their corresponding components from the render tree. 
+`null`ing these props removes their corresponding components. 
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Text__ and __classNames__ props. For the file preview, these props might not be enough, and in this case you can pass a custom `FilePreviewComponent`. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Text__ and __classNames__ props. For the file preview, these props might not be enough, and in this case you can pass a custom `FilePreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
 It's worth noting that `DropzoneContentComponent` receives an `extra` prop, an object containing every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
 
@@ -150,7 +150,7 @@ The following props can be passed to `Dropzone`.
 
 ~~~js
 Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); receives (fileWithMeta, status); possible status values are {'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'}
+  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); receives (fileWithMeta, status); possible status values are 'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'
 
   getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; receives fileWithMeta object; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
 
