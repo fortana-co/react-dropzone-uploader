@@ -17,12 +17,18 @@ class Dropzone extends React.Component {
       active: false,
     }
     this._files = [] // fileWithMeta objects: { file, meta }
+    this._mounted = true
   }
 
   componentWillUnmount() {
+    this._mounted = false
     for (const file of this._files) {
       if (file.meta.status === 'uploading') file.xhr.abort()
     }
+  }
+
+  _forceUpdate = () => {
+    if (this._mounted) this.forceUpdate()
   }
 
   handleDragEnter = (e) => {
@@ -66,7 +72,7 @@ class Dropzone extends React.Component {
       fileWithMeta.meta.status = 'removed'
       this.handleChangeStatus(fileWithMeta)
       this._files.splice(index, 1)
-      this.forceUpdate()
+      this._forceUpdate()
     }
   }
 
@@ -80,7 +86,7 @@ class Dropzone extends React.Component {
     fileWithMeta.meta.status = 'uploading'
     fileWithMeta.meta.percent = 0
     this.handleChangeStatus(fileWithMeta)
-    this.forceUpdate()
+    this._forceUpdate()
     this.uploadFile(fileWithMeta)
   }
 
@@ -95,7 +101,7 @@ class Dropzone extends React.Component {
     if (meta) {
       delete meta.status
       fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
-      this.forceUpdate()
+      this._forceUpdate()
     }
   }
 
@@ -130,13 +136,13 @@ class Dropzone extends React.Component {
     fileWithMeta.meta.status = 'preparing'
     this._files.push(fileWithMeta)
     this.handleChangeStatus(fileWithMeta)
-    this.forceUpdate()
+    this._forceUpdate()
     id += 1
 
     if (size < minSizeBytes || size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
       this.handleChangeStatus(fileWithMeta)
-      this.forceUpdate()
+      this._forceUpdate()
       return
     }
 
@@ -148,7 +154,7 @@ class Dropzone extends React.Component {
         fileWithMeta.meta.status = 'error_validation'
         fileWithMeta.meta.validationError = error // usually a string, but doesn't have to be
         this.handleChangeStatus(fileWithMeta)
-        this.forceUpdate()
+        this._forceUpdate()
         return
       }
     }
@@ -164,7 +170,7 @@ class Dropzone extends React.Component {
       fileWithMeta.meta.status = 'done'
     }
     this.handleChangeStatus(fileWithMeta)
-    this.forceUpdate()
+    this._forceUpdate()
   }
 
   generatePreview = async (fileWithMeta) => {
@@ -209,7 +215,7 @@ class Dropzone extends React.Component {
       }
       URL.revokeObjectURL(objectUrl)
     } catch (e) { URL.revokeObjectURL(objectUrl) }
-    this.forceUpdate()
+    this._forceUpdate()
   }
 
   uploadFile = async (fileWithMeta) => {
@@ -221,7 +227,7 @@ class Dropzone extends React.Component {
     if (!url) {
       fileWithMeta.meta.status = 'error_upload_params'
       this.handleChangeStatus(fileWithMeta)
-      this.forceUpdate()
+      this._forceUpdate()
       return
     }
 
@@ -237,7 +243,7 @@ class Dropzone extends React.Component {
     // update progress (can be used to show progress indicator)
     xhr.upload.addEventListener('progress', (e) => {
       fileWithMeta.meta.percent = ((e.loaded * 100.0) / e.total) || 100
-      this.forceUpdate()
+      this._forceUpdate()
     })
 
     xhr.addEventListener('readystatechange', () => {
@@ -247,17 +253,17 @@ class Dropzone extends React.Component {
       if (xhr.status === 0) {
         fileWithMeta.meta.status = 'aborted'
         this.handleChangeStatus(fileWithMeta)
-        this.forceUpdate()
+        this._forceUpdate()
       } else if (xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
         if (xhr.readyState === 4) fileWithMeta.meta.status = 'done'
         this.handleChangeStatus(fileWithMeta)
-        this.forceUpdate()
+        this._forceUpdate()
       } else {
         fileWithMeta.meta.status = 'error_upload'
         this.handleChangeStatus(fileWithMeta)
-        this.forceUpdate()
+        this._forceUpdate()
       }
     })
 

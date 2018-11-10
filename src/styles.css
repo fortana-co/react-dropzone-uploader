@@ -97,26 +97,14 @@
 
 .dzu-submitButton {}
 
-.dzu-abortButton {
-  background: no-repeat url("./assets/close-modal.svg") top right;
-  background-size: 10px 10px;
+.dzu-previewButton {
+  background-size: 25px 25px;
   background-position: center;
+  background-repeat: no-repeat;
   width: 25px;
   height: 25px;
   cursor: pointer;
-  z-index: 11;
-  opacity: 1.0;
-  margin: 0 0 2px 10px;
-}
-
-.dzu-restartButton {
-  background: no-repeat url("./assets/restart.svg") top right;
-  background-size: 10px 10px;
-  background-position: center;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  z-index: 11;
+  z-index: 2;
   opacity: 1.0;
   margin: 0 0 2px 10px;
 }

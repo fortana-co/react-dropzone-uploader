@@ -2,7 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { formatBytes, formatDuration } from './utils'
+import cancelImg from './assets/cancel.svg'
+import removeImg from './assets/remove.svg'
+import restartImg from './assets/restart.svg'
 import './styles.css'
+
+const iconByFn = {
+  cancel: { backgroundImage: `url(${cancelImg})` },
+  remove: { backgroundImage: `url(${removeImg})` },
+  restart: { backgroundImage: `url(${restartImg})` },
+}
 
 class FilePreview extends React.PureComponent {
   render() {
@@ -25,7 +34,9 @@ class FilePreview extends React.PureComponent {
           <span>{title}</span>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
-          {canRemove && <span className="dzu-abortButton" onClick={remove} />}
+          {canRemove &&
+            <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
+          }
         </div>
       )
     }
@@ -42,11 +53,16 @@ class FilePreview extends React.PureComponent {
           {isUpload &&
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           }
-          {status === 'uploading' && canCancel && <span className="dzu-abortButton" onClick={cancel} />}
-          {status !== 'uploading' && status !== 'preparing' &&
-            canRemove && <span className="dzu-abortButton" onClick={remove} />}
-          {['error_upload_params', 'error_upload', 'aborted', 'ready'].includes(status) &&
-            canRestart && <span className="dzu-restartButton" onClick={restart} />}
+
+          {status === 'uploading' && canCancel &&
+            <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
+          }
+          {status !== 'uploading' && status !== 'preparing' && canRemove &&
+            <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
+          }
+          {['error_upload_params', 'error_upload', 'aborted', 'ready'].includes(status) && canRestart &&
+            <span className="dzu-previewButton" style={iconByFn.restart} onClick={restart} />
+          }
         </div>
       </div>
     )
