@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './styles.css'
 
 const FileInput = (props) => {
-  const { accept, className, style, text = 'Choose Files', withFilesText = 'Add', onFiles, files } = props
+  const { accept, className, style, text = 'Drop Or Pick Files', withFilesText, onFiles, files } = props
   return (
     <React.Fragment>
       <label

@@ -1,14 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './styles.css'
-
 const DropzoneContent = (props) => {
   const {
-    className,
-    withFilesClassName,
-    style,
-    withFilesStyle,
     instructions,
     withFilesInstructions,
     fileInput,
@@ -17,43 +11,21 @@ const DropzoneContent = (props) => {
     extra: { maxFiles },
   } = props
 
-  if (filePreviews.length === 0) {
-    return (
-      <React.Fragment>
-        <div className={className} style={style}>
-          {instructions === undefined ?
-            <React.Fragment>
-              <span className="dzu-largeText">Drop Files</span>
-              <span className="dzu-smallText">- or -</span>
-            </React.Fragment> : instructions
-          }
-
-          {fileInput}
-        </div>
-        {submitButton}
-      </React.Fragment>
-    )
-  }
-
   return (
     <React.Fragment>
-      <div className={withFilesClassName} style={withFilesStyle}>
-        {withFilesInstructions === undefined ? null : withFilesInstructions}
+      {filePreviews.length === 0 && instructions === undefined ? null : instructions}
+      {filePreviews.length > 0 && withFilesInstructions === undefined ? null : withFilesInstructions}
 
-        {filePreviews}
+      {filePreviews.length > 0 && filePreviews}
 
-        {filePreviews.length < maxFiles && fileInput}
-      </div>
+      {filePreviews.length < maxFiles && fileInput}
+
       {submitButton}
     </React.Fragment>
   )
 }
 
 DropzoneContent.propTypes = {
-  className: PropTypes.string,
-  withFilesClassName: PropTypes.string,
-  style: PropTypes.object,
-  withFilesStyle: PropTypes.object,
   instructions: PropTypes.node,
   withFilesInstructions: PropTypes.node,
   fileInput: PropTypes.node,

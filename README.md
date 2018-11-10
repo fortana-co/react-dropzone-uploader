@@ -117,14 +117,10 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
   + wrapper for dropzone
 - `dropzoneActive`
   + wrapper for dropzone on drag over; this is __added__ to the `dropzone` class
-- `content`
-  + wrapper for dropzone content with no files present
-- `contentWithFiles`
-  + wrapper for dropzone content with file(s) present
 - `input`
   + applied directly input label
 - `submitButtonContainer`
-  + wrapper for root submit button div
+  + wrapper for submit button div
 - `submitButton`
   + applied directly to submit button
 

@@ -307,8 +307,6 @@ class Dropzone extends React.Component {
       classNames: {
         dropzone: dropzoneClassName,
         dropzoneActive: dropzoneActiveClassName,
-        content: contentClassName,
-        contentWithFiles: contentWithFilesClassName,
         input: inputClassName,
         submitButtonContainer: submitButtonContainerClassName,
         submitButton: submitButtonClassName,
@@ -316,8 +314,6 @@ class Dropzone extends React.Component {
       styles: {
         dropzone: dropzoneStyle,
         dropzoneActive: dropzoneActiveStyle,
-        content: contentStyle,
-        contentWithFiles: contentWithFilesStyle,
         input: inputStyle,
         submitButtonContainer: submitButtonContainerStyle,
         submitButton: submitButtonStyle,
@@ -384,10 +380,6 @@ class Dropzone extends React.Component {
       >
         {DropzoneContentComponent !== null &&
           <DropzoneContent
-            className={contentClassName}
-            withFilesClassName={contentWithFilesClassName}
-            style={contentStyle}
-            withFilesStyle={contentWithFilesStyle}
             instructions={instructions}
             withFilesInstructions={withFilesInstructions}
             fileInput={fileInput}

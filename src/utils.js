@@ -41,8 +41,6 @@ export const accepts = (file, accept) => {
 export const defaultClassNames = {
   dropzone: 'dzu-dropzone',
   dropzoneActive: 'dzu-dropzoneActive',
-  content: 'dzu-content',
-  contentWithFiles: 'dzu-contentWithFiles',
   input: 'dzu-inputLabel',
   submitButtonContainer: 'dzu-submitButtonContainer',
   submitButton: 'dzu-submitButton',
