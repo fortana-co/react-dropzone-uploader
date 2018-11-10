@@ -18,6 +18,7 @@ class Dropzone extends React.Component {
     }
     this._files = [] // fileWithMeta objects: { file, meta }
     this._mounted = true
+    this._dropzone = React.createRef()
   }
 
   componentWillUnmount() {
@@ -103,6 +104,8 @@ class Dropzone extends React.Component {
   // expects an array of File objects
   handleFiles = (files) => {
     files.forEach(this.handleFile)
+    const { current } = this._dropzone
+    setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
   }
 
   handleFile = async (file) => {
@@ -287,6 +290,8 @@ class Dropzone extends React.Component {
       FilePreviewComponent,
       SubmitButtonComponent,
       DropzoneContentComponent,
+      width,
+      height,
       instructions,
       withFilesInstructions,
       fileInputText,
@@ -369,8 +374,9 @@ class Dropzone extends React.Component {
       containerClassName, containerStyle,
     } = mergeContainerStyles(active, dropzoneClassName, dropzoneActiveClassName, dropzoneStyle, dropzoneActiveStyle)
 
-    return (
+    const dropzone = (
       <div
+        ref={this._dropzone}
         className={containerClassName}
         style={containerStyle}
         onDragEnter={this.handleDragEnter}
@@ -406,6 +412,9 @@ class Dropzone extends React.Component {
         }
       </div>
     )
+
+    if (width === undefined && height === undefined) return dropzone
+    return <div style={{ width, height }}>{dropzone}</div>
   }
 }
 
@@ -414,7 +423,7 @@ Dropzone.propTypes = {
   getUploadParams: PropTypes.func, // should return { fields = {}, headers = {}, meta = {}, method, url = '' }
   onSubmit: PropTypes.func,
 
-  accept: PropTypes.string, // the accept attribute of the input
+  accept: PropTypes.string,
   minSizeBytes: PropTypes.number.isRequired,
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
@@ -434,6 +443,9 @@ Dropzone.propTypes = {
   canCancel: PropTypes.bool,
   canRemove: PropTypes.bool,
   canRestart: PropTypes.bool,
+
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   instructions: PropTypes.node,
   withFilesInstructions: PropTypes.node,

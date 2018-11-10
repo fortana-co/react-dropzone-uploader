@@ -21,15 +21,14 @@ const App = () => {
   }
 
   return (
-    <div style={{ height: 200 }}>
-      <Dropzone
-        getUploadParams={getUploadParams}
-        onChangeStatus={handleChangeStatus}
-        onSubmit={handleSubmit}
-        maxSizeBytes={1024 * 1024 * 1000}
-        styles={styles}
-      />
-    </div>
+    <Dropzone
+      getUploadParams={getUploadParams}
+      onChangeStatus={handleChangeStatus}
+      onSubmit={handleSubmit}
+      maxSizeBytes={1024 * 1024 * 1000}
+      styles={styles}
+      height={250}
+    />
   )
 }
 

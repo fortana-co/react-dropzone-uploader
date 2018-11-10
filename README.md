@@ -101,9 +101,9 @@ Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may be
 
 
 ## Customization
-Notice the __"Drop Files"__ instructions that appear by default in an empty dropzone? This is likely something you'll want to change. You can use the `instructions` and `withFilesInstructions` props to render any JSX you want. The latter is for the instructions that are rendered if the dropzone has files. If you'd rather not render instructions, just pass `null`.
+Notice the __"Drop Or Pick Files"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `fileInputText` and `fileInputWithFilesText` props to render any string or JSX you want. The latter is for the text that's rendered if the dropzone has files. If you'd rather not render file input text, just pass `null`.
 
-Want to change `submitButtonText` from its default value of __"Submit"__? Just pass a new string for this prop. To kill the text, just pass an empty string.
+Want to change `submitButtonText` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill the text, just pass an empty string or null.
 
 See all of the customization props in the __Props__ section.
 
@@ -173,6 +173,9 @@ Dropzone.propTypes = {
   SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; null to remove
   DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to remove
   
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // width of dropzone, else dropzone occupies full width of parent
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // height of dropzone, else dropzone occupies full height of parent
+
   canCancel: PropTypes.bool, // false to remove cancel upload button in file preview
   canRestart: PropTypes.bool, // false to remove restart upload button in file preview
   canRemove: PropTypes.bool, // false to remove remove file button in file preview
