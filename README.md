@@ -89,11 +89,13 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
 
 RDU's callback props `onChangeStatus`, `getUploadParams`, and `validate` receive a `fileWithMeta` object, while `onSubmit` receives an array of `fileWithMeta` objects.
 
+>For convenience, `onChangeStatus` also receives the array of `fileWithMeta` objects being tracked by the dropzone as a third argument.
+
 These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
 Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this!
 
->This is why, for example, `onChangeStatus` receives (fileWithMeta, status) instead of just (fileWithMeta). Client code gets the correct, immutable value of `status` when `onChangeStatus` was called, even if fileWithMeta is later mutated.
+>This is why, for example, `onChangeStatus` receives fileWithMeta and status instead of just fileWithMeta. Client code gets the correct, immutable value of `status` when `onChangeStatus` was called, even if `fileWithMeta` is later mutated.
 
 `getUploadParams` and `onChangeStatus` have an explicit API for merging new values into a file's meta. If you return something like `{ meta: { newKey: newValue } }` from these functions, RDU merges the new values into the file's `meta`.
 
@@ -112,9 +114,9 @@ RDU's default styles are defined using CSS. They can be overridden using the `cl
 Both `classNames` and `styles` should be objects containing a subset of the following keys:
 
 - `dropzone`
-  + wrapper for entire dropzone
+  + wrapper for dropzone
 - `dropzoneActive`
-  + wrapper for entire dropzone when dropzone contains file(s); this is __added__ to the `dropzone` class
+  + wrapper for dropzone on drag over; this is __added__ to the `dropzone` class
 - `content`
   + wrapper for dropzone content with no files present
 - `contentWithFiles`
@@ -150,7 +152,7 @@ The following props can be passed to `Dropzone`.
 
 ~~~js
 Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time file's status changes (fileWithMeta.meta.status); receives (fileWithMeta, status); possible status values are 'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'
+  onChangeStatus: PropTypes.func, // called every time fileWithMeta.meta.status changes; receives (fileWithMeta, status, []fileWithMeta); possible status values are 'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'
 
   getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; receives fileWithMeta object; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
 
@@ -179,11 +181,11 @@ Dropzone.propTypes = {
   canRestart: PropTypes.bool, // false to remove restart upload button in file preview
   canRemove: PropTypes.bool, // false to remove remove file button in file preview
 
-  instructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains no files; null to remove
-  withFilesInstructions: PropTypes.any, // JSX for dropzone instructions if dropzone contains file(s); null to remove
-  fileInputText: PropTypes.string, // '' to remove
-  fileInputWithFilesText: PropTypes.string, // '' to remove
-  submitButtonText: PropTypes.string, // '' to remove
+  instructions: PropTypes.node, // dropzone instructions if dropzone contains no files; null to remove
+  withFilesInstructions: PropTypes.node, // dropzone instructions if dropzone contains file(s); null to remove
+  fileInputText: PropTypes.node, // '' or null to remove
+  fileInputWithFilesText: PropTypes.node, // '' or null to remove
+  submitButtonText: PropTypes.node, // '' or null to remove
   submitButtonDisabled: PropTypes.bool,
 
   classNames: PropTypes.object, // see "Custom Styles" section

@@ -54,11 +54,11 @@ DropzoneContent.propTypes = {
   withFilesClassName: PropTypes.string,
   style: PropTypes.object,
   withFilesStyle: PropTypes.object,
-  instructions: PropTypes.any,
-  withFilesInstructions: PropTypes.any,
-  fileInput: PropTypes.any,
-  filePreviews: PropTypes.arrayOf(PropTypes.any),
-  submitButton: PropTypes.any,
+  instructions: PropTypes.node,
+  withFilesInstructions: PropTypes.node,
+  fileInput: PropTypes.node,
+  filePreviews: PropTypes.arrayOf(PropTypes.node).isRequired,
+  submitButton: PropTypes.node,
   extra: PropTypes.object.isRequired,
 }
 

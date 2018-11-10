@@ -14,6 +14,7 @@ const styles = {
     left: 0,
     right: 0,
     cursor: 'pointer',
+    border: '1px solid #3DC59F',
   },
 }
 
@@ -24,9 +25,8 @@ const App = () => {
     return { url, meta: { fileUrl } }
   }
 
-  const handleChangeStatus = ({ meta, remove }, status) => {
+  const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
-    if (status === 'done') remove()
   }
 
   const handleSubmit = (files) => {

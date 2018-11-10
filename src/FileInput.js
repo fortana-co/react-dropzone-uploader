@@ -30,8 +30,8 @@ FileInput.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   accept: PropTypes.string.isRequired,
-  text: PropTypes.string,
-  withFilesText: PropTypes.string,
+  text: PropTypes.node,
+  withFilesText: PropTypes.node,
   onFiles: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.shape({

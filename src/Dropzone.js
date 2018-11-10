@@ -61,6 +61,16 @@ class Dropzone extends React.Component {
     this.handleFiles([...files])
   }
 
+  handleChangeStatus = (fileWithMeta) => {
+    if (!this.props.onChangeStatus) return
+    const { meta } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this._files) || {}
+    if (meta) {
+      delete meta.status
+      fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
+      this._forceUpdate()
+    }
+  }
+
   handleCancel = (fileWithMeta) => {
     if (!fileWithMeta.xhr) return
     fileWithMeta.xhr.abort()
@@ -93,16 +103,6 @@ class Dropzone extends React.Component {
   // expects an array of File objects
   handleFiles = (files) => {
     files.forEach(this.handleFile)
-  }
-
-  handleChangeStatus = (fileWithMeta) => {
-    if (!this.props.onChangeStatus) return
-    const { meta } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status) || {}
-    if (meta) {
-      delete meta.status
-      fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
-      this._forceUpdate()
-    }
   }
 
   handleFile = async (file) => {
@@ -443,11 +443,11 @@ Dropzone.propTypes = {
   canRemove: PropTypes.bool,
   canRestart: PropTypes.bool,
 
-  instructions: PropTypes.any,
-  withFilesInstructions: PropTypes.any,
-  fileInputText: PropTypes.string,
-  fileInputWithFilesText: PropTypes.string,
-  submitButtonText: PropTypes.string,
+  instructions: PropTypes.node,
+  withFilesInstructions: PropTypes.node,
+  fileInputText: PropTypes.node,
+  fileInputWithFilesText: PropTypes.node,
+  submitButtonText: PropTypes.node,
   submitButtonDisabled: PropTypes.bool,
 
   classNames: PropTypes.object.isRequired,

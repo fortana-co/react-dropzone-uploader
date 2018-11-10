@@ -33,12 +33,12 @@ const SubmitButton = (props) => {
 SubmitButton.propTypes = {
   className: PropTypes.string,
   buttonClassName: PropTypes.string,
-  style: PropTypes.string,
-  buttonStyle: PropTypes.string,
+  style: PropTypes.object,
+  buttonStyle: PropTypes.object,
   disabled: PropTypes.bool.isRequired,
-  text: PropTypes.string,
+  text: PropTypes.node,
   onSubmit: PropTypes.func,
-  files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     accept: PropTypes.string.isRequired,
