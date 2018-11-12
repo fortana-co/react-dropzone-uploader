@@ -42,6 +42,8 @@ export const defaultClassNames = {
   dropzone: 'dzu-dropzone',
   dropzoneActive: 'dzu-dropzoneActive',
   input: 'dzu-inputLabel',
+  preview: 'dzu-previewContainer',
+  previewImage: 'dzu-previewImage',
   submitButtonContainer: 'dzu-submitButtonContainer',
   submitButton: 'dzu-submitButton',
 }
@@ -53,19 +55,4 @@ export const mergeStyles = (classNames, styles) => {
   }
 
   return { classNames: mergedClassNames, styles }
-}
-
-export const mergeContainerStyles = (active, className, activeClassName, style, activeStyle) => {
-  let containerClassName = className
-  let containerStyle = style
-  if (active) {
-    if (!activeStyle) {
-      containerClassName = `${className || ''} ${activeClassName || ''}`.trim()
-    }
-    containerStyle = { ...(style || {}), ...(activeStyle || {}) }
-  }
-  return {
-    containerClassName: containerClassName || undefined,
-    containerStyle: containerStyle && Object.keys(containerStyle).length > 0 ? containerStyle : undefined,
-  }
 }

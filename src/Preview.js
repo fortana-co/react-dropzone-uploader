@@ -13,9 +13,13 @@ const iconByFn = {
   restart: { backgroundImage: `url(${restartImg})` },
 }
 
-class FilePreview extends React.PureComponent {
+class Preview extends React.PureComponent {
   render() {
     const {
+      className,
+      imageClassName,
+      style,
+      imageStyle,
       fileWithMeta: { cancel, remove, restart },
       meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
       isUpload,
@@ -30,7 +34,7 @@ class FilePreview extends React.PureComponent {
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
-        <div className="dzu-previewContainer">
+        <div className={className} style={style}>
           <span>{title}</span>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
@@ -45,8 +49,8 @@ class FilePreview extends React.PureComponent {
     if (status === 'aborted') title = `${title} (cancelled)`
 
     return (
-      <div className="dzu-previewContainer">
-        {previewUrl && <img className="dzu-previewImage" src={previewUrl} alt={title} title={title} />}
+      <div className={className} style={style}>
+        {previewUrl && <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />}
         {!previewUrl && <span>{title}</span>}
 
         <div className="dzu-previewStatusContainer">
@@ -69,7 +73,11 @@ class FilePreview extends React.PureComponent {
   }
 }
 
-FilePreview.propTypes = {
+Preview.propTypes = {
+  className: PropTypes.string,
+  imageClassName: PropTypes.string,
+  style: PropTypes.object,
+  imageStyle: PropTypes.object,
   fileWithMeta: PropTypes.shape({
     file: PropTypes.any.isRequired,
     meta: PropTypes.object.isRequired,
@@ -118,4 +126,4 @@ FilePreview.propTypes = {
   }).isRequired,
 }
 
-export default FilePreview
+export default Preview

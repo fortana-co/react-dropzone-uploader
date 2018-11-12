@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import './styles.css'
 
-const FileInput = (props) => {
-  const { accept, className, style, text = 'Drop Or Pick Files', withFilesText, onFiles, files } = props
+const Input = (props) => {
+  const { className, style, accept, content = 'Drop Or Pick Files', withFilesContent, onFiles, files } = props
   return (
     <React.Fragment>
       <label
@@ -12,7 +12,7 @@ const FileInput = (props) => {
         className={className}
         style={style}
       >
-        {files.length > 0 ? withFilesText : text}
+        {files.length > 0 ? withFilesContent : content}
       </label>
       <input
         id="dropzoneInputId"
@@ -26,12 +26,12 @@ const FileInput = (props) => {
   )
 }
 
-FileInput.propTypes = {
+Input.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   accept: PropTypes.string.isRequired,
-  text: PropTypes.node,
-  withFilesText: PropTypes.node,
+  content: PropTypes.node,
+  withFilesContent: PropTypes.node,
   onFiles: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.shape({
@@ -43,4 +43,4 @@ FileInput.propTypes = {
   }).isRequired,
 }
 
-export default FileInput
+export default Input

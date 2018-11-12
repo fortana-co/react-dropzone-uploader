@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './styles.css'
 
 const SubmitButton = (props) => {
-  const { onSubmit, files, className, buttonClassName, style, buttonStyle, text = 'Submit', disabled } = props
+  const { className, buttonClassName, style, buttonStyle, content = 'Submit', disabled, onSubmit, files } = props
 
   if (!onSubmit || files.length === 0) return null
 
@@ -24,7 +24,7 @@ const SubmitButton = (props) => {
         onClick={handleSubmit}
         disabled={disabled || _disabled}
       >
-        {text}
+        {content}
       </button>
     </div>
   )
@@ -35,8 +35,8 @@ SubmitButton.propTypes = {
   buttonClassName: PropTypes.string,
   style: PropTypes.object,
   buttonStyle: PropTypes.object,
+  content: PropTypes.node,
   disabled: PropTypes.bool.isRequired,
-  text: PropTypes.node,
   onSubmit: PropTypes.func,
   files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({

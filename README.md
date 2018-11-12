@@ -52,7 +52,7 @@ const MyUploader = () => {
 }
 ~~~
 
-Want to disable the file input? Just pass `null` for `FileInputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
+Want to disable the file input? Just pass `null` for `InputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
 
 Don't want to upload files? Omit `getUploadParams`, and you'll have a dropzone that just calls `onChangeStatus` every time you add a file. This callback receives a `fileWithMeta` object and the file's `status`. If status is `'done'`, the file has been prepared and validated. Add it to an array of accepted files, or do whatever you want with it. And don't worry, `onChangeStatus` won't be called multiple times for the same status.
 
@@ -101,9 +101,9 @@ Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may be
 
 
 ## Customization
-Notice the __"Drop Or Pick Files"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `fileInputText` and `fileInputWithFilesText` props to render any string or JSX you want. The latter is for the text that's rendered if the dropzone has files. If you'd rather not render file input text, just pass `null`.
+Notice the __"Drop Or Pick Files"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `inputContent` and `inputWithFilesContent` props to render any string or JSX you want. The latter is for the content that's rendered if the dropzone has files. If you'd rather not render file input content, just pass `null`.
 
-Want to change `submitButtonText` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill the text, just pass an empty string or null.
+Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill the text, just pass an empty string or null.
 
 See all of the customization props in the __Props__ section.
 
@@ -118,29 +118,31 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 - `dropzoneActive`
   + wrapper for dropzone on drag over; this is __added__ to the `dropzone` class
 - `input`
-  + applied directly input label
+  + input label
+- `preview`
+  + wrapper for preview div
+- `previewImage`
+  + preview image
 - `submitButtonContainer`
   + wrapper for submit button div
 - `submitButton`
-  + applied directly to submit button
+  + submit button
 
-Each key points to a default CSS class bundled with RDU. A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
+Each key points to a [default CSS class bundled with RDU](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css). A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
 
-If you prefer to use style object literals instead of CSS classes, simply point a key to a style object.
+If you prefer to use style object literals instead of CSS classes, point a key to a style object, and the style object will override the default class.
 
-Note that keys in the `styles` prop override keys with the same name in the `classNames` prop. Check out the demo in the __Getting Started__ section to see how this works!
-
-As with any React component, declaring your `styles` object inside your render method can hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
+>As with any React component, declaring your `styles` object inside your render method can hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
 
 
 ### Component Injection API
-If no combination of props controlling styles and text achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `FileInputComponent`, `FilePreviewComponent`, `SubmitButtonComponent`, `DropzoneContentComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
+If no combination of props controlling styles and text achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
 
 `null`ing these props removes their corresponding components. 
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Text__ and __classNames__ props. For the file preview, these props might not be enough, and in this case you can pass a custom `FilePreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Text__ and __classNames__ props. For the file preview, these props might not be enough, and in this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
-It's worth noting that `DropzoneContentComponent` receives an `extra` prop, an object containing every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
+It's worth noting that `LayoutComponent` receives an `extra` prop, an object containing every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
 
 
 ## Props
@@ -168,10 +170,10 @@ Dropzone.propTypes = {
   /*
   Component Injection and Customization
    */
-  FileInputComponent: PropTypes.any, // overrides FileInput; null to remove
-  FilePreviewComponent: PropTypes.any, // overrides FilePreview; null to remove
-  SubmitButtonComponent: PropTypes.any, // overrides SubmitButton; null to remove
-  DropzoneContentComponent: PropTypes.any, // overrides DropzoneContent; null to remove
+  InputComponent: PropTypes.func, // overrides Input; null to remove
+  PreviewComponent: PropTypes.func, // overrides Preview; null to remove
+  SubmitButtonComponent: PropTypes.func, // overrides SubmitButton; null to remove
+  LayoutComponent: PropTypes.func, // overrides Layout; null to remove
   
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // width of dropzone, else dropzone occupies full width of parent
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // height of dropzone, else dropzone occupies full height of parent
@@ -180,11 +182,11 @@ Dropzone.propTypes = {
   canRestart: PropTypes.bool, // false to remove restart upload button in file preview
   canRemove: PropTypes.bool, // false to remove remove file button in file preview
 
-  instructions: PropTypes.node, // dropzone instructions if dropzone contains no files; null to remove
-  withFilesInstructions: PropTypes.node, // dropzone instructions if dropzone contains file(s); null to remove
-  fileInputText: PropTypes.node, // '' or null to remove
-  fileInputWithFilesText: PropTypes.node, // '' or null to remove
-  submitButtonText: PropTypes.node, // '' or null to remove
+  dropzoneContent: PropTypes.node, // first child of Layout if dropzone contains no files
+  dropzoneWithFilesContent: PropTypes.node, // first child of Layout if dropzone contains file(s)
+  inputContent: PropTypes.node, // '' or null to remove
+  inputWithFilesContent: PropTypes.node, // '' or null to remove
+  submitButtonContent: PropTypes.node, // '' or null to remove
   submitButtonDisabled: PropTypes.bool,
 
   classNames: PropTypes.object, // see "Custom Styles" section
@@ -196,9 +198,9 @@ Dropzone.propTypes = {
 ### Props Passed to Injected Components
 If you use the component injection API, you'll want to know which props are passed to your injected components. Just scroll to the bottom of the following files to see their prop types.
 
-- [DropzoneContentComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/DropzoneContent.js)
-- [FilePreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/FilePreview.js)
-- [FileInputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/FileInput.js)
+- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
+- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
+- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
 - [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
 
 
