@@ -130,9 +130,17 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 
 Each key points to a [default CSS class bundled with RDU](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css). A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
 
-If you prefer to use style object literals instead of CSS classes, point a key to a style object, and the style object will override the default class.
+If you prefer to use style object literals instead of CSS classes, point a key to a style object. The style object is passed to the target component's `style` prop, which means it takes precedence over its default class, but doesn't override it.
+
+To override it, you can remove the default class by passing an empty string inside the `classNames` prop.
 
 >As with any React component, declaring your `styles` object inside your render method can hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
+
+
+#### Adding To Default Classes
+If you want to merge your class names with RDU's default classes, use the `addClassNames` prop. Added class names work like `classNames`, except instead of overriding default classes they are added (concatenated) to them.
+
+You can use both `classNames` and `addClassNames` if you want to override some classes and add to others.
 
 
 ### Component Injection API

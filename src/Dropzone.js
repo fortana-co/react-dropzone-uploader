@@ -300,6 +300,7 @@ class Dropzone extends React.Component {
       submitButtonDisabled,
       classNames,
       styles,
+      addClassNames,
     } = this.props
     const { active } = this.state
 
@@ -327,7 +328,7 @@ class Dropzone extends React.Component {
         submitButtonContainer: submitButtonContainerStyle,
         submitButton: submitButtonStyle,
       },
-    } = mergeStyles(classNames, styles)
+    } = mergeStyles(classNames, styles, addClassNames)
 
     const extra = { active, accept, minSizeBytes, maxSizeBytes, maxFiles }
 
@@ -460,6 +461,7 @@ Dropzone.propTypes = {
 
   classNames: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
+  addClassNames: PropTypes.object.isRequired,
 }
 
 Dropzone.defaultProps = {
@@ -475,6 +477,7 @@ Dropzone.defaultProps = {
   submitButtonDisabled: false,
   classNames: {},
   styles: {},
+  addClassNames: {},
 }
 
 export default Dropzone

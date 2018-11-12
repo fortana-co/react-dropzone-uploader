@@ -48,10 +48,10 @@ export const defaultClassNames = {
   submitButton: 'dzu-submitButton',
 }
 
-export const mergeStyles = (classNames, styles) => {
+export const mergeStyles = (classNames, styles, addClassNames) => {
   const mergedClassNames = { ...defaultClassNames, ...classNames }
-  for (const sk of Object.keys(styles)) {
-    delete mergedClassNames[sk]
+  for (const key of Object.keys(addClassNames)) {
+    mergedClassNames[key] = `${mergedClassNames[key]} ${addClassNames[key]}`
   }
 
   return { classNames: mergedClassNames, styles }
