@@ -103,7 +103,7 @@ Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may be
 ## Customization
 Notice the __"Drop Or Pick Files"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `inputContent` and `inputWithFilesContent` props to render any string or JSX you want. The latter is for the content that's rendered if the dropzone has files. If you'd rather not render file input content, just pass `null`.
 
-Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill the text, just pass an empty string or null.
+Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill this text, just pass an empty string or null.
 
 See all of the customization props in the __Props__ section.
 
@@ -130,9 +130,9 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 
 Each key points to a [default CSS class bundled with RDU](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css). A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
 
-If you prefer to use style object literals instead of CSS classes, point a key to a style object. The style object is passed to the target component's `style` prop, which means it takes precedence over its default class, but doesn't override it.
+If you prefer to use style object literals instead of CSS classes, point a key to a style object. The style object is passed to the target component's `style` prop, which means it takes precedence over its default class, but doesn't overwrite it.
 
-To override it, you can remove the default class by passing an empty string inside the `classNames` prop.
+To overwrite it, you can remove the default class by passing an empty string inside the `classNames` prop.
 
 >As with any React component, declaring your `styles` object inside your render method can hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
 
@@ -140,17 +140,17 @@ To override it, you can remove the default class by passing an empty string insi
 #### Adding To Default Classes
 If you want to merge your class names with RDU's default classes, use the `addClassNames` prop. Added class names work like `classNames`, except instead of overriding default classes they are added (concatenated) to them.
 
-You can use both `classNames` and `addClassNames` if you want to override some classes and add to others.
+You can use both `classNames` and `addClassNames` if you want to overwrite some classes and add to others.
 
 
 ### Component Injection API
-If no combination of props controlling styles and text achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
+If no combination of props controlling styles and content achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
 
 `null`ing these props removes their corresponding components. 
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Text__ and __classNames__ props. For the file preview, these props might not be enough, and in this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Content__ and __classNames__ props. For the file preview, these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
-It's worth noting that `LayoutComponent` receives an `extra` prop, an object containing every callback and piece of state managed by the `Dropzone` itself. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
+It's worth noting that `LayoutComponent` receives an `extra` prop, an object containing every callback and piece of state managed by `Dropzone`. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
 
 
 ## Props

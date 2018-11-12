@@ -7,8 +7,7 @@ https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader
 
 const styles = {
   dropzoneActive: {
-    backgroundColor: '#F6F8FA',
-    border: '2px solid #3DC59F',
+    borderColor: ''#3DC59F'',
   },
 }
 

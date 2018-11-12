@@ -2,8 +2,7 @@ import React from 'react'
 
 import Dropzone from '../../src/Dropzone'
 
-const styles = {
-}
+import './styles.css'
 
 const App = () => {
   const getUploadParams = ({ file, meta }) => {
@@ -26,8 +25,8 @@ const App = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       maxSizeBytes={1024 * 1024 * 1000}
-      styles={styles}
       height={250}
+      addClassNames={{ dropzone: 'dropzone', dropzoneActive: 'dropzoneActive' }}
     />
   )
 }

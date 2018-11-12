@@ -12,11 +12,12 @@
   box-sizing: border-box;
   transition: all .15s linear;
   border: 1px solid #141418;
+  border-radius: 5px;
 }
 
 .dzu-dropzoneActive {
   background-color: #F6F8FA;
-  border: 1px solid #3DC59F;
+  border-color: #3DC59F;
 }
 
 .dzu-input {
