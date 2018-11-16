@@ -13,33 +13,36 @@ React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for R
 - Detailed upload status and progress, upload cancellation and restart
 - Trivially set auth headers and additional upload fields for any upload (see S3 example)
 - Modular design allows for use as standalone file dropzone, file input, file uploader
-- Easily customize styles using CSS or JSX
-- Lightweight at ~15kB, including styles
+- Easily customize styles using CSS or JS
+- Lightweight at <15kB, including styles
 
 
 ## Installation
 `npm install --save react-dropzone-uploader`
 
-
-## Getting Started
-RDU's defaults make it very powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit the files after they've been uploaded.
-
-The `onChangeStatus` prop is included to show how a file's status changes as it's dropped (or picked) and then uploaded. [Check out a live demo here](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+Import styles and the dropzone.
 
 ~~~js
+import 'react-dropzone-uploader/dist/styles.css'
+import Dropzone from 'react-dropzone-uploader'
+~~~
+
+
+## Usage
+RDU's defaults make it powerful out of the box. The following code gives your users a dropzone / file input that uploads files to `https://httpbin.org/post`, with a button to submit files after they've been uploaded. [Check out a live demo](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+
+~~~js
+import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone from 'react-dropzone-uploader'
 
 const MyUploader = () => {
-  const getUploadParams = ({ meta }) => {
-    const url = 'https://httpbin.org/post' // upload `url` and other upload params can be a function of file meta
-    const fileUrl = `${url}/${encodeURIComponent(meta.name)}` // new values can be merged into file meta
-    return { url, meta: { fileUrl } }
-  }
+  // specify upload params and url for your files
+  const getUploadParams = ({ meta }) => { return { url: 'https://httpbin.org/post' } }
   
   // called every time a file's `status` changes
   const handleChangeStatus = ({ meta, file }, status) => { console.log(status, meta, file) }
   
-  // receives array of all files that are done uploading
+  // receives array of files that are done uploading when submit button is clicked
   const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
@@ -52,7 +55,9 @@ const MyUploader = () => {
 }
 ~~~
 
-Want to disable the file input? Just pass `null` for `InputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
+The only prop needed to perform uploads is `getUploadParams`. `onChangeStatus` is included to show how a file's status changes as it's dropped (or picked) and then uploaded.
+
+__RDU is modular__. Want to disable the file input? Pass `null` for `InputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
 
 Don't want to upload files? Omit `getUploadParams`, and you'll have a dropzone that just calls `onChangeStatus` every time you add a file. This callback receives a `fileWithMeta` object and the file's `status`. If status is `'done'`, the file has been prepared and validated. Add it to an array of accepted files, or do whatever you want with it. And don't worry, `onChangeStatus` won't be called multiple times for the same status.
 

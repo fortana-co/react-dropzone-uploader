@@ -3,11 +3,12 @@ https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js
 https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js
+https://unpkg.com/react-dropzone-uploader@<version>/dist/styles.css
  */
 
 const styles = {
   dropzoneActive: {
-    borderColor: ''#3DC59F'',
+    borderColor: '#3DC59F',
   },
 }
 
@@ -32,6 +33,7 @@ const App = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       styles={styles}
+      height={200}
     />
   )
 }

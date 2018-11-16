@@ -6,7 +6,6 @@ import InputDefault from './Input'
 import PreviewDefault from './Preview'
 import SubmitButtonDefault from './SubmitButton'
 import { formatBytes, formatDuration, accepts, mergeStyles } from './utils'
-import './styles.css'
 
 let id = 0
 

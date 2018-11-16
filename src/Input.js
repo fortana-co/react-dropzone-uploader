@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './styles.css'
-
 const Input = (props) => {
   const { className, style, accept, content = 'Drop Or Pick Files', withFilesContent, onFiles, files } = props
   return (

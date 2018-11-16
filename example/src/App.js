@@ -1,5 +1,6 @@
 import React from 'react'
 
+import '../../src/styles.css'
 import Dropzone from '../../src/Dropzone'
 
 import './styles.css'

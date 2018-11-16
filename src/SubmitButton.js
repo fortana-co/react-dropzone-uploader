@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './styles.css'
-
 const SubmitButton = (props) => {
   const { className, buttonClassName, style, buttonStyle, content = 'Submit', disabled, onSubmit, files } = props
 

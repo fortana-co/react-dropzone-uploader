@@ -5,7 +5,6 @@ import { formatBytes, formatDuration } from './utils'
 import cancelImg from './assets/cancel.svg'
 import removeImg from './assets/remove.svg'
 import restartImg from './assets/restart.svg'
-import './styles.css'
 
 const iconByFn = {
   cancel: { backgroundImage: `url(${cancelImg})` },
