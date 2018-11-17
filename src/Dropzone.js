@@ -379,6 +379,15 @@ class Dropzone extends React.Component {
         input={input}
         previews={previews}
         submitButton={submitButton}
+        dropzoneProps={{
+          ref: this._dropzone,
+          className: active ? `${dropzoneClassName} ${dropzoneActiveClassName}` : dropzoneClassName,
+          style: active ? { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneStyle,
+          onDragEnter: this.handleDragEnter,
+          onDragOver: this.handleDragOver,
+          onDragLeave: this.handleDragLeave,
+          onDrop: this.handleDrop,
+        }}
         extra={{
           files: this._files,
           active,
@@ -396,13 +405,6 @@ class Dropzone extends React.Component {
           onRestartFile: this.handleRestart,
           isUpload: Boolean(getUploadParams),
         }}
-        dropzoneRef={this._dropzone}
-        className={active ? `${dropzoneClassName} ${dropzoneActiveClassName}` : dropzoneClassName}
-        style={active ? { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneStyle}
-        onDragEnter={this.handleDragEnter}
-        onDragOver={this.handleDragOver}
-        onDragLeave={this.handleDragLeave}
-        onDrop={this.handleDrop}
       />
     )
   }

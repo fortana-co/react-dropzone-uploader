@@ -6,13 +6,12 @@ const Layout = (props) => {
     input,
     previews,
     submitButton,
+    dropzoneProps,
     extra: { maxFiles, onSubmit },
-    dropzoneRef: ref,
-    ...dropzoneProps
   } = props
 
   return (
-    <div ref={ref} {...dropzoneProps}>
+    <div {...dropzoneProps}>
       {previews.length > 0 && previews}
 
       {previews.length < maxFiles && input}
@@ -26,14 +25,17 @@ Layout.propTypes = {
   input: PropTypes.node,
   previews: PropTypes.arrayOf(PropTypes.node).isRequired,
   submitButton: PropTypes.node,
+  dropzoneProps: PropTypes.shape({
+    ref: PropTypes.any.isRequired,
+    className: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    onDragEnter: PropTypes.func.isRequired,
+    onDragOver: PropTypes.func.isRequired,
+    onDragLeave: PropTypes.func.isRequired,
+    onDrop: PropTypes.func.isRequired,
+    xhr: PropTypes.any,
+  }).isRequired,
   extra: PropTypes.object.isRequired,
-  dropzoneRef: PropTypes.any.isRequired,
-  className: PropTypes.string.isRequired,
-  style: PropTypes.object,
-  onDragEnter: PropTypes.func.isRequired,
-  onDragOver: PropTypes.func.isRequired,
-  onDragLeave: PropTypes.func.isRequired,
-  onDrop: PropTypes.func.isRequired,
 }
 
 export default Layout
