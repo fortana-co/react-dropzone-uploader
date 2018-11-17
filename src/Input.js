@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Input = (props) => {
-  const { className, style, accept, content = 'Drop Or Pick Files', withFilesContent, onFiles, files } = props
+  const { className, style, accept, content = 'Drag Files or Click to Browse', withFilesContent, onFiles, files } = props
   return (
     <React.Fragment>
       <label

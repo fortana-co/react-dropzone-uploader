@@ -34,7 +34,7 @@ class Preview extends React.PureComponent {
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
         <div className={className} style={style}>
-          <span>{title}</span>
+          <span className="dzu-previewFileNameError">{title}</span>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
           {canRemove &&
@@ -50,7 +50,7 @@ class Preview extends React.PureComponent {
     return (
       <div className={className} style={style}>
         {previewUrl && <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />}
-        {!previewUrl && <span>{title}</span>}
+        {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
 
         <div className="dzu-previewStatusContainer">
           {isUpload &&
