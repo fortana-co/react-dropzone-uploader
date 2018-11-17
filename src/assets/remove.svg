@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
-    <title>remove</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="remove" transform="translate(-5.000000, 0.000000)" fill="#333333">
-            <g transform="translate(4.000000, 0.000000)" id="Rectangle-5">
-                <polygon points="7.71894637 4.96410645 12.6916068 0.017452291 14.3886631 1.71450857 9.41154172 6.66560031 14.3537582 11.6337999 12.6567019 13.3308562 6.01745248 6.65670178 7.71450876 4.9596455"></polygon>
-                <polygon points="7.61190965 4.96410646 7.61634726 4.95964552 9.31340353 6.65670179 2.67415402 13.3308561 0.977097741 11.6337998 5.91931432 6.66560035 0.942192942 1.71450857 2.63924922 0.017452291"></polygon>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-5.0, 0.0)" fill="#333333"><g transform="translate(4.0, 0.0)"><polygon points="7.719 4.964 12.692 0.017 14.389 1.715 9.412 6.666 14.354 11.634 12.657 13.331 6.017 6.657 7.715 4.960"></polygon><polygon points="7.612 4.964 7.616 4.960 9.313 6.657 2.674 13.331 0.977 11.634 5.919 6.666 0.942 1.715 2.639 0.017"></polygon></g></g></svg>
