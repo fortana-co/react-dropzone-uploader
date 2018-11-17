@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="15 15 70 95"><path d="M26.844,78.948c0,2.865,2.321,5.185,5.184,5.185h35.949c2.863,0,5.18-2.319,5.18-5.185V31.768H26.844V78.948z M64.844,21.97 v-5.108c0-0.549-0.445-0.994-0.996-0.994H36.152c-0.55,0-0.996,0.445-0.996,0.994v5.108H23.454v4.976h53.092V21.97H64.844z"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>remove</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="remove" transform="translate(-5.000000, 0.000000)" fill="#333333">
+            <g transform="translate(4.000000, 0.000000)" id="Rectangle-5">
+                <polygon points="7.71894637 4.96410645 12.6916068 0.017452291 14.3886631 1.71450857 9.41154172 6.66560031 14.3537582 11.6337999 12.6567019 13.3308562 6.01745248 6.65670178 7.71450876 4.9596455"></polygon>
+                <polygon points="7.61190965 4.96410646 7.61634726 4.95964552 9.31340353 6.65670179 2.67415402 13.3308561 0.977097741 11.6337998 5.91931432 6.66560035 0.942192942 1.71450857 2.63924922 0.017452291"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

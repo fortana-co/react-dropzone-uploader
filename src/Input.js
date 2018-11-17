@@ -8,11 +8,12 @@ const Input = (props) => {
     style,
     withFilesStyle,
     accept,
-    content = 'Drop Or Pick Files',
+    content = 'Drag Files or Click to Browse',
     withFilesContent,
     onFiles,
     files,
   } = props
+
   return (
     <React.Fragment>
       <label
