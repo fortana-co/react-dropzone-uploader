@@ -7,6 +7,9 @@ https://unpkg.com/react-dropzone-uploader@<version>/dist/styles.css
  */
 
 const styles = {
+  dropzone: {
+    height: 200,
+  },
   dropzoneActive: {
     borderColor: '#3DC59F',
   },
@@ -33,7 +36,6 @@ const App = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       styles={styles}
-      height={200}
     />
   )
 }

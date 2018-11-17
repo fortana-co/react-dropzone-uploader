@@ -127,6 +127,8 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
   + wrapper for dropzone on drag over; this is __added__ to the `dropzone` class
 - `input`
   + input label
+- `inputWithFiles`
+  + input label if dropzone has files
 - `preview`
   + wrapper for preview div
 - `previewImage`
@@ -191,17 +193,12 @@ Dropzone.propTypes = {
   InputComponent: PropTypes.func, // overrides Input; null to remove
   PreviewComponent: PropTypes.func, // overrides Preview; null to remove
   SubmitButtonComponent: PropTypes.func, // overrides SubmitButton; null to remove
-  LayoutComponent: PropTypes.func, // overrides Layout; null to remove
+  LayoutComponent: PropTypes.func,
   
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // width of dropzone, else dropzone occupies full width of parent
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // height of dropzone, else dropzone occupies full height of parent
-
   canCancel: PropTypes.bool, // false to remove cancel button in file preview
   canRestart: PropTypes.bool, // false to remove restart button in file preview
   canRemove: PropTypes.bool, // false to remove remove button in file preview
 
-  dropzoneContent: PropTypes.node, // first child of Layout if dropzone contains no files
-  dropzoneWithFilesContent: PropTypes.node, // first child of Layout if dropzone contains files
   inputContent: PropTypes.node, // '' or null to remove
   inputWithFilesContent: PropTypes.node, // '' or null to remove
   submitButtonContent: PropTypes.node, // '' or null to remove

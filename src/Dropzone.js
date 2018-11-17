@@ -289,10 +289,6 @@ class Dropzone extends React.Component {
       PreviewComponent,
       SubmitButtonComponent,
       LayoutComponent,
-      width,
-      height,
-      dropzoneContent,
-      dropzoneWithFilesContent,
       inputContent,
       inputWithFilesContent,
       submitButtonContent,
@@ -378,47 +374,37 @@ class Dropzone extends React.Component {
       />
     ) : null
 
-    const dropzone = (
-      <div
-        ref={this._dropzone}
+    return (
+      <Layout
+        input={input}
+        previews={previews}
+        submitButton={submitButton}
+        extra={{
+          files: this._files,
+          active,
+          accept,
+          minSizeBytes,
+          maxSizeBytes,
+          maxFiles,
+          canCancel,
+          canRemove,
+          canRestart,
+          onSubmit,
+          onFiles: this.handleFiles,
+          onCancelFile: this.handleCancel,
+          onRemoveFile: this.handleRemove,
+          onRestartFile: this.handleRestart,
+          isUpload: Boolean(getUploadParams),
+        }}
+        dropzoneRef={this._dropzone}
         className={active ? `${dropzoneClassName} ${dropzoneActiveClassName}` : dropzoneClassName}
         style={active ? { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneStyle}
         onDragEnter={this.handleDragEnter}
         onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
-      >
-        {LayoutComponent !== null &&
-          <Layout
-            content={dropzoneContent}
-            withFilesContent={dropzoneWithFilesContent}
-            input={input}
-            previews={previews}
-            submitButton={submitButton}
-            extra={{
-              files: this._files,
-              active,
-              accept,
-              minSizeBytes,
-              maxSizeBytes,
-              maxFiles,
-              canCancel,
-              canRemove,
-              canRestart,
-              onSubmit,
-              onFiles: this.handleFiles,
-              onCancelFile: this.handleCancel,
-              onRemoveFile: this.handleRemove,
-              onRestartFile: this.handleRestart,
-              isUpload: Boolean(getUploadParams),
-            }}
-          />
-        }
-      </div>
+      />
     )
-
-    if (width === undefined && height === undefined) return dropzone
-    return <div style={{ width, height }}>{dropzone}</div>
   }
 }
 
@@ -448,11 +434,6 @@ Dropzone.propTypes = {
   canRemove: PropTypes.bool,
   canRestart: PropTypes.bool,
 
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  dropzoneContent: PropTypes.node,
-  dropzoneWithFilesContent: PropTypes.node,
   inputContent: PropTypes.node,
   inputWithFilesContent: PropTypes.node,
   submitButtonContent: PropTypes.node,

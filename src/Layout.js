@@ -3,35 +3,37 @@ import PropTypes from 'prop-types'
 
 const Layout = (props) => {
   const {
-    content,
-    withFilesContent,
     input,
     previews,
     submitButton,
-    extra: { maxFiles },
+    extra: { maxFiles, onSubmit },
+    ...dropzoneProps
   } = props
 
   return (
-    <React.Fragment>
-      {previews.length === 0 && content === undefined ? null : content}
-      {previews.length > 0 && withFilesContent === undefined ? null : withFilesContent}
-
+    <div {...dropzoneProps}>
       {previews.length > 0 && previews}
 
       {previews.length < maxFiles && input}
 
-      {submitButton}
-    </React.Fragment>
+      {previews.length > 0 && onSubmit && submitButton}
+    </div>
   )
 }
 
 Layout.propTypes = {
-  content: PropTypes.node,
-  withFilesContent: PropTypes.node,
+  dropzoneProps: PropTypes.object.isRequired,
   input: PropTypes.node,
   previews: PropTypes.arrayOf(PropTypes.node).isRequired,
   submitButton: PropTypes.node,
   extra: PropTypes.object.isRequired,
+  dropzoneRef: PropTypes.any.isRequired,
+  className: PropTypes.string.isRequired,
+  style: PropTypes.object.isRequired,
+  onDragEnter: PropTypes.func.isRequired,
+  onDragOver: PropTypes.func.isRequired,
+  onDragLeave: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired,
 }
 
 export default Layout

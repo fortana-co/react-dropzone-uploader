@@ -2,9 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const SubmitButton = (props) => {
-  const { className, buttonClassName, style, buttonStyle, content = 'Submit', disabled, onSubmit, files } = props
-
-  if (!onSubmit || files.length === 0) return null
+  const {
+    className,
+    buttonClassName,
+    style,
+    buttonStyle,
+    content = 'Submit',
+    disabled,
+    onSubmit,
+    files,
+  } = props
 
   const _disabled =
     files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
@@ -35,7 +42,7 @@ SubmitButton.propTypes = {
   buttonStyle: PropTypes.object,
   content: PropTypes.node,
   disabled: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,

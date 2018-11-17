@@ -2,13 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Input = (props) => {
-  const { className, style, accept, content = 'Drop Or Pick Files', withFilesContent, onFiles, files } = props
+  const {
+    className,
+    withFilesClassName,
+    style,
+    withFilesStyle,
+    accept,
+    content = 'Drop Or Pick Files',
+    withFilesContent,
+    onFiles,
+    files,
+  } = props
   return (
     <React.Fragment>
       <label
         htmlFor="dropzoneInputId"
-        className={className}
-        style={style}
+        className={files.length > 0 ? withFilesClassName : className}
+        style={files.length > 0 ? withFilesStyle : style}
       >
         {files.length > 0 ? withFilesContent : content}
       </label>
@@ -26,7 +36,9 @@ const Input = (props) => {
 
 Input.propTypes = {
   className: PropTypes.string,
+  withFilesClassName: PropTypes.string,
   style: PropTypes.object,
+  withFilesStyle: PropTypes.object,
   accept: PropTypes.string.isRequired,
   content: PropTypes.node,
   withFilesContent: PropTypes.node,
