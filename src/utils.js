@@ -40,6 +40,7 @@ export const accepts = (file, accept) => {
 
 export const defaultClassNames = {
   dropzone: 'dzu-dropzone',
+  dropzoneWithFiles: 'dzu-dropzone',
   dropzoneActive: 'dzu-dropzoneActive',
   input: 'dzu-inputLabel',
   inputWithFiles: 'dzu-inputLabelWithFiles',

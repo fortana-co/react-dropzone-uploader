@@ -8,12 +8,11 @@ const SubmitButton = (props) => {
     style,
     buttonStyle,
     content = 'Submit',
-    disabled,
     onSubmit,
     files,
   } = props
 
-  const _disabled =
+  const disabled =
     files.some(f => f.meta.status === 'uploading' || f.meta.status === 'preparing') ||
     !files.some(f => ['headers_received', 'done'].includes(f.meta.status))
 
@@ -27,7 +26,7 @@ const SubmitButton = (props) => {
         className={buttonClassName}
         style={buttonStyle}
         onClick={handleSubmit}
-        disabled={disabled || _disabled}
+        disabled={disabled}
       >
         {content}
       </button>
@@ -41,7 +40,6 @@ SubmitButton.propTypes = {
   style: PropTypes.object,
   buttonStyle: PropTypes.object,
   content: PropTypes.node,
-  disabled: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({

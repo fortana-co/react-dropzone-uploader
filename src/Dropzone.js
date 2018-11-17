@@ -292,7 +292,6 @@ class Dropzone extends React.Component {
       inputContent,
       inputWithFilesContent,
       submitButtonContent,
-      submitButtonDisabled,
       classNames,
       styles,
       addClassNames,
@@ -307,8 +306,10 @@ class Dropzone extends React.Component {
     const {
       classNames: {
         dropzone: dropzoneClassName,
+        dropzoneWithFiles: dropzoneWithFilesClassName,
         dropzoneActive: dropzoneActiveClassName,
         input: inputClassName,
+        inputWithFiles: inputWithFilesClassName,
         preview: previewClassName,
         previewImage: previewImageClassName,
         submitButtonContainer: submitButtonContainerClassName,
@@ -316,8 +317,10 @@ class Dropzone extends React.Component {
       },
       styles: {
         dropzone: dropzoneStyle,
+        dropzoneWithFiles: dropzoneWithFilesStyle,
         dropzoneActive: dropzoneActiveStyle,
         input: inputStyle,
+        inputWithFiles: inputWithFilesStyle,
         preview: previewStyle,
         previewImage: previewImageStyle,
         submitButtonContainer: submitButtonContainerStyle,
@@ -350,7 +353,9 @@ class Dropzone extends React.Component {
     const input = InputComponent !== null ? (
       <Input
         className={inputClassName}
+        withFilesClassName={inputWithFilesClassName}
         style={inputStyle}
+        withFilesStyle={inputWithFilesStyle}
         accept={accept}
         content={inputContent}
         withFilesContent={inputWithFilesContent}
@@ -367,13 +372,14 @@ class Dropzone extends React.Component {
         style={submitButtonContainerStyle}
         buttonStyle={submitButtonStyle}
         content={submitButtonContent}
-        disabled={submitButtonDisabled}
         onSubmit={onSubmit}
         files={this._files}
         extra={extra}
       />
     ) : null
 
+    const dropzoneBaseClassName = previews.length > 0 ? dropzoneWithFilesClassName : dropzoneClassName
+    const dropzoneBaseStyle = previews.length > 0 ? dropzoneWithFilesStyle : dropzoneStyle
     return (
       <Layout
         input={input}
@@ -381,8 +387,8 @@ class Dropzone extends React.Component {
         submitButton={submitButton}
         dropzoneProps={{
           ref: this._dropzone,
-          className: active ? `${dropzoneClassName} ${dropzoneActiveClassName}` : dropzoneClassName,
-          style: active ? { ...(dropzoneStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneStyle,
+          className: active ? `${dropzoneBaseClassName} ${dropzoneActiveClassName}` : dropzoneBaseClassName,
+          style: active ? { ...(dropzoneBaseStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneBaseStyle,
           onDragEnter: this.handleDragEnter,
           onDragOver: this.handleDragOver,
           onDragLeave: this.handleDragLeave,
@@ -439,7 +445,6 @@ Dropzone.propTypes = {
   inputContent: PropTypes.node,
   inputWithFilesContent: PropTypes.node,
   submitButtonContent: PropTypes.node,
-  submitButtonDisabled: PropTypes.bool,
 
   classNames: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
@@ -456,7 +461,6 @@ Dropzone.defaultProps = {
   canCancel: true,
   canRemove: true,
   canRestart: true,
-  submitButtonDisabled: false,
   classNames: {},
   styles: {},
   addClassNames: {},

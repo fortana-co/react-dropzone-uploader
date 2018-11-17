@@ -202,7 +202,6 @@ Dropzone.propTypes = {
   inputContent: PropTypes.node, // '' or null to remove
   inputWithFilesContent: PropTypes.node, // '' or null to remove
   submitButtonContent: PropTypes.node, // '' or null to remove
-  submitButtonDisabled: PropTypes.bool,
 
   classNames: PropTypes.object, // see "Custom Styles" section
   styles: PropTypes.object, // see "Custom Styles" section
