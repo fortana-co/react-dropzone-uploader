@@ -26,7 +26,7 @@ const App = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       maxSizeBytes={1024 * 1024 * 1000}
-      addClassNames={{ dropzone: 'dropzone', dropzoneActive: 'dropzoneActive' }}
+      addClassNames={{ dropzone: 'dropzone' }}
     />
   )
 }

@@ -104,7 +104,7 @@ class Dropzone extends React.Component {
   handleFiles = (files) => {
     files.forEach(this.handleFile)
     const { current } = this._dropzone
-    setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
+    if (current) setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
   }
 
   handleFile = async (file) => {
