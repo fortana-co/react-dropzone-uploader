@@ -330,25 +330,29 @@ class Dropzone extends React.Component {
 
     const extra = { active, accept, minSizeBytes, maxSizeBytes, maxFiles }
 
-    const previews = this._files.map((f) => {
-      if (PreviewComponent === null) return null
-      return (
-        <Preview
-          className={previewClassName}
-          imageClassName={previewImageClassName}
-          style={previewStyle}
-          imageStyle={previewImageStyle}
-          key={f.meta.id}
-          fileWithMeta={f}
-          meta={{ ...f.meta }}
-          isUpload={Boolean(getUploadParams)}
-          canCancel={canCancel}
-          canRemove={canRemove}
-          canRestart={canRestart}
-          extra={extra}
-        />
-      )
-    })
+    const files = [...this._files]
+    let previews = null
+    if (PreviewComponent !== null) {
+      previews = files.map((f) => {
+        return (
+          <Preview
+            className={previewClassName}
+            imageClassName={previewImageClassName}
+            style={previewStyle}
+            imageStyle={previewImageStyle}
+            key={f.meta.id}
+            fileWithMeta={f}
+            meta={{ ...f.meta }}
+            isUpload={Boolean(getUploadParams)}
+            canCancel={canCancel}
+            canRemove={canRemove}
+            canRestart={canRestart}
+            files={files}
+            extra={extra}
+          />
+        )
+      })
+    }
 
     const input = InputComponent !== null ? (
       <Input
@@ -360,7 +364,7 @@ class Dropzone extends React.Component {
         content={inputContent}
         withFilesContent={inputWithFilesContent}
         onFiles={this.handleFiles}
-        files={this._files}
+        files={files}
         extra={extra}
       />
     ) : null
@@ -373,13 +377,13 @@ class Dropzone extends React.Component {
         buttonStyle={submitButtonStyle}
         content={submitButtonContent}
         onSubmit={onSubmit}
-        files={this._files}
+        files={files}
         extra={extra}
       />
     ) : null
 
-    const dropzoneBaseClassName = previews.length > 0 ? dropzoneWithFilesClassName : dropzoneClassName
-    const dropzoneBaseStyle = previews.length > 0 ? dropzoneWithFilesStyle : dropzoneStyle
+    const dropzoneBaseClassName = files.length > 0 ? dropzoneWithFilesClassName : dropzoneClassName
+    const dropzoneBaseStyle = files.length > 0 ? dropzoneWithFilesStyle : dropzoneStyle
     return (
       <Layout
         input={input}
@@ -394,8 +398,8 @@ class Dropzone extends React.Component {
           onDragLeave: this.handleDragLeave,
           onDrop: this.handleDrop,
         }}
+        files={files}
         extra={{
-          files: this._files,
           active,
           accept,
           minSizeBytes,

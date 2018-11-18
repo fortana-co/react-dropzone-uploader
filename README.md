@@ -58,7 +58,7 @@ const MyUploader = () => {
 ## API
 __RDU is modular__. In the example above, the only prop needed to perform uploads is `getUploadParams`. `onChangeStatus` is included to show how a file's status changes as it's dropped and uploaded. `onSubmit` gives users a button to submit files that are done uploading.
 
-Want to disable the file input? Pass `null` for `InputComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop.
+Want to disable the file input? Pass `null` for `InputComponent`. Don't want to show file previews? Pass `null` for `PreviewComponent`. Don't need a submit button after files are uploaded? Pass `null` for `SubmitButtonComponent`, or simply omit the `onSubmit` prop. 
 
 Don't want to upload files? Omit `getUploadParams`, and you'll have a dropzone that just calls `onChangeStatus` every time you add a file. This callback receives a `fileWithMeta` object and the file's `status`. If status is `'done'`, the file has been prepared and validated. Add it to an array of accepted files, or do whatever you want with it. And don't worry, `onChangeStatus` won't be called multiple times for the same status.
 
@@ -74,7 +74,7 @@ If you need totally custom filter logic, you can pass a generic `validate` funct
 
 
 ### getUploadParams
-`getUploadParams` is a regular or async callback that receives a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, then RDU doesn't initiate and manage file uploads.
+`getUploadParams` is a regular or async callback that receives a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.
 
 It should return an object with `{ fields (object), headers (object), meta (object), method (string), url (string) }`.
 
@@ -109,7 +109,7 @@ Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may be
 
 
 ## Customization
-Notice the __"Drop Or Pick Files"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `inputContent` and `inputWithFilesContent` props to render any string or JSX you want. The latter is for the content that's rendered if the dropzone has files. If you'd rather not render file input content, just pass `null`.
+Notice the __"Drag Files or Click to Browse"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `inputContent` and `inputWithFilesContent` props to render any string or JSX you want. The latter is for the content that's rendered if the dropzone has files. If you'd rather not render file input content, just pass `null`.
 
 Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill this text, just pass an empty string or null.
 
@@ -123,8 +123,10 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 
 - `dropzone`
   + wrapper for dropzone
+- `dropzoneWithFiles`
+  + wrapper for dropzone if dropzone has files
 - `dropzoneActive`
-  + wrapper for dropzone on drag over; this is __added__ to the `dropzone` class
+  + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
 - `input`
   + input label
 - `inputWithFiles`
@@ -148,21 +150,29 @@ To overwrite it, you can remove the default class by passing an empty string ins
 
 
 #### Adding To Default Classes
-If you want to merge your class names with RDU's default classes, use the `addClassNames` prop. Added class names work like `classNames`, except instead of overriding default classes they are added (concatenated) to them.
+If you want to merge your class names with RDU's default classes, use the `addClassNames` prop. Added class names work like `classNames`, except instead of overwriting default classes they are added (concatenated) to them.
 
 You can use both `classNames` and `addClassNames` if you want to overwrite some classes and add to others.
 
->Use `addClassNames` to override individual default styles, such as `border`, with your own styles. And if you import RDU's default styles at the top of your app's root component, you won't have to use `!important`.
+>Use `addClassNames` to override individual default styles, such as `border`, with your own styles. As long as you import RDU's default styles at the top of your app's root component, you won't have to use `!important`.
 
 
 ### Component Injection
 If no combination of props controlling styles and content achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section below).
 
-`null`ing these props removes their corresponding components. 
+`null`ing these props removes their corresponding components, except for `LayoutComponent`.
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel with the __...Content__ and __classNames__ props. For the file preview, these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel with the content and style props. For the file preview, these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
-It's worth noting that `LayoutComponent` receives an `extra` prop, an object containing every callback and piece of state managed by `Dropzone`. Overriding this component is the ultimate escape hatch, but also unnecessary except in rare cases.
+
+#### Custom Layout
+By default, RDU's [layout component](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) renders previews, file input and submit button as children of a dropzone div that responds to drag and drop events.
+
+If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
+
+If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout incredibly easy.
+
+>`LayoutComponent` receives an `extra` prop, an object containing nearly every callback and piece of state managed by `Dropzone`. Using this object is the ultimate escape hatch, but also unnecessary except in rare cases. Log it to the console to see what's inside.
 
 
 ## Props
@@ -181,7 +191,7 @@ Dropzone.propTypes = {
   maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 = 1MB)
   maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by the dropzone
 
-  validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; should return falsy value if validation succeeds; should return truthy value if validation fails, which will set meta.status to 'error_validation', and set meta.validationError to the returned value
+  validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets meta.status to 'error_validation', and sets meta.validationError to the returned value
 
   autoUpload: PropTypes.bool, // pass false to prevent file from being uploaded automatically; sets meta.status to 'ready' (instead of 'uploading') after file is prepared and validated; you can call `fileWithMeta.restart` whenever you want to initiate file upload
 
@@ -193,8 +203,8 @@ Dropzone.propTypes = {
   InputComponent: PropTypes.func, // overrides Input; null to remove
   PreviewComponent: PropTypes.func, // overrides Preview; null to remove
   SubmitButtonComponent: PropTypes.func, // overrides SubmitButton; null to remove
-  LayoutComponent: PropTypes.func,
-  
+  LayoutComponent: PropTypes.func, // overrides Layout; can't be removed
+
   canCancel: PropTypes.bool, // false to remove cancel button in file preview
   canRestart: PropTypes.bool, // false to remove restart button in file preview
   canRemove: PropTypes.bool, // false to remove remove button in file preview
@@ -205,6 +215,7 @@ Dropzone.propTypes = {
 
   classNames: PropTypes.object, // see "Custom Styles" section
   styles: PropTypes.object, // see "Custom Styles" section
+  addClassNames: PropTypes.object, // see "Custom Styles" section
 }
 ~~~
 
@@ -212,10 +223,10 @@ Dropzone.propTypes = {
 ### Props Passed to Injected Components
 If you use the component injection API, you'll want to know which props are passed to your injected components. Just scroll to the bottom of the following files to see their prop types.
 
-- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
-- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
 - [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
+- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
 - [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
+- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
 
 
 ## Example: S3 Uploader

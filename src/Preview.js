@@ -116,6 +116,7 @@ Preview.propTypes = {
   canCancel: PropTypes.bool.isRequired,
   canRemove: PropTypes.bool.isRequired,
   canRestart: PropTypes.bool.isRequired,
+  files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     accept: PropTypes.string.isRequired,

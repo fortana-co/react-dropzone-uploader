@@ -7,23 +7,24 @@ const Layout = (props) => {
     previews,
     submitButton,
     dropzoneProps,
+    files,
     extra: { maxFiles },
   } = props
 
   return (
     <div {...dropzoneProps}>
-      {previews.length > 0 && previews}
+      {previews}
 
-      {previews.length < maxFiles && input}
+      {files.length < maxFiles && input}
 
-      {previews.length > 0 && submitButton}
+      {files.length > 0 && submitButton}
     </div>
   )
 }
 
 Layout.propTypes = {
   input: PropTypes.node,
-  previews: PropTypes.arrayOf(PropTypes.node).isRequired,
+  previews: PropTypes.arrayOf(PropTypes.node),
   submitButton: PropTypes.node,
   dropzoneProps: PropTypes.shape({
     ref: PropTypes.any.isRequired,
@@ -33,8 +34,8 @@ Layout.propTypes = {
     onDragOver: PropTypes.func.isRequired,
     onDragLeave: PropTypes.func.isRequired,
     onDrop: PropTypes.func.isRequired,
-    xhr: PropTypes.any,
   }).isRequired,
+  files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.object.isRequired,
 }
 
