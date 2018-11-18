@@ -7,7 +7,7 @@ const Layout = (props) => {
     previews,
     submitButton,
     dropzoneProps,
-    extra: { maxFiles, onSubmit },
+    extra: { maxFiles },
   } = props
 
   return (
@@ -16,7 +16,7 @@ const Layout = (props) => {
 
       {previews.length < maxFiles && input}
 
-      {previews.length > 0 && onSubmit && submitButton}
+      {previews.length > 0 && submitButton}
     </div>
   )
 }

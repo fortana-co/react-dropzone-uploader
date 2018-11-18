@@ -365,7 +365,7 @@ class Dropzone extends React.Component {
       />
     ) : null
 
-    const submitButton = SubmitButtonComponent !== null ? (
+    const submitButton = onSubmit && SubmitButtonComponent !== null ? (
       <SubmitButton
         className={submitButtonContainerClassName}
         buttonClassName={submitButtonClassName}
