@@ -8,7 +8,7 @@ const Input = (props) => {
     style,
     withFilesStyle,
     accept,
-    content = 'Drag Files or Click to Browse',
+    content,
     withFilesContent,
     onFiles,
     files,

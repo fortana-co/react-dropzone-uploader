@@ -7,7 +7,7 @@ const SubmitButton = (props) => {
     buttonClassName,
     style,
     buttonStyle,
-    content = 'Submit',
+    content,
     onSubmit,
     files,
   } = props

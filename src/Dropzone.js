@@ -465,6 +465,8 @@ Dropzone.defaultProps = {
   canCancel: true,
   canRemove: true,
   canRestart: true,
+  inputContent: 'Drag Files or Click to Browse',
+  submitButtonContent: 'Submit',
   classNames: {},
   styles: {},
   addClassNames: {},

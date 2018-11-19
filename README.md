@@ -183,7 +183,7 @@ The following props can be passed to `Dropzone`.
 | --- | --- | --- | --- |
 | onChangeStatus | func | | called every time __fileWithMeta.meta.status__ changes; receives __(fileWithMeta, status, []fileWithMeta)__; possible status values are __'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'__ |
 | getUploadParams | func | | called after file is prepared and validated, right before upload; receives __fileWithMeta__ object; should return params needed for upload: __{ fields (object), headers (object), meta (object), method (string), url (string) }__; omit to remove upload functionality from dropzone |
-| onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; note that omitting removes submit button |
+| onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; omit to remove submit button |
 | accept | string | `'*'` | the accept attribute of the file dropzone/input |
 | minSizeBytes | number | `0` | min file size in bytes (1024 * 1024 = 1MB) |
 | maxSizeBytes | number | `2^53 - 1` | max file size in bytes (1024 * 1024 = 1MB) |
@@ -198,9 +198,9 @@ The following props can be passed to `Dropzone`.
 | canCancel | bool | `true` | false to remove cancel button in file preview |
 | canRestart | bool | `true` | false to remove restart button in file preview |
 | canRemove | bool | `true` | false to remove remove button in file preview |
-| inputContent | node | | '' or null to remove |
+| inputContent | node | `'Drag Files or Click to Browse'` | '' or null to remove |
 | inputWithFilesContent | node | | '' or null to remove |
-| submitButtonContent | node | | '' or null to remove |
+| submitButtonContent | node | `'Submit'` | '' or null to remove |
 | classNames | object | `{}` | see "Custom Styles" section |
 | styles | object | `{}` | see "Custom Styles" section |
 | addClassNames | object | `{}` | see "Custom Styles" section |
