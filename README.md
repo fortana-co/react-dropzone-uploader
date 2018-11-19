@@ -8,11 +8,11 @@ React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for R
 
 
 ## Features
-- Rich file metadata and previews, especially for image, video and audio files
-- Detailed upload status and progress, upload cancellation and restart
-- Trivially set auth headers and additional upload fields (see S3 example)
+- Detailed file metadata and previews, especially for image, video and audio files
+- Upload status and progress, upload cancellation and restart
+- Easily set auth headers and additional upload fields (see S3 example)
 - Modular design; use as standalone dropzone, file input, file uploader
-- Easily customize styles using CSS or JS
+- Customize styles using CSS or JS
 - Fully controllable via optional props, callbacks and component injection
 - Lightweight and fast
 
@@ -28,7 +28,7 @@ import 'react-dropzone-uploader/dist/styles.css'
 
 
 ## Quick Start
-RDU requires zero config for many use cases. The following code gives you a dropzone and clickable file input that uploads files to `https://httpbin.org/post`, with a button to submit files that are done uploading. [Check out a live demo](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading. [Check out a live demo](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
 
 ~~~js
 import 'react-dropzone-uploader/dist/styles.css'
@@ -49,6 +49,7 @@ const MyUploader = () => {
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
+      accept="image/*,audio/*,video/*"
     />
   )
 }
@@ -170,7 +171,7 @@ By default, RDU's [layout component](https://github.com/fortana-co/react-dropzon
 
 If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
 
-If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout incredibly easy.
+If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout trivial.
 
 >`LayoutComponent` receives an `extra` prop, an object containing nearly every callback and piece of state managed by `Dropzone`. Using this object is the ultimate escape hatch, but also unnecessary except in rare cases. Log it to the console to see what's inside.
 
@@ -178,46 +179,31 @@ If this sounds daunting you probably haven't looked at [Layout](https://github.c
 ## Props
 The following props can be passed to `Dropzone`.
 
-~~~js
-Dropzone.propTypes = {
-  onChangeStatus: PropTypes.func, // called every time fileWithMeta.meta.status changes; receives (fileWithMeta, status, []fileWithMeta); possible status values are 'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'
-
-  getUploadParams: PropTypes.func, // called after file is prepared and validated, right before upload; receives fileWithMeta object; should return params needed for upload: { fields (object), headers (object), meta (object), method (string), url (string) }; omit to remove upload functionality from dropzone
-
-  onSubmit: PropTypes.func, // called when user presses submit button; receives array of fileWithMeta objects whose status is 'headers_received' or 'done'; note that omitting removes default submit button
-
-  accept: PropTypes.string, // the accept attribute of the file dropzone/input
-  minSizeBytes: PropTypes.number.isRequired, // min file size in bytes (1024 * 1024 = 1MB)
-  maxSizeBytes: PropTypes.number.isRequired, // max file size in bytes (1024 * 1024 = 1MB)
-  maxFiles: PropTypes.number.isRequired, // max number of files that can be tracked and rendered by the dropzone
-
-  validate: PropTypes.func, // generic validation function called after file is prepared; receives fileWithMeta object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets meta.status to 'error_validation', and sets meta.validationError to the returned value
-
-  autoUpload: PropTypes.bool, // pass false to prevent file from being uploaded automatically; sets meta.status to 'ready' (instead of 'uploading') after file is prepared and validated; you can call `fileWithMeta.restart` whenever you want to initiate file upload
-
-  previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])), // generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance
-
-  /*
-  Component Injection and Customization
-   */
-  InputComponent: PropTypes.func, // overrides Input; null to remove
-  PreviewComponent: PropTypes.func, // overrides Preview; null to remove
-  SubmitButtonComponent: PropTypes.func, // overrides SubmitButton; null to remove
-  LayoutComponent: PropTypes.func, // overrides Layout; can't be removed
-
-  canCancel: PropTypes.bool, // false to remove cancel button in file preview
-  canRestart: PropTypes.bool, // false to remove restart button in file preview
-  canRemove: PropTypes.bool, // false to remove remove button in file preview
-
-  inputContent: PropTypes.node, // '' or null to remove
-  inputWithFilesContent: PropTypes.node, // '' or null to remove
-  submitButtonContent: PropTypes.node, // '' or null to remove
-
-  classNames: PropTypes.object, // see "Custom Styles" section
-  styles: PropTypes.object, // see "Custom Styles" section
-  addClassNames: PropTypes.object, // see "Custom Styles" section
-}
-~~~
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| onChangeStatus | func | | called every time __fileWithMeta.meta.status__ changes; receives __(fileWithMeta, status, []fileWithMeta)__; possible status values are __'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'__ |
+| getUploadParams | func | | called after file is prepared and validated, right before upload; receives __fileWithMeta__ object; should return params needed for upload: __{ fields (object), headers (object), meta (object), method (string), url (string) }__; omit to remove upload functionality from dropzone |
+| onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; note that omitting removes submit button |
+| accept | string | `'*'` | the accept attribute of the file dropzone/input |
+| minSizeBytes | number | `0` | min file size in bytes (1024 * 1024 = 1MB) |
+| maxSizeBytes | number | `2^53 - 1` | max file size in bytes (1024 * 1024 = 1MB) |
+| maxFiles | number | `2^53 - 1` | max number of files that can be tracked and rendered by the dropzone |
+| validate | func | | generic validation function called after file is prepared; receives __fileWithMeta__ object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets __meta.status__ to __'error_validation'__, and sets __meta.validationError__ to the returned value |
+| autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'uploading'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
+| previewTypes | array | `['image', 'audio', 'video']` | generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance |
+| InputComponent | func | | overrides __Input__; null to remove |
+| PreviewComponent | func | | overrides __Preview__; null to remove |
+| SubmitButtonComponent | func | | overrides __SubmitButton__; null to remove |
+| LayoutComponent | func | | overrides __Layout__; can't be removed |
+| canCancel | bool | `true` | false to remove cancel button in file preview |
+| canRestart | bool | `true` | false to remove restart button in file preview |
+| canRemove | bool | `true` | false to remove remove button in file preview |
+| inputContent | node | | '' or null to remove |
+| inputWithFilesContent | node | | '' or null to remove |
+| submitButtonContent | node | | '' or null to remove |
+| classNames | object | `{}` | see "Custom Styles" section |
+| styles | object | `{}` | see "Custom Styles" section |
+| addClassNames | object | `{}` | see "Custom Styles" section |
 
 
 ### Props Passed to Injected Components
