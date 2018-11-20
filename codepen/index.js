@@ -2,16 +2,15 @@
 https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js
 https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js
-https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js
-https://unpkg.com/react-dropzone-uploader@<version>/dist/styles.css
+https://unpkg.com/react-dropzone-uploader@2.0.1/dist/react-dropzone-uploader.umd.js
+https://unpkg.com/react-dropzone-uploader@2.0.1/dist/styles.css
  */
+
+// index.html: `<div id="example"></div>`
 
 const styles = {
   dropzone: {
     height: 200,
-  },
-  dropzoneActive: {
-    borderColor: '#3DC59F',
   },
 }
 
