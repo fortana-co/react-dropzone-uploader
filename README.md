@@ -236,7 +236,7 @@ A successful request to this endpoint returns something like this:
 }
 ~~~
 
-Fields has everything you need to authenticate with your S3 bucket, but you need to add them to the request sent by RDU. It turns out this is super easy.
+`fields` has everything you need to authenticate with your S3 bucket, but you need to add them to the request sent by RDU. It turns out this is super easy.
 
 ~~~js
 const getUploadParams = async ({ meta: { name } }) => {
