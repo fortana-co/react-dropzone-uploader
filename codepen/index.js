@@ -8,17 +8,10 @@ https://unpkg.com/react-dropzone-uploader@2.0.1/dist/styles.css
 
 // index.html: `<div id="example"></div>`
 
-const styles = {
-  dropzone: {
-    height: 200,
-  },
-}
-
 const App = () => {
   const getUploadParams = ({ meta }) => {
     const url = 'https://httpbin.org/post'
-    const fileUrl = `${url}/${encodeURIComponent(meta.name)}`
-    return { url, meta: { fileUrl } }
+    return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
   }
 
   const handleChangeStatus = ({ meta, file }, status) => {
@@ -34,7 +27,8 @@ const App = () => {
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      styles={styles}
+      accept="image/*,audio/*,video/*"
+      styles={{ dropzone: { height: 200 } }}
     />
   )
 }

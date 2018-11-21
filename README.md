@@ -199,7 +199,7 @@ The following props can be passed to `Dropzone`.
 | canRestart | bool | `true` | false to remove restart button in file preview |
 | canRemove | bool | `true` | false to remove remove button in file preview |
 | inputContent | node | `'Drag Files or Click to Browse'` | '' or null to remove |
-| inputWithFilesContent | node | | '' or null to remove |
+| inputWithFilesContent | node | `'Add Files'` | '' or null to remove |
 | submitButtonContent | node | `'Submit'` | '' or null to remove |
 | classNames | object | `{}` | see "Custom Styles" section |
 | styles | object | `{}` | see "Custom Styles" section |

@@ -23,6 +23,11 @@ module.exports = {
         "code": 120,
       }
     ],
+    "jsx-a11y/label-has-for": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }],
     "arrow-body-style": 0,
     "indent": [2, 2],
     "quotes": [2, "single"],

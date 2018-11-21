@@ -5,10 +5,10 @@ if (process.env.NODE_ENV !== 'production') {
   throw new Error('Production builds must have NODE_ENV=production.')
 }
 
-function createConfig(output) {
+function createConfig(entry, output) {
   return {
     mode: 'production',
-    entry: './src/Dropzone.js',
+    entry,
     output,
     optimization: {
       minimizer: [new UglifyJSPlugin()],
@@ -36,15 +36,20 @@ function createConfig(output) {
 }
 
 module.exports = [
-  createConfig({
+  createConfig('./src/Dropzone.js', {
     path: path.resolve('dist'),
     libraryTarget: 'commonjs2',
     filename: 'react-dropzone-uploader.js',
   }),
-  createConfig({
+  createConfig('./src/Dropzone.js', {
     path: path.resolve('dist'),
     libraryTarget: 'umd',
     filename: 'react-dropzone-uploader.umd.js',
     library: 'ReactDropzoneUploader',
+  }),
+  createConfig('./examples/src/index.js', {
+    path: path.resolve('examples', 'dist'),
+    libraryTarget: 'commonjs2',
+    filename: 'bundle.js',
   }),
 ]

@@ -2,13 +2,15 @@
 /node_modules
 /website/node_modules
 
+## docs
 /website/i18n
+/website/build
 
 # production
 /dist
 
-# dev
-/example/dist/bundle.js
+# examples
+/examples/dist/bundle.js
 
 # misc
 .DS_Store
