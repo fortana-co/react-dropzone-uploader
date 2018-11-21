@@ -45,6 +45,7 @@ const NoUpload = () => {
       onSubmit={handleSubmit}
       maxFiles={2}
       inputContent="Drop Up To 2 Files"
+      inputWithFilesContent="Add One More File"
     />
   )
 }
@@ -94,6 +95,7 @@ const CustomPreview = () => {
       getUploadParams={getUploadParams}
       onSubmit={handleSubmit}
       PreviewComponent={Preview}
+      inputContent="Drop Files (Custom Preview)"
     />
   )
 }
@@ -135,7 +137,8 @@ const CustomLayout = () => {
       getUploadParams={getUploadParams}
       LayoutComponent={Layout}
       onSubmit={handleSubmit}
-      classNames={{ inputWithFiles: defaultClassNames.input }}
+      classNames={{ inputLabelWithFiles: defaultClassNames.inputLabel }}
+      inputContent="Drop Files (Custom Layout)"
     />
   )
 }

@@ -4,9 +4,11 @@ import PropTypes from 'prop-types'
 const Input = (props) => {
   const {
     className,
-    withFilesClassName,
+    labelClassName,
+    labelWithFilesClassName,
     style,
-    withFilesStyle,
+    labelStyle,
+    labelWithFilesStyle,
     accept,
     multiple,
     content,
@@ -17,12 +19,13 @@ const Input = (props) => {
 
   return (
     <label
-      className={files.length > 0 ? withFilesClassName : className}
-      style={files.length > 0 ? withFilesStyle : style}
+      className={files.length > 0 ? labelWithFilesClassName : labelClassName}
+      style={files.length > 0 ? labelWithFilesStyle : labelStyle}
     >
       {files.length > 0 ? withFilesContent : content}
       <input
-        className="dzu-input"
+        className={className}
+        style={style}
         type="file"
         multiple={multiple}
         accept={accept}
@@ -34,9 +37,11 @@ const Input = (props) => {
 
 Input.propTypes = {
   className: PropTypes.string,
-  withFilesClassName: PropTypes.string,
+  labelClassName: PropTypes.string,
+  labelWithFilesClassName: PropTypes.string,
   style: PropTypes.object,
-  withFilesStyle: PropTypes.object,
+  labelStyle: PropTypes.object,
+  labelWithFilesStyle: PropTypes.object,
   accept: PropTypes.string.isRequired,
   multiple: PropTypes.bool.isRequired,
   content: PropTypes.node,

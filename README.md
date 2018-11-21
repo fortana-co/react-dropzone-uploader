@@ -129,8 +129,10 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 - `dropzoneActive`
   + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
 - `input`
+  + input
+- `inputLabel`
   + input label
-- `inputWithFiles`
+- `inputLabelWithFiles`
   + input label if dropzone has files
 - `preview`
   + wrapper for preview div
