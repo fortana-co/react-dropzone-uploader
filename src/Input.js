@@ -8,6 +8,7 @@ const Input = (props) => {
     style,
     withFilesStyle,
     accept,
+    multiple,
     content,
     withFilesContent,
     onFiles,
@@ -15,23 +16,19 @@ const Input = (props) => {
   } = props
 
   return (
-    <React.Fragment>
-      <label
-        htmlFor="dropzoneInputId"
-        className={files.length > 0 ? withFilesClassName : className}
-        style={files.length > 0 ? withFilesStyle : style}
-      >
-        {files.length > 0 ? withFilesContent : content}
-      </label>
+    <label
+      className={files.length > 0 ? withFilesClassName : className}
+      style={files.length > 0 ? withFilesStyle : style}
+    >
+      {files.length > 0 ? withFilesContent : content}
       <input
-        id="dropzoneInputId"
         className="dzu-input"
         type="file"
-        multiple
+        multiple={multiple}
         accept={accept}
         onChange={e => onFiles(Array.from(e.target.files))}
       />
-    </React.Fragment>
+    </label>
   )
 }
 
@@ -41,6 +38,7 @@ Input.propTypes = {
   style: PropTypes.object,
   withFilesStyle: PropTypes.object,
   accept: PropTypes.string.isRequired,
+  multiple: PropTypes.bool.isRequired,
   content: PropTypes.node,
   withFilesContent: PropTypes.node,
   onFiles: PropTypes.func.isRequired,

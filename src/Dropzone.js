@@ -5,7 +5,7 @@ import LayoutDefault from './Layout'
 import InputDefault from './Input'
 import PreviewDefault from './Preview'
 import SubmitButtonDefault from './SubmitButton'
-import { formatBytes, formatDuration, accepts, mergeStyles } from './utils'
+import { formatBytes, formatDuration, accepts, mergeStyles, defaultClassNames } from './utils'
 
 let id = 0
 
@@ -277,6 +277,7 @@ class Dropzone extends React.Component {
   render() {
     const {
       accept,
+      multiple,
       maxFiles,
       minSizeBytes,
       maxSizeBytes,
@@ -361,6 +362,7 @@ class Dropzone extends React.Component {
         style={inputStyle}
         withFilesStyle={inputWithFilesStyle}
         accept={accept}
+        multiple={multiple}
         content={inputContent}
         withFilesContent={inputWithFilesContent}
         onFiles={this.handleFiles}
@@ -426,6 +428,7 @@ Dropzone.propTypes = {
   onSubmit: PropTypes.func,
 
   accept: PropTypes.string,
+  multiple: PropTypes.bool,
   minSizeBytes: PropTypes.number.isRequired,
   maxSizeBytes: PropTypes.number.isRequired,
   maxFiles: PropTypes.number.isRequired,
@@ -457,6 +460,7 @@ Dropzone.propTypes = {
 
 Dropzone.defaultProps = {
   accept: '*',
+  multiple: true,
   minSizeBytes: 0,
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
@@ -466,6 +470,7 @@ Dropzone.defaultProps = {
   canRemove: true,
   canRestart: true,
   inputContent: 'Drag Files or Click to Browse',
+  inputWithFilesContent: 'Add Files',
   submitButtonContent: 'Submit',
   classNames: {},
   styles: {},
@@ -481,4 +486,5 @@ export {
   formatBytes,
   formatDuration,
   accepts,
+  defaultClassNames,
 }
