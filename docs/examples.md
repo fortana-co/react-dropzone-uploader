@@ -1,9 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+---
+id: examples
+title: Examples
+---
 
-import '../../src/styles.css'
-import Dropzone, { defaultClassNames } from '../../src/Dropzone'
 
+## Standard
+
+~~~js
 const Standard = () => {
   const getUploadParams = ({ meta }) => {
     const url = 'https://httpbin.org/post'
@@ -28,8 +31,13 @@ const Standard = () => {
     />
   )
 }
+~~~
+<div id="example-1" style="margin-bottom:100px;"></div>
 
 
+## No Upload
+
+~~~js
 const NoUpload = () => {
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
@@ -49,8 +57,13 @@ const NoUpload = () => {
     />
   )
 }
+~~~
+<div id="example-2" style="margin-bottom:100px;"></div>
 
 
+## Single File, Auto Submit
+
+~~~js
 const SingleFileAutoSubmit = () => {
   const getUploadParams = () => {
     return { url: 'https://httpbin.org/post' }
@@ -70,12 +83,17 @@ const SingleFileAutoSubmit = () => {
       maxFiles={1}
       canCancel={false}
       inputContent="Drop A File"
-      styles={{ dropzone: { width: 400, height: 200 }, dropzoneWithFiles: { width: 400, height: 200 }, dropzoneActive: { borderColor: 'red' } } }}
+      styles={{ dropzone: { width: 400, height: 200 }, dropzoneWithFiles: { width: 400, height: 200 }, dropzoneActive: { borderColor: 'red' } }}
     />
   )
 }
+~~~
+<div id="example-3" style="margin-bottom:100px;"></div>
 
 
+## Custom Preview
+
+~~~js
 const Preview = ({ meta }) => {
   const { name, percent, status } = meta
   return (
@@ -104,7 +122,13 @@ const CustomPreview = () => {
   )
 }
 
+~~~
+<div id="example-4" style="margin-bottom:100px;"></div>
 
+
+## Custom Layout
+
+~~~js
 const Layout = (props) => {
   const {
     input,
@@ -146,9 +170,7 @@ const CustomLayout = () => {
     />
   )
 }
+~~~
+<div id="example-5" style="margin-bottom:100px;"></div>
 
-ReactDOM.render(<Standard />, document.getElementById('example-1'))
-ReactDOM.render(<NoUpload />, document.getElementById('example-2'))
-ReactDOM.render(<SingleFileAutoSubmit />, document.getElementById('example-3'))
-ReactDOM.render(<CustomPreview />, document.getElementById('example-4'))
-ReactDOM.render(<CustomLayout />, document.getElementById('example-5'))
+<script src="/docs/assets/bundle.js"></script>

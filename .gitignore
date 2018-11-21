@@ -9,9 +9,6 @@
 # production
 /dist
 
-# examples
-/examples/dist/bundle.js
-
 # misc
 .DS_Store
 .env

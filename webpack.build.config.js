@@ -48,8 +48,7 @@ module.exports = [
     library: 'ReactDropzoneUploader',
   }),
   createConfig('./examples/src/index.js', {
-    path: path.resolve('examples', 'dist'),
-    libraryTarget: 'commonjs2',
+    path: path.resolve('docs', 'assets'),
     filename: 'bundle.js',
   }),
 ]
