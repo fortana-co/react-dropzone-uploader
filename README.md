@@ -17,6 +17,10 @@ React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for R
 - Lightweight and fast
 
 
+## Documentation
+<https://react-dropzone-uploader.js.org>
+
+
 ## Installation
 `npm install --save react-dropzone-uploader`
 
@@ -57,7 +61,7 @@ const MyUploader = () => {
 
 
 ## UMD Build
-This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@2.1.0/dist/react-dropzone-uploader.umd.js>.
+This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@2.1.1/dist/react-dropzone-uploader.umd.js>.
 
 If you want to include it in your page, you need to include the dependencies and CSS as well.
 
@@ -66,8 +70,8 @@ If you want to include it in your page, you need to include the dependencies and
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
 
-<script src="https://unpkg.com/react-dropzone-uploader@2.1.0/dist/react-dropzone-uploader.umd.js"></script>
-<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@2.1.0/dist/styles.css"></script>
+<script src="https://unpkg.com/react-dropzone-uploader@2.1.1/dist/react-dropzone-uploader.umd.js"></script>
+<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@2.1.1/dist/styles.css"></script>
 ~~~
 
 
