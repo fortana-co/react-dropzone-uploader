@@ -5,63 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// See https://docusaurus.io/docs/site-config for all the possible
-// site configuration options.
-
 const siteConfig = {
-  title: 'Test Site', // Title for your website.
-  tagline: 'A website for testing',
-  url: 'https://your-docusaurus-test-site.com', // Your website URL
+  title: 'React Dropzone Uploader', // Title for your website.
+  tagline: 'The file dropzone and uploader for React',
+  url: 'https://react-dropzone-uploader.js.org', // Your website URL
   baseUrl: '/', // Base URL for your project */
-  // For github.io type URLs, you would set the url and baseUrl like:
-  //   url: 'https://facebook.github.io',
-  //   baseUrl: '/test-site/',
 
   // Used for publishing and more
-  projectName: 'test-site',
-  organizationName: 'facebook',
-  // For top-level user or org sites, the organization is still the same.
-  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
-  //   organizationName: 'JoelMarcey'
+  projectName: 'react-dropzone-uploader',
+  organizationName: 'fortana-co',
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'doc1', label: 'Docs' },
-    { doc: 'doc2', label: 'API' },
-    { doc: 'examples', label: 'Examples' },
-    { page: 'help', label: 'Help' },
+    { doc: 'quick-start', label: 'Quick Start' },
+    { doc: 'api', label: 'API' },
+    { doc: 'examples', label: 'Live Examples' },
+    { search: true },
   ],
 
-  // If you have users set above, you add it here:
-  // users,
+  users: [],
 
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
   favicon: 'img/favicon.png',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#2E8555',
-    secondaryColor: '#205C3B',
+    primaryColor: '#2484FF',
+    secondaryColor: '#333333',
   },
-
-  /* Custom fonts for website */
-  /*
-  fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
-  },
-  */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()} Fortana`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
@@ -80,15 +54,19 @@ const siteConfig = {
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
 
+  cname: 'react-dropzone-uploader.js.org',
+  algolia: {
+    apiKey: '5ec5ae3523b2e316c32bbe5e948cb48d',
+    indexName: 'react-dropzone-uploader',
+  },
+
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
 
   // Show documentation's last update time.
   // enableUpdateTime: true,
 
-  // You may provide arbitrary config keys to be used as needed by your
-  // template. For example, if you need your repo's URL...
-  // repoUrl: 'https://github.com/facebook/test-site',
+  repoUrl: 'https://github.com/fortana-co/react-dropzone-uploader',
 
   usePrism: ['js', 'jsx'],
 }

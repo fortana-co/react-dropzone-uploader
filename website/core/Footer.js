@@ -32,50 +32,44 @@ class Footer extends React.Component {
               />
             )}
           </a>
+
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('doc1.html', this.props.language)}>
-              Getting Started (or other categories)
-            </a>
-            <a href={this.docUrl('doc2.html', this.props.language)}>
-              Guides (or other categories)
-            </a>
-            <a href={this.docUrl('doc3.html', this.props.language)}>
-              API Reference (or other categories)
-            </a>
+            <a href={this.docUrl('api')}>API Reference</a>
+
+            <a href={this.docUrl('examples')}>Live Examples</a>
           </div>
+
           <div>
             <h5>Community</h5>
-            <a href={this.pageUrl('users.html', this.props.language)}>
-              User Showcase
-            </a>
             <a
-              href="http://stackoverflow.com/questions/tagged/"
+              href="http://stackoverflow.com/questions/tagged/react-dropzone-uploader"
               target="_blank"
-              rel="noreferrer noopener">
+              rel="noreferrer noopener"
+            >
               Stack Overflow
             </a>
-            <a href="https://discordapp.com/">Project Chat</a>
-            <a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noreferrer noopener">
-              Twitter
-            </a>
-          </div>
-          <div>
-            <h5>More</h5>
-            <a href="https://github.com/">GitHub</a>
+
             <a
               className="github-button"
               href={this.props.config.repoUrl}
               data-icon="octicon-star"
-              data-count-href="/facebook/docusaurus/stargazers"
+              data-count-href="/fortana-co/react-dropzone-uploader/stargazers"
               data-show-count="true"
-              data-count-aria-label="# stargazers on GitHub"
-              aria-label="Star this project on GitHub">
+              data-count-aria-label="Stargazers on GitHub"
+              aria-label="Star this project on GitHub"
+            >
               Star
             </a>
+          </div>
+
+          <div>
+            <h5>Built With</h5>
+            <a href="https://docusaurus.io/">Docusaurus for website generation</a>
+
+            <a href="https://js.org/">JS.org for the domain name</a>
+
+            <a href="https://community.algolia.com/docsearch/">Algolia for search</a>
           </div>
         </section>
 

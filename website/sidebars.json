@@ -1,7 +1,6 @@
 {
   "docs": {
-    "Docs": ["examples"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "Usage": ["quick-start", "api", "customization", "props"],
+    "Examples": ["examples", "s3"]
   }
 }
