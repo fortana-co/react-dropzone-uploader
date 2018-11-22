@@ -83,7 +83,11 @@ const SingleFileAutoSubmit = () => {
       maxFiles={1}
       canCancel={false}
       inputContent="Drop A File"
-      styles={{ dropzone: { width: 400, height: 200 }, dropzoneWithFiles: { width: 400, height: 200 }, dropzoneActive: { borderColor: 'red' } }}
+      styles={{
+        dropzone: { width: 400, height: 200 },
+        dropzoneWithFiles: { width: 400, height: 200 },
+        dropzoneActive: { borderColor: 'red' },
+      }}
     />
   )
 }

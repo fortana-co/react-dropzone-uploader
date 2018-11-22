@@ -1,6 +1,6 @@
 {
   "name": "react-dropzone-uploader",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
   "main": "./dist/react-dropzone-uploader.js",
