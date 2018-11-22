@@ -177,4 +177,4 @@ const CustomLayout = () => {
 ~~~
 <div id="example-5" style="margin-bottom:100px;"></div>
 
-<script src="/docs/assets/bundle.js"></script>
+<script src="./assets/bundle.js"></script>
