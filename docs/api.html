@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>API · React Dropzone Uploader</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;&lt;strong&gt;RDU is modular&lt;/strong&gt;. In the Quick Start example, the only prop needed to perform uploads is &lt;code&gt;getUploadParams&lt;/code&gt;. &lt;code&gt;onChangeStatus&lt;/code&gt; is included to show how a file&#x27;s status changes as it&#x27;s dropped and uploaded. &lt;code&gt;onSubmit&lt;/code&gt; gives users a button to submit files that are done uploading.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="API · React Dropzone Uploader"/><meta property="og:type" content="website"/><meta property="og:url" content="https://react-dropzone-uploader.github.io/index.html"/><meta property="og:description" content="&lt;p&gt;&lt;strong&gt;RDU is modular&lt;/strong&gt;. In the Quick Start example, the only prop needed to perform uploads is &lt;code&gt;getUploadParams&lt;/code&gt;. &lt;code&gt;onChangeStatus&lt;/code&gt; is included to show how a file&#x27;s status changes as it&#x27;s dropped and uploaded. &lt;code&gt;onSubmit&lt;/code&gt; gives users a button to submit files that are done uploading.&lt;/p&gt;
+"/><meta property="og:image" content="https://react-dropzone-uploader.github.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://react-dropzone-uploader.github.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">React Dropzone Uploader</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/quick-start" target="_self">Quick Start</a></li><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/api" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/docs/examples" target="_self">Live Examples</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Usage</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Usage</h3><ul><li class="navListItem"><a class="navItem" href="/docs/quick-start">Quick Start</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/api">API</a></li><li class="navListItem"><a class="navItem" href="/docs/customization">Customization</a></li><li class="navListItem"><a class="navItem" href="/docs/props">Props</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul><li class="navListItem"><a class="navItem" href="/docs/examples">Live Examples</a></li><li class="navListItem"><a class="navItem" href="/docs/s3">S3 Uploader</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">API</h1></header><article><div><span><p><strong>RDU is modular</strong>. In the Quick Start example, the only prop needed to perform uploads is <code>getUploadParams</code>. <code>onChangeStatus</code> is included to show how a file's status changes as it's dropped and uploaded. <code>onSubmit</code> gives users a button to submit files that are done uploading.</p>
+<p>Want to disable the file input? Pass <code>null</code> for <code>InputComponent</code>. Don't want to show file previews? Pass <code>null</code> for <code>PreviewComponent</code>. Don't need a submit button after files are uploaded? Pass <code>null</code> for <code>SubmitButtonComponent</code>, or simply omit the <code>onSubmit</code> prop.</p>
+<p>Don't want to upload files? Omit <code>getUploadParams</code>, and you'll have a dropzone that just calls <code>onChangeStatus</code> every time you add a file. This callback receives a <code>fileWithMeta</code> object and the file's <code>status</code>. If status is <code>'done'</code>, the file has been prepared and validated. Add it to an array of accepted files, or do whatever you want with it. And don't worry, <code>onChangeStatus</code> won't be called multiple times for the same status.</p>
+<p>By the way, <code>getUploadParams</code> can be async, in case you need to go over the network to get upload params for a file. This would be the case if you use, for example, <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html">presigned upload URLs with S3</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="accepted-files"></a><a href="#accepted-files" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Accepted Files</h2>
+<p>To control which files can be dropped or picked, you can use the <code>accept</code> prop, which is really the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types">HTML5 input accept attribute</a>. Also available are the <code>minSizeBytes</code>, <code>maxSizeBytes</code> and <code>maxFiles</code> props.</p>
+<p>Files whose sizes fall outside the range <code>[minSizeBytes, maxSizeBytes]</code> are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call <code>onChangeStatus</code> with special status values, but are not rendered.</p>
+<p>If you need totally custom filter logic, you can pass a generic <code>validate</code> function. This function receives a <code>fileWithMeta</code> object. If you return a falsy value from <code>validate</code>, the file is accepted, else it's rejected. Read more in the <strong>Props</strong> section.</p>
+<h2><a class="anchor" aria-hidden="true" id="getuploadparams"></a><a href="#getuploadparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>getUploadParams</code></h2>
+<p><code>getUploadParams</code> is a regular or async callback that receives a <code>fileWithMeta</code> object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.</p>
+<p>It should return an object with <code>{ fields (object), headers (object), meta (object), method (string), url (string) }</code>.</p>
+<p>The only required key is <code>url</code>. <strong>POST</strong> is the default method. <code>fields</code> lets you <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData/append">append fields to the formData instance</a> submitted with the request. <code>headers</code> sets headers using <code>XMLHttpRequest.setRequestHeader</code>, which makes it easy to authenticate with the upload server.</p>
+<p>Returning a <code>meta</code> object lets you merge new values into the file's <code>meta</code>, which is also something you can do with <code>onChangeStatus</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="filewithmeta-objects"></a><a href="#filewithmeta-objects" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>fileWithMeta</code> Objects</h2>
+<p>RDU maintains an array of files it's currently tracking and rendering. The elements of this array are <code>fileWithMeta</code> objects, which contain the following keys:</p>
+<ul>
+<li><code>file</code>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File">file instance</a> returned by <code>onDrop</code> event or by input's <code>onChange</code> event</li>
+</ul></li>
+<li><code>meta</code>
+<ul>
+<li>file metadata, containing a subset of the following keys: <code>status</code>, <code>type</code>, <code>name</code>, <code>uploadedDate</code>, <code>percent</code>, <code>size</code>, <code>lastModifiedDate</code>, <code>previewUrl</code>, <code>duration</code>, <code>width</code>, <code>height</code>, <code>videoWidth</code>, <code>videoHeight</code>; see <strong>Props</strong> section for possible status values</li>
+</ul></li>
+<li><code>cancel</code>, <code>restart</code>, <code>remove</code>
+<ul>
+<li>functions that allow client code to take control of upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone</li>
+</ul></li>
+<li><code>xhr</code>
+<ul>
+<li>instance of <code>XMLHttpRequest</code> if the file is being uploaded, else undefined</li>
+</ul></li>
+</ul>
+<p>RDU's callback props <code>onChangeStatus</code>, <code>getUploadParams</code>, and <code>validate</code> receive a <code>fileWithMeta</code> object, while <code>onSubmit</code> receives an array of <code>fileWithMeta</code> objects.</p>
+<blockquote>
+<p>For convenience, <code>onChangeStatus</code> also receives the array of <code>fileWithMeta</code> objects being tracked by the dropzone as a third argument.</p>
+</blockquote>
+<p>These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.</p>
+<p>Note that <code>fileWithMeta</code> objects <strong>are mutable</strong>. If you mutate them, RDU may behave unexpectedly, so don't do this!</p>
+<blockquote>
+<p>This is why <code>onChangeStatus</code> also receives <code>status</code> instead of just <code>fileWithMeta</code>. Your callback gets the correct, immutable value of <code>status</code>, even if <code>fileWithMeta</code> is later mutated.</p>
+</blockquote>
+<p><code>getUploadParams</code> and <code>onChangeStatus</code> have an explicit API for merging new values into a file's meta. If you return something like <code>{ meta: { newKey: newValue } }</code> from these functions, RDU merges the new values into the file's <code>meta</code>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/quick-start"><span class="arrow-prev">← </span><span>Quick Start</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#accepted-files">Accepted Files</a></li><li><a href="#getuploadparams"><code>getUploadParams</code></a></li><li><a href="#filewithmeta-objects"><code>fileWithMeta</code> Objects</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>Docs</h5><a href="/docs/api">API Reference</a><a href="/docs/examples">Live Examples</a></div><div><h5>Community</h5><a href="http://stackoverflow.com/questions/tagged/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a class="github-button" href="https://github.com/fortana-co/react-dropzone-uploader" data-icon="octicon-star" data-count-href="/fortana-co/react-dropzone-uploader/stargazers" data-show-count="true" data-count-aria-label="Stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>Built With</h5><a href="https://docusaurus.io/">Docusaurus for website generation</a><a href="https://js.org/">JS.org for the domain name</a><a href="https://community.algolia.com/docsearch/">Algolia for search</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2018 Fortana</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '5ec5ae3523b2e316c32bbe5e948cb48d',
+                indexName: 'react-dropzone-uploader',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
