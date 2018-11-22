@@ -8,10 +8,8 @@
 const siteConfig = {
   title: 'React Dropzone Uploader', // Title for your website.
   tagline: 'The file dropzone and uploader for React',
-  // url: 'https://react-dropzone-uploader.js.org', // Your website URL
-  url: 'https://fortana-co.github.io/react-dropzone-uploader', // Your website URL
-  // baseUrl: '/', // Base URL for your project */
-  baseUrl: '/react-dropzone-uploader/', // Base URL for your project */
+  url: 'https://react-dropzone-uploader.js.org', // Your website URL
+  baseUrl: '/', // Base URL for your project */
 
   // Used for publishing and more
   projectName: 'react-dropzone-uploader',
@@ -56,7 +54,7 @@ const siteConfig = {
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
 
-  // cname: 'react-dropzone-uploader.js.org',
+  cname: 'react-dropzone-uploader.js.org',
   algolia: {
     apiKey: '5ec5ae3523b2e316c32bbe5e948cb48d',
     indexName: 'react-dropzone-uploader',
