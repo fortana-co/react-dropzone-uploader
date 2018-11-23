@@ -18,7 +18,17 @@ To control which files can be dropped or picked, you can use the `accept` prop, 
 
 Files whose sizes fall outside the range `[minSizeBytes, maxSizeBytes]` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered.
 
-If you need totally custom filter logic, you can pass a generic `validate` function. This function receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected. Read more in the __Props__ section.
+If you need totally custom filter logic, you can pass a generic `validate` function. This function receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected.
+
+
+## `onChangeStatus`
+This is called every time a file's status changes: `fileWithMeta.meta.status`.
+
+It receives `(fileWithMeta, status, []fileWithMeta)`. The first argument is the `fileWithMeta` object whose status changed, while the third argument is the array of all `fileWithMeta` objects being tracked by the dropzone.
+
+Possible status values are `'rejected_file_type'`, `'rejected_max_files'`, `'preparing'`, `'error_file_size'`, `'error_validation'`, `'ready'`, `'started'`, `'uploading'`, `'error_upload_params'`, `'aborted'`, `'restarted'`, `'removed'`, `'error_upload'`, `'headers_received'`, `'done'`.
+
+Returning a `meta` object lets you merge new values into the file's `meta`.
 
 
 ## `getUploadParams`
@@ -28,7 +38,15 @@ It should return an object with `{ fields (object), headers (object), meta (obje
 
 The only required key is `url`. __POST__ is the default method. `fields` lets you [append fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) submitted with the request. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
 
-Returning a `meta` object lets you merge new values into the file's `meta`, which is also something you can do with `onChangeStatus`.
+Returning a `meta` object lets you merge new values into the file's `meta`.
+
+
+## `onSubmit`
+This is called when a user presses the submit button.
+
+It receives `([]fileWithMeta, []fileWithMeta)`. The first argument is an array of `fileWithMeta` objects whose status is `'headers_received'` or `'done'`. The second argument is the array of __all__ `fileWithMeta` objects being tracked by the dropzone.
+
+If you omit this prop the dropzone doesn't render a submit button.
 
 
 ## `fileWithMeta` Objects
@@ -37,20 +55,20 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
 - `file`
   + [file instance](https://developer.mozilla.org/en-US/docs/Web/API/File) returned by `onDrop` event or by input's `onChange` event
 - `meta`
-  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`; see __Props__ section for possible status values
+  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`
 - `cancel`, `restart`, `remove`
-  + functions that allow client code to take control of upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone
+  + functions that allow client code to take control of the upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone
 - `xhr`
   + instance of `XMLHttpRequest` if the file is being uploaded, else undefined
 
-RDU's callback props `onChangeStatus`, `getUploadParams`, and `validate` receive a `fileWithMeta` object, while `onSubmit` receives an array of `fileWithMeta` objects.
+RDU's callback props `onChangeStatus`, `getUploadParams`, `onSubmit` and `validate` receive single or multiple `fileWithMeta` objects.
 
->For convenience, `onChangeStatus` also receives the array of `fileWithMeta` objects being tracked by the dropzone as a third argument.
+These objects give you all the metadata you need to create a customized, reactive file dropzone, file input, or file uploader.
 
-These objects give you all the metadata you could want for creating a customized, reactive file dropzone, file input, or file uploader.
 
+### Mutability
 Note that `fileWithMeta` objects __are mutable__. If you mutate them, RDU may behave unexpectedly, so don't do this!
 
->This is why `onChangeStatus` also receives `status` instead of just `fileWithMeta`. Your callback gets the correct, immutable value of `status`, even if `fileWithMeta` is later mutated.
+>This is why `onChangeStatus` also receives `status` instead of just `fileWithMeta`. Your callback gets the correct, immutable value of `status`, even if `fileWithMeta.meta.status` is later updated.
 
-`getUploadParams` and `onChangeStatus` have an explicit API for merging new values into a file's meta. If you return something like `{ meta: { newKey: newValue } }` from these functions, RDU merges the new values into the file's `meta`.
+`getUploadParams` and `onChangeStatus` have an API for safely merging new values into a file's meta. If you return something like `{ meta: { newKey: newValue } }` from these functions, RDU merges the new values into the file's `meta`.

@@ -37,8 +37,9 @@ const NoUpload = () => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (
@@ -128,11 +129,12 @@ const Layout = (props) => {
 
   return (
     <div>
+      {previews}
+
       <div {...dropzoneProps}>
         {files.length < maxFiles && input}
       </div>
 
-      {previews}
       {files.length > 0 && submitButton}
     </div>
   )

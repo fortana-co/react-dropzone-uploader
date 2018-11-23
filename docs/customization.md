@@ -51,11 +51,11 @@ If you want to merge your class names with RDU's default classes, use the `addCl
 
 You can use both `classNames` and `addClassNames` if you want to overwrite some classes and add to others.
 
->Use `addClassNames` to override individual default styles, such as `border`, with your own styles. As long as you import RDU's default styles at the top of your app's root component, you won't have to use `!important`.
+>Use `addClassNames` to override individual default styles, such as `border`, with your own styles. As long as you import RDU's default stylesheet at the top of your app's root component, you won't have to use `!important`.
 
 
 ## Component Injection
-If no combination of props controlling styles and content achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default components. These components receive the props they need to react to the current state of the dropzone and its files (see the __Props Passed to Injected Components__ section).
+If no combination of props controlling styles and content achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default component. These components receive the props they need to react to the current state of the dropzone and its files.
 
 `null`ing these props removes their corresponding components, except for `LayoutComponent`.
 

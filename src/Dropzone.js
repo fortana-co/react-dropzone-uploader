@@ -71,6 +71,10 @@ class Dropzone extends React.Component {
     }
   }
 
+  handleSubmit = (files) => {
+    if (this.props.onSubmit) this.props.onSubmit(files, [...this._files])
+  }
+
   handleCancel = (fileWithMeta) => {
     if (!fileWithMeta.xhr) return
     fileWithMeta.xhr.abort()
@@ -382,7 +386,7 @@ class Dropzone extends React.Component {
         style={submitButtonContainerStyle}
         buttonStyle={submitButtonStyle}
         content={submitButtonContent}
-        onSubmit={onSubmit}
+        onSubmit={this.handleSubmit}
         files={files}
         extra={extra}
       />

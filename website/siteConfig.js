@@ -56,7 +56,7 @@ const siteConfig = {
 
   cname: 'react-dropzone-uploader.js.org',
   algolia: {
-    apiKey: '5ec5ae3523b2e316c32bbe5e948cb48d',
+    apiKey: 'b81e773a58e72b7db35eb2cb18cf36ae',
     indexName: 'react-dropzone-uploader',
   },
 

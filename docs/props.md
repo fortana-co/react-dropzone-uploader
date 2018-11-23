@@ -10,7 +10,7 @@ The following props can be passed to `Dropzone`.
 | --- | --- | --- | --- |
 | onChangeStatus | func | | called every time __fileWithMeta.meta.status__ changes; receives __(fileWithMeta, status, []fileWithMeta)__; possible status values are __'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'__ |
 | getUploadParams | func | | called after file is prepared and validated, right before upload; receives __fileWithMeta__ object; should return params needed for upload: __{ fields (object), headers (object), meta (object), method (string), url (string) }__; omit to remove upload functionality from dropzone |
-| onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; omit to remove submit button |
+| onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; also receives array of all __fileWithMeta__ objects as second argument; omit to remove submit button |
 | accept | string | `'*'` | the accept attribute of the file dropzone/input |
 | multiple | bool | `true` | the multiple attribute of the file input |
 | minSizeBytes | number | `0` | min file size in bytes (1024 * 1024 = 1MB) |

@@ -5,6 +5,9 @@ title: Live Examples
 
 
 ## Standard
+Uploads files to <https://httpbin.org/post>, and merges extra `fileUrl` field into file meta. Logs file metadata to console on submit.
+
+Only accepts __image__, __audio__, and __video__ files. Limits dropzone height with `styles` prop.
 
 ~~~js
 const Standard = () => {
@@ -36,6 +39,10 @@ const Standard = () => {
 
 
 ## No Upload
+Doesn't upload files. Limits dropzone to 2 files using `maxFiles` prop.
+
+Logs file metadata to console on submit, and removes files from dropzone using `fileWithMeta.remove`.
+
 
 ~~~js
 const NoUpload = () => {
@@ -43,8 +50,9 @@ const NoUpload = () => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (
@@ -62,6 +70,9 @@ const NoUpload = () => {
 
 
 ## Single File, Auto Submit
+Automatically logs file to the console when it finishes uploading, then removes it from dropzone. Doesn't include submit button.
+
+Changes border color for "active" dropzone using `styles` prop.
 
 ~~~js
 const SingleFileAutoSubmit = () => {
@@ -96,6 +107,7 @@ const SingleFileAutoSubmit = () => {
 
 
 ## Custom Preview
+Standard file uploader with custom `PreviewComponent`.
 
 ~~~js
 const Preview = ({ meta }) => {
@@ -131,8 +143,11 @@ const CustomPreview = () => {
 
 
 ## Custom Layout
+Custom `LayoutComponent`. Renders file previews above dropzone, and submit button below it. Uses `defaultClassNames` and `classNames` prop to ensure input label style doesn't change when dropzone contains files.
 
 ~~~js
+import Dropzone, { defaultClassNames } from 'react-dropzone-uploader'
+
 const Layout = (props) => {
   const {
     input,
