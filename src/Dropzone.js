@@ -331,7 +331,7 @@ class Dropzone extends React.Component {
       },
     } = mergeStyles(classNames, styles, addClassNames)
 
-    const extra = { active, accept, minSizeBytes, maxSizeBytes, maxFiles }
+    const extra = { active, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }
 
     const files = [...this._files]
     let previews = null
@@ -408,6 +408,7 @@ class Dropzone extends React.Component {
         extra={{
           active,
           accept,
+          multiple,
           minSizeBytes,
           maxSizeBytes,
           maxFiles,

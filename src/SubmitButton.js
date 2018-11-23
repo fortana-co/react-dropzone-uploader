@@ -45,6 +45,7 @@ SubmitButton.propTypes = {
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     accept: PropTypes.string.isRequired,
+    multiple: PropTypes.bool.isRequired,
     minSizeBytes: PropTypes.number.isRequired,
     maxSizeBytes: PropTypes.number.isRequired,
     maxFiles: PropTypes.number.isRequired,

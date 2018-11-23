@@ -62,8 +62,17 @@ If no combination of props controlling styles and content achieves the look and 
 The file input and submit button are simple, and it's usually easy to get the right look and feel with the content and style props. For the file preview, these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
 
+### Default Components
+If you're going to write your own component, it makes sense to start with the default component and modify it.
+
+- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
+- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
+- [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
+- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
+
+
 ### Custom Layout
-By default, RDU's [layout component](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) renders previews, file input and submit button as children of a dropzone div that responds to drag and drop events.
+By default, RDU's layout component renders previews, file input and submit button as children of a dropzone div that responds to drag and drop events.
 
 If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
 

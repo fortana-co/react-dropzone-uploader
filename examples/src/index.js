@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import '../../src/styles.css'
 import Dropzone, { defaultClassNames } from '../../src/Dropzone'
@@ -58,24 +60,29 @@ const SingleFileAutoSubmit = () => {
 
   const handleChangeStatus = ({ meta, remove }, status) => {
     if (status === 'headers_received') {
-      console.log('submit file automatically and remove it', meta)
+      toast.success(`${meta.name} uploaded!`)
       remove()
+    } else if (status === 'aborted') {
+      toast.error(`${meta.name}, upload failed...`)
     }
   }
 
   return (
-    <Dropzone
-      getUploadParams={getUploadParams}
-      onChangeStatus={handleChangeStatus}
-      maxFiles={1}
-      canCancel={false}
-      inputContent="Drop A File"
-      styles={{
-        dropzone: { width: 400, height: 200 },
-        dropzoneWithFiles: { width: 400, height: 200 },
-        dropzoneActive: { borderColor: 'red' },
-      }}
-    />
+    <React.Fragment>
+      <ToastContainer />
+      <Dropzone
+        getUploadParams={getUploadParams}
+        onChangeStatus={handleChangeStatus}
+        maxFiles={1}
+        canCancel={false}
+        inputContent="Drop A File"
+        styles={{
+          dropzone: { width: 400, height: 200 },
+          dropzoneWithFiles: { width: 400, height: 200 },
+          dropzoneActive: { borderColor: 'red' },
+        }}
+      />
+    </React.Fragment>
   )
 }
 

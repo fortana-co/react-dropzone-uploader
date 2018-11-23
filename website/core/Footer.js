@@ -67,7 +67,9 @@ class Footer extends React.Component {
             <h5>Built With</h5>
             <a href="https://docusaurus.io/">Docusaurus for website generation</a>
 
-            <a href="https://js.org/">JS.org for the domain name</a>
+            <a href="https://pages.github.com/">GitHub Pages for hosting</a>
+
+            <a href="https://js.org/">js.org for the domain name</a>
 
             <a href="https://community.algolia.com/docsearch/">Algolia for search</a>
           </div>
