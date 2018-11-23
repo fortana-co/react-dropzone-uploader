@@ -75,5 +75,9 @@ If you want to include it in your page, you need to include the dependencies and
 ~~~
 
 
+## Contributing
+<https://github.com/fortana-co/react-dropzone-uploader/blob/master/contributing.md>
+
+
 ## Thanks
 Thanks to `react-dropzone`, `react-fine-uploader`, `react-select`, and `redux-form` for inspiration.

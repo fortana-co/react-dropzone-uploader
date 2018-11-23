@@ -51,6 +51,14 @@ class Footer extends React.Component {
             </a>
 
             <a
+              href={this.props.config.repoUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              GitHub
+            </a>
+
+            <a
               className="github-button"
               href={this.props.config.repoUrl}
               data-icon="octicon-star"
@@ -87,7 +95,12 @@ class Footer extends React.Component {
             height="45"
           />
         </a>
-        <section className="copyright">{this.props.config.copyright}</section>
+        <section className="copyright">
+          Copyright &copy; {new Date().getFullYear()}{' '}
+          <a href="https://fortana.co">
+            Fortana
+          </a>.
+        </section>
       </footer>
     );
   }
