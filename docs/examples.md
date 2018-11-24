@@ -4,6 +4,9 @@ title: Live Examples
 ---
 
 
+>Open your browser's console to see how RDU manages file metadata and the upload lifecycle.
+
+
 ## Standard
 Uploads files to <https://httpbin.org/post>, and merges extra `fileUrl` field into file meta. Logs file metadata to console on submit.
 
@@ -75,6 +78,8 @@ Automatically logs file to the console when it finishes uploading, then removes 
 Changes border color for "active" dropzone using `styles` prop.
 
 ~~~js
+import { ToastContainer, toast } from 'react-toastify'
+
 const SingleFileAutoSubmit = () => {
   const getUploadParams = () => {
     return { url: 'https://httpbin.org/post' }
@@ -82,24 +87,29 @@ const SingleFileAutoSubmit = () => {
 
   const handleChangeStatus = ({ meta, remove }, status) => {
     if (status === 'headers_received') {
-      console.log('submit file automatically and remove it', meta)
+      toast.success(`${meta.name} uploaded!`)
       remove()
+    } else if (status === 'aborted') {
+      toast.error(`${meta.name}, upload failed...`)
     }
   }
 
   return (
-    <Dropzone
-      getUploadParams={getUploadParams}
-      onChangeStatus={handleChangeStatus}
-      maxFiles={1}
-      canCancel={false}
-      inputContent="Drop A File"
-      styles={{
-        dropzone: { width: 400, height: 200 },
-        dropzoneWithFiles: { width: 400, height: 200 },
-        dropzoneActive: { borderColor: 'red' },
-      }}
-    />
+    <React.Fragment>
+      <ToastContainer position="bottom-right" />
+      <Dropzone
+        getUploadParams={getUploadParams}
+        onChangeStatus={handleChangeStatus}
+        maxFiles={1}
+        canCancel={false}
+        inputContent="Drop A File"
+        styles={{
+          dropzone: { width: 400, height: 200 },
+          dropzoneWithFiles: { width: 400, height: 200 },
+          dropzoneActive: { borderColor: 'red' },
+        }}
+      />
+    </React.Fragment>
   )
 }
 ~~~

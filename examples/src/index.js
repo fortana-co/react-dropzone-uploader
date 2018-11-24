@@ -70,7 +70,7 @@ const SingleFileAutoSubmit = () => {
 
   return (
     <React.Fragment>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <Dropzone
         getUploadParams={getUploadParams}
         onChangeStatus={handleChangeStatus}

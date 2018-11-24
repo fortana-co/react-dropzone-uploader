@@ -4,7 +4,7 @@ title: Quick Start
 ---
 
 
-React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for React.
+React Dropzone Uploader is a customizable file dropzone and uploader for React.
 
 
 ## Installation

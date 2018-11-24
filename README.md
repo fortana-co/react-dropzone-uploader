@@ -4,7 +4,7 @@
 [![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 
-React Dropzone Uploader is a customizable HTML5 file dropzone and uploader for React.
+React Dropzone Uploader is a customizable file dropzone and uploader for React.
 
 
 ## Features
