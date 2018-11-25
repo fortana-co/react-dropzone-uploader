@@ -47,7 +47,7 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
 - `file`
   + [file instance](https://developer.mozilla.org/en-US/docs/Web/API/File) returned by `onDrop` event or by input's `onChange` event
 - `meta`
-  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`
+  + file metadata, containing a subset of the following keys: `status`, `type`, `name`, `uploadedDate`, `percent`, `size`, `lastModifiedDate`, `previewUrl`, `duration`, `width`, `height`, `videoWidth`, `videoHeight`, `id`
 - `cancel`, `restart`, `remove`
   + functions that allow client code to take control of the upload lifecycle; cancel file upload, (re)start file upload, or remove file from dropzone
 - `xhr`

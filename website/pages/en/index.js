@@ -83,9 +83,9 @@ class HomeSplash extends React.Component {
 }
 
 const Features = () => (
-  <div className="productShowcaseSection" style={{ padding: '0 25%', textAlign: 'unset' }}>
+  <div className="productShowcaseSection" style={{ textAlign: 'unset', display: 'flex', flexDirection: 'column' }}>
     <h2>Features</h2>
-    <ul>
+    <ul style={{ alignSelf: 'center' }}>
       <li>Detailed file metadata and previews, especially for image, video and audio files</li>
       <li>Upload status and progress, upload cancellation and restart</li>
       <li>Easily set auth headers and additional upload fields</li>
