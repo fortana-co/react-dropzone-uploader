@@ -101,7 +101,7 @@ const Installation = () => (
   <div className="productShowcaseSection paddingBottom">
     <h2>Installation</h2>
     <MarkdownBlock>React Dropzone Uploader requires **React 16.2.0 or later.**</MarkdownBlock>
-    <MarkdownBlock>``` npm install --save react-dropzone-uploader ```</MarkdownBlock>
+    <MarkdownBlock>```npm install --save react-dropzone-uploader```</MarkdownBlock>
   </div>
 );
 

@@ -50,6 +50,8 @@ Input.propTypes = {
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
+    dragged: PropTypes.arrayOf(PropTypes.any).isRequired,
+    draggedReject: PropTypes.bool.isRequired,
     accept: PropTypes.string.isRequired,
     multiple: PropTypes.bool.isRequired,
     minSizeBytes: PropTypes.number.isRequired,

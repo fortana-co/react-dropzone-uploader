@@ -22,6 +22,8 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
   + wrapper for dropzone if dropzone has files
 - `dropzoneActive`
   + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
+- `dropzoneReject`
+  + wrapper for dropzone on drag over if file MIME types in [DataTransfer.items](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items) don't match `accept` prop; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
 - `input`
   + input
 - `inputLabel`

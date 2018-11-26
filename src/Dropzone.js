@@ -14,6 +14,7 @@ class Dropzone extends React.Component {
     super(props)
     this.state = {
       active: false,
+      dragged: [],
     }
     this._files = [] // fileWithMeta objects: { file, meta }
     this._mounted = true
@@ -34,14 +35,14 @@ class Dropzone extends React.Component {
   handleDragEnter = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.setState({ active: true })
+    this.setState({ active: true, dragged: (e.dataTransfer && Array.from(e.dataTransfer.items)) || [] })
   }
 
   handleDragOver = (e) => {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this._dragTimeoutId)
-    this.setState({ active: true })
+    this.setState({ active: true, dragged: (e.dataTransfer && Array.from(e.dataTransfer.items)) || [] })
   }
 
   handleDragLeave = (e) => {
@@ -49,13 +50,13 @@ class Dropzone extends React.Component {
     e.stopPropagation()
     // prevents repeated toggling of `active` state when file is dragged over children of uploader
     // see: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-    this._dragTimeoutId = setTimeout(() => this.setState({ active: false }), 150)
+    this._dragTimeoutId = setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
   }
 
   handleDrop = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.setState({ active: false })
+    this.setState({ active: false, dragged: [] })
 
     const { dataTransfer: { files } } = e
     this.handleFiles([...files])
@@ -301,7 +302,7 @@ class Dropzone extends React.Component {
       styles,
       addClassNames,
     } = this.props
-    const { active } = this.state
+    const { active, dragged } = this.state
 
     const Input = InputComponent || InputDefault
     const Preview = PreviewComponent || PreviewDefault
@@ -313,6 +314,7 @@ class Dropzone extends React.Component {
         dropzone: dropzoneClassName,
         dropzoneWithFiles: dropzoneWithFilesClassName,
         dropzoneActive: dropzoneActiveClassName,
+        dropzoneReject: dropzoneRejectClassName,
         input: inputClassName,
         inputLabel: inputLabelClassName,
         inputLabelWithFiles: inputLabelWithFilesClassName,
@@ -325,6 +327,7 @@ class Dropzone extends React.Component {
         dropzone: dropzoneStyle,
         dropzoneWithFiles: dropzoneWithFilesStyle,
         dropzoneActive: dropzoneActiveStyle,
+        dropzoneReject: dropzoneRejectStyle,
         input: inputStyle,
         inputLabel: inputLabelStyle,
         inputLabelWithFiles: inputLabelWithFilesStyle,
@@ -335,7 +338,8 @@ class Dropzone extends React.Component {
       },
     } = mergeStyles(classNames, styles, addClassNames)
 
-    const extra = { active, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }
+    const draggedReject = dragged.some(file => file.type !== 'application/x-moz-file' && !accepts(file, accept))
+    const extra = { active, dragged, draggedReject, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }
 
     const files = [...this._files]
     let previews = null
@@ -392,8 +396,16 @@ class Dropzone extends React.Component {
       />
     ) : null
 
-    const dropzoneBaseClassName = files.length > 0 ? dropzoneWithFilesClassName : dropzoneClassName
-    const dropzoneBaseStyle = files.length > 0 ? dropzoneWithFilesStyle : dropzoneStyle
+    let className = files.length > 0 ? dropzoneWithFilesClassName : dropzoneClassName
+    let style = files.length > 0 ? dropzoneWithFilesStyle : dropzoneStyle
+    if (draggedReject) {
+      className = `${className} ${dropzoneRejectClassName}`
+      style = { ...(style || {}), ...(dropzoneRejectStyle || {}) }
+    } else if (active) {
+      className = `${className} ${dropzoneActiveClassName}`
+      style = { ...(style || {}), ...(dropzoneActiveStyle || {}) }
+    }
+
     return (
       <Layout
         input={input}
@@ -401,8 +413,8 @@ class Dropzone extends React.Component {
         submitButton={submitButton}
         dropzoneProps={{
           ref: this._dropzone,
-          className: active ? `${dropzoneBaseClassName} ${dropzoneActiveClassName}` : dropzoneBaseClassName,
-          style: active ? { ...(dropzoneBaseStyle || {}), ...(dropzoneActiveStyle || {}) } : dropzoneBaseStyle,
+          className,
+          style,
           onDragEnter: this.handleDragEnter,
           onDragOver: this.handleDragOver,
           onDragLeave: this.handleDragLeave,
@@ -410,12 +422,7 @@ class Dropzone extends React.Component {
         }}
         files={files}
         extra={{
-          active,
-          accept,
-          multiple,
-          minSizeBytes,
-          maxSizeBytes,
-          maxFiles,
+          ...extra,
           canCancel,
           canRemove,
           canRestart,

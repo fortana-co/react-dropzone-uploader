@@ -10,7 +10,7 @@ title: Live Examples
 ## Standard
 Uploads files to <https://httpbin.org/post>, and merges extra `fileUrl` field into file meta. Logs file metadata to console on submit.
 
-Only accepts __image__, __audio__, and __video__ files. Limits dropzone height with `styles` prop.
+Only accepts __image__, __audio__, and __video__ files. Limits dropzone height with `styles` prop, and colors dropzone red on drag if files will be rejected because of file type.
 
 ~~~js
 const Standard = () => {
@@ -33,7 +33,11 @@ const Standard = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       accept="image/*,audio/*,video/*"
-      styles={{ dropzone: { height: 200 }, dropzoneWithFiles: { maxHeight: 250 } }}
+      styles={{
+        dropzone: { height: 200 },
+        dropzoneWithFiles: { maxHeight: 250 },
+        dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
+      }}
     />
   )
 }
@@ -73,7 +77,7 @@ const NoUpload = () => {
 
 
 ## Single File, Auto Submit
-Automatically logs file to the console when it finishes uploading, then removes it from dropzone. Doesn't include submit button.
+Automatically removes files from dropzone when it finishes uploading. Doesn't include submit button.
 
 Changes border color for "active" dropzone using `styles` prop.
 
@@ -106,7 +110,7 @@ const SingleFileAutoSubmit = () => {
         styles={{
           dropzone: { width: 400, height: 200 },
           dropzoneWithFiles: { width: 400, height: 200 },
-          dropzoneActive: { borderColor: 'red' },
+          dropzoneActive: { borderColor: 'green' },
         }}
       />
     </React.Fragment>

@@ -42,6 +42,7 @@ export const defaultClassNames = {
   dropzone: 'dzu-dropzone',
   dropzoneWithFiles: 'dzu-dropzone',
   dropzoneActive: 'dzu-dropzoneActive',
+  dropzoneReject: 'dzu-dropzoneActive',
   input: 'dzu-input',
   inputLabel: 'dzu-inputLabel',
   inputLabelWithFiles: 'dzu-inputLabelWithFiles',

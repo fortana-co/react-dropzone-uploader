@@ -119,6 +119,8 @@ Preview.propTypes = {
   files: PropTypes.arrayOf(PropTypes.any).isRequired, // eslint-disable-line react/no-unused-prop-types
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
+    dragged: PropTypes.arrayOf(PropTypes.any).isRequired,
+    draggedReject: PropTypes.bool.isRequired,
     accept: PropTypes.string.isRequired,
     multiple: PropTypes.bool.isRequired,
     minSizeBytes: PropTypes.number.isRequired,

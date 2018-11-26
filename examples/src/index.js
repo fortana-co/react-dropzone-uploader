@@ -26,7 +26,11 @@ const Standard = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       accept="image/*,audio/*,video/*"
-      styles={{ dropzone: { height: 200 }, dropzoneWithFiles: { maxHeight: 250 } }}
+      styles={{
+        dropzone: { height: 200 },
+        dropzoneWithFiles: { maxHeight: 250 },
+        dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
+      }}
     />
   )
 }
@@ -80,7 +84,7 @@ const SingleFileAutoSubmit = () => {
         styles={{
           dropzone: { width: 400, height: 200 },
           dropzoneWithFiles: { width: 400, height: 200 },
-          dropzoneActive: { borderColor: 'red' },
+          dropzoneActive: { borderColor: 'green' },
         }}
       />
     </React.Fragment>
