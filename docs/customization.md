@@ -8,7 +8,7 @@ Notice the __"Drag Files or Click to Browse"__ text that appears by default in a
 
 Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill this text, just pass an empty string or null.
 
-See all of the customization props in the __Props__ section.
+See the rest of the component customization props [here](props.md#component-customization-props).
 
 
 ## Custom Styles
@@ -18,12 +18,10 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 
 - `dropzone`
   + wrapper for dropzone
-- `dropzoneWithFiles`
-  + wrapper for dropzone if dropzone has files
 - `dropzoneActive`
-  + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
+  + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ class
 - `dropzoneReject`
-  + wrapper for dropzone on drag over if file MIME types in [DataTransfer.items](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items) don't match `accept` prop; this is __added__ to the __dropzone__ or __dropzoneWithFiles__ class
+  + wrapper for dropzone on drag over if file MIME types in [DataTransfer.items](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items) don't match `accept` prop; this is __added__ to the __dropzone__ class
 - `input`
   + input
 - `inputLabel`
@@ -45,7 +43,7 @@ If you prefer to use style object literals instead of CSS classes, point a key t
 
 To overwrite it, you can remove the default class by passing an empty string inside the `classNames` prop.
 
->As with any React component, declaring your `styles` object inside your render method can hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
+>As with any React component, declaring your `styles` object inside your render method may hurt performance, because it will cause RDU components that use these styles to re-render even if their props haven't changed.
 
 
 ### Adding To Default Classes
@@ -56,16 +54,29 @@ You can use both `classNames` and `addClassNames` if you want to overwrite some 
 >Use `addClassNames` to override individual default styles, such as `border`, with your own styles. As long as you import RDU's default stylesheet at the top of your app's root component, you won't have to use `!important`.
 
 
+## Component Customization As A Function Of State
+[Component customization props](props.md#component-customization-props), including the strings and object literals in the custom styles props, can also be passed as functions that __react to the state of the dropzone__.
+
+If, for example, you pass a __func__ instead of a __node__ for `inputContent`, this function receives `(files, extra)`, and should return the __node__ to be rendered.
+
+`files` is the array of `fileWithMeta` objects tracked by the dropzone, and `extra` is an object with other dropzone state and props. `extra` contains the following keys: `{ active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }`.
+
+
+
 ## Component Injection
-If no combination of props controlling styles and content achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default component. These components receive the props they need to react to the current state of the dropzone and its files.
+If no combination of component customization props achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default component.
+
+These components receive the props they need to react to the current state of the dropzone and its files, including the `files` and `extra` props mentioned above.
 
 `null`ing these props removes their corresponding components, except for `LayoutComponent`.
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel with the content and style props. For the file preview, these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel without component injection. For the file preview these props might not be enough. In this case you would pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
 
 ### Default Components
-If you're going to write your own component, it makes sense to start with the default component and modify it.
+If you use the component injection API, you'll probably want to copy the default component and modify it.
+
+You'll also need to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types.
 
 - [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
 - [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
@@ -79,5 +90,3 @@ By default, RDU's layout component renders previews, file input and submit butto
 If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
 
 If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout trivial.
-
->`LayoutComponent` receives an `extra` prop, an object containing nearly every callback and piece of state managed by `Dropzone`. Using this object is the ultimate escape hatch, but also unnecessary except in rare cases. Log it to the console to see what's inside.

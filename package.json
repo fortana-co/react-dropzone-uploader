@@ -1,6 +1,6 @@
 {
   "name": "react-dropzone-uploader",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
   "main": "./dist/react-dropzone-uploader.js",
@@ -49,6 +49,7 @@
     "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
     "react-dom": ">=16.2.0",
+    "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.4.3",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.0.1",

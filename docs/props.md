@@ -19,23 +19,32 @@ The following props can be passed to `Dropzone`.
 | validate | func | | generic validation function called after file is prepared; receives __fileWithMeta__ object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets __meta.status__ to __'error_validation'__, and sets __meta.validationError__ to the returned value |
 | autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'uploading'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
 | previewTypes | array | `['image', 'audio', 'video']` | generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance |
-| InputComponent | func | | overrides __Input__; null to remove |
-| PreviewComponent | func | | overrides __Preview__; null to remove |
-| SubmitButtonComponent | func | | overrides __SubmitButton__; null to remove |
-| LayoutComponent | func | | overrides __Layout__; can't be removed |
-| canCancel | bool | `true` | false to remove cancel button in file preview |
-| canRestart | bool | `true` | false to remove restart button in file preview |
-| canRemove | bool | `true` | false to remove remove button in file preview |
-| inputContent | node | `'Drag Files or Click to Browse'` | '' or null to remove |
-| inputWithFilesContent | node | `'Add Files'` | '' or null to remove |
-| submitButtonContent | node | `'Submit'` | '' or null to remove |
+
+## Component Customization Props
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| canCancel | bool/func | `true` | false to remove cancel button in file preview |
+| canRestart | bool/func | `true` | false to remove restart button in file preview |
+| canRemove | bool/func | `true` | false to remove remove button in file preview |
+| inputContent | node/func | `'Drag Files or Click to Browse'` | '' or null to remove |
+| inputWithFilesContent | node/func | `'Add Files'` | '' or null to remove |
+| submitButtonContent | node/func | `'Submit'` | '' or null to remove |
 | classNames | object | `{}` | see "Custom Styles" section |
 | styles | object | `{}` | see "Custom Styles" section |
 | addClassNames | object | `{}` | see "Custom Styles" section |
 
 
-## Props Passed to Injected Components
-If you use the component injection API, you'll want to know which props are passed to your injected components. Just scroll to the bottom of the following files to see their prop types.
+## Component Injection Props
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| InputComponent | func | | overrides __Input__; null to remove |
+| PreviewComponent | func | | overrides __Preview__; null to remove |
+| SubmitButtonComponent | func | | overrides __SubmitButton__; null to remove |
+| LayoutComponent | func | | overrides __Layout__; can't be removed |
+
+
+## Props Passed To Injected Components
+If you use the component injection API, you'll want to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types.
 
 - [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
 - [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)

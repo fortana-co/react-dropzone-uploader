@@ -10,7 +10,7 @@ title: Live Examples
 ## Standard
 Uploads files to <https://httpbin.org/post>, and merges extra `fileUrl` field into file meta. Logs file metadata to console on submit.
 
-Only accepts __image__, __audio__, and __video__ files. Limits dropzone height with `styles` prop, and colors dropzone red on drag if files will be rejected because of file type.
+Limits dropzone height with `styles` prop.
 
 ~~~js
 const Standard = () => {
@@ -32,12 +32,7 @@ const Standard = () => {
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      accept="image/*,audio/*,video/*"
-      styles={{
-        dropzone: { height: 200 },
-        dropzoneWithFiles: { maxHeight: 250 },
-        dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
-      }}
+      styles={{ dropzone: { minHeight: 200, maxHeight: 250 } }}
     />
   )
 }
@@ -45,11 +40,48 @@ const Standard = () => {
 <div id="example-1" style="margin-bottom:100px;"></div>
 
 
+## Only Image, Audio, Video
+Only accepts __image__, __audio__, and __video__ files. Colors dropzone red on drag if files will be rejected because of file type.
+
+Customization functions that receive `(files, extra)` allow `inputContent` and `inputLabel` style to react to dropzone state.
+
+~~~js
+const ImageAudioVideo = () => {
+  const getUploadParams = ({ meta }) => {
+    const url = 'https://httpbin.org/post'
+    return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
+  }
+
+  const handleChangeStatus = ({ meta }, status) => {
+    console.log(status, meta)
+  }
+
+  const handleSubmit = (files) => {
+    console.log(files.map(f => f.meta))
+  }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      onChangeStatus={handleChangeStatus}
+      onSubmit={handleSubmit}
+      accept="image/*,audio/*,video/*"
+      inputContent={(files, extra) => (extra.reject ? 'Image, audio and video files only' : 'Drag Files')}
+      styles={{
+        dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
+        inputLabel: (files, extra) => (extra.reject ? { color: 'red' } : {}),
+      }}
+    />
+  )
+}
+~~~
+<div id="example-2" style="margin-bottom:100px;"></div>
+
+
 ## No Upload
 Doesn't upload files. Limits dropzone to 2 files using `maxFiles` prop.
 
 Logs file metadata to console on submit, and removes files from dropzone using `fileWithMeta.remove`.
-
 
 ~~~js
 const NoUpload = () => {
@@ -73,7 +105,7 @@ const NoUpload = () => {
   )
 }
 ~~~
-<div id="example-2" style="margin-bottom:100px;"></div>
+<div id="example-3" style="margin-bottom:100px;"></div>
 
 
 ## Single File, Auto Submit
@@ -117,7 +149,7 @@ const SingleFileAutoSubmit = () => {
   )
 }
 ~~~
-<div id="example-3" style="margin-bottom:100px;"></div>
+<div id="example-4" style="margin-bottom:100px;"></div>
 
 
 ## Custom Preview
@@ -153,7 +185,7 @@ const CustomPreview = () => {
 }
 
 ~~~
-<div id="example-4" style="margin-bottom:100px;"></div>
+<div id="example-5" style="margin-bottom:100px;"></div>
 
 
 ## Custom Layout
@@ -204,6 +236,6 @@ const CustomLayout = () => {
   )
 }
 ~~~
-<div id="example-5" style="margin-bottom:100px;"></div>
+<div id="example-6" style="margin-bottom:100px;"></div>
 
 <script src="./assets/bundle.js"></script>

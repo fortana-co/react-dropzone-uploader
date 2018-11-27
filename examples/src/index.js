@@ -25,11 +25,35 @@ const Standard = () => {
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
+      styles={{ dropzone: { minHeight: 200, maxHeight: 250 } }}
+    />
+  )
+}
+
+
+const ImageAudioVideo = () => {
+  const getUploadParams = ({ meta }) => {
+    return { url: 'https://httpbin.org/post' }
+  }
+
+  const handleChangeStatus = ({ meta }, status) => {
+    console.log(status, meta)
+  }
+
+  const handleSubmit = (files) => {
+    console.log(files.map(f => f.meta))
+  }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      onChangeStatus={handleChangeStatus}
+      onSubmit={handleSubmit}
       accept="image/*,audio/*,video/*"
+      inputContent={(files, { reject }) => (reject ? 'Image, audio and video files only' : 'Drag Files')}
       styles={{
-        dropzone: { height: 200 },
-        dropzoneWithFiles: { maxHeight: 250 },
         dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
+        inputLabel: (files, { reject }) => (reject ? { color: 'red' } : {}),
       }}
     />
   )
@@ -165,7 +189,8 @@ const CustomLayout = () => {
 }
 
 ReactDOM.render(<Standard />, document.getElementById('example-1'))
-ReactDOM.render(<NoUpload />, document.getElementById('example-2'))
-ReactDOM.render(<SingleFileAutoSubmit />, document.getElementById('example-3'))
-ReactDOM.render(<CustomPreview />, document.getElementById('example-4'))
-ReactDOM.render(<CustomLayout />, document.getElementById('example-5'))
+ReactDOM.render(<ImageAudioVideo />, document.getElementById('example-2'))
+ReactDOM.render(<NoUpload />, document.getElementById('example-3'))
+ReactDOM.render(<SingleFileAutoSubmit />, document.getElementById('example-4'))
+ReactDOM.render(<CustomPreview />, document.getElementById('example-5'))
+ReactDOM.render(<CustomLayout />, document.getElementById('example-6'))
