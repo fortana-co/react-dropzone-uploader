@@ -9,6 +9,10 @@
 # production
 /dist
 
+# jest
+/coverage
+
 # misc
 .DS_Store
 .env
+

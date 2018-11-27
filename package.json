@@ -34,7 +34,9 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
     "docusaurus-init": "^1.0.2",
@@ -43,6 +45,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.7.0",
+    "jest": "^23.6.0",
     "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
     "react-dom": ">=16.2.0",
@@ -57,7 +60,8 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css",
     "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
