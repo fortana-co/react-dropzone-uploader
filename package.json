@@ -40,6 +40,8 @@
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
     "docusaurus-init": "^1.0.2",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -57,6 +59,11 @@
     "webpack": "^4.21.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(png|jpg|jpeg|gif|svg|woff|woff2)$": "<rootDir>/tests/fileMock.js"
+    }
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css",
