@@ -103,6 +103,7 @@ const SingleFileAutoSubmit = () => {
         getUploadParams={getUploadParams}
         onChangeStatus={handleChangeStatus}
         maxFiles={1}
+        multiple={false}
         canCancel={false}
         inputContent="Drop A File"
         styles={{
