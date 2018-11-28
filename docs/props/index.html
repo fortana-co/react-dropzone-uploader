@@ -52,11 +52,13 @@
 <tr><th>Name</th><th>Type</th><th>Default Value</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td>disabled</td><td>bool/func</td><td><code>false</code></td><td>true to disable dropzone and input</td></tr>
 <tr><td>canCancel</td><td>bool/func</td><td><code>true</code></td><td>false to remove cancel button in file preview</td></tr>
 <tr><td>canRestart</td><td>bool/func</td><td><code>true</code></td><td>false to remove restart button in file preview</td></tr>
 <tr><td>canRemove</td><td>bool/func</td><td><code>true</code></td><td>false to remove remove button in file preview</td></tr>
-<tr><td>inputContent</td><td>node/func</td><td><code>'Drag Files or Click to Browse'</code></td><td>'' or null to remove</td></tr>
-<tr><td>inputWithFilesContent</td><td>node/func</td><td><code>'Add Files'</code></td><td>'' or null to remove</td></tr>
+<tr><td>inputContent</td><td>node/func</td><td><code>'Drag Files or Click to Browse'</code></td><td>child of input <strong>label</strong>; '' or null to remove</td></tr>
+<tr><td>inputWithFilesContent</td><td>node/func</td><td><code>'Add Files'</code></td><td>child of input <strong>label</strong>; '' or null to remove</td></tr>
+<tr><td>submitButtonDisabled</td><td>bool/func</td><td><code>false</code></td><td>true to disable submit button</td></tr>
 <tr><td>submitButtonContent</td><td>node/func</td><td><code>'Submit'</code></td><td>'' or null to remove</td></tr>
 <tr><td>classNames</td><td>object</td><td><code>{}</code></td><td>see &quot;Custom Styles&quot; section</td></tr>
 <tr><td>styles</td><td>object</td><td><code>{}</code></td><td>see &quot;Custom Styles&quot; section</td></tr>
