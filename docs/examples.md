@@ -154,7 +154,7 @@ const SingleFileAutoSubmit = () => {
 
 
 ## Custom Preview
-Standard file uploader with custom `PreviewComponent`.
+Standard file uploader with custom `PreviewComponent`. Also disables dropzone while files are being uploaded.
 
 ~~~js
 const Preview = ({ meta }) => {
@@ -181,6 +181,7 @@ const CustomPreview = () => {
       onSubmit={handleSubmit}
       PreviewComponent={Preview}
       inputContent="Drop Files (Custom Preview)"
+      disabled={files => files.some(f => ['uploading', 'preparing'].includes(f.meta.status))}
     />
   )
 }

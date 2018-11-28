@@ -62,6 +62,12 @@ class Dropzone extends React.Component {
     this.handleFiles([...files])
   }
 
+  handleDropDisabled = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.setState({ active: false, dragged: [] })
+  }
+
   handleChangeStatus = (fileWithMeta) => {
     if (!this.props.onChangeStatus) return
     const { meta } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this._files) || {}
@@ -288,20 +294,21 @@ class Dropzone extends React.Component {
       maxSizeBytes,
       onSubmit,
       getUploadParams,
-      InputComponent,
-      PreviewComponent,
-      SubmitButtonComponent,
-      LayoutComponent,
+      disabled,
       canCancel,
       canRemove,
       canRestart,
       inputContent,
       inputWithFilesContent,
-      submitButtonContent,
       submitButtonDisabled,
+      submitButtonContent,
       classNames,
       styles,
       addClassNames,
+      InputComponent,
+      PreviewComponent,
+      SubmitButtonComponent,
+      LayoutComponent,
     } = this.props
 
     const { active, dragged } = this.state
@@ -309,12 +316,14 @@ class Dropzone extends React.Component {
     const reject = dragged.some(file => file.type !== 'application/x-moz-file' && !accepts(file, accept))
     const extra = { active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }
     const files = [...this._files]
+    const dropzoneDisabled = resolveValue(disabled, files, extra)
 
     const {
       classNames: {
         dropzone: dropzoneClassName,
         dropzoneActive: dropzoneActiveClassName,
         dropzoneReject: dropzoneRejectClassName,
+        dropzoneDisabled: dropzoneDisabledClassName,
         input: inputClassName,
         inputLabel: inputLabelClassName,
         inputLabelWithFiles: inputLabelWithFilesClassName,
@@ -327,6 +336,7 @@ class Dropzone extends React.Component {
         dropzone: dropzoneStyle,
         dropzoneActive: dropzoneActiveStyle,
         dropzoneReject: dropzoneRejectStyle,
+        dropzoneDisabled: dropzoneDisabledStyle,
         input: inputStyle,
         inputLabel: inputLabelStyle,
         inputLabelWithFiles: inputLabelWithFilesStyle,
@@ -375,6 +385,7 @@ class Dropzone extends React.Component {
         labelWithFilesStyle={inputLabelWithFilesStyle}
         accept={accept}
         multiple={multiple}
+        disabled={dropzoneDisabled}
         content={resolveValue(inputContent, files, extra)}
         withFilesContent={resolveValue(inputWithFilesContent, files, extra)}
         onFiles={this.handleFiles} // see: https://stackoverflow.com/questions/39484895
@@ -389,8 +400,8 @@ class Dropzone extends React.Component {
         buttonClassName={submitButtonClassName}
         style={submitButtonContainerStyle}
         buttonStyle={submitButtonStyle}
-        content={resolveValue(submitButtonContent, files, extra)}
         disabled={resolveValue(submitButtonDisabled, files, extra)}
+        content={resolveValue(submitButtonContent, files, extra)}
         onSubmit={this.handleSubmit}
         files={files}
         extra={extra}
@@ -399,7 +410,11 @@ class Dropzone extends React.Component {
 
     let className = dropzoneClassName
     let style = dropzoneStyle
-    if (reject) {
+
+    if (dropzoneDisabled) {
+      className = `${className} ${dropzoneDisabledClassName}`
+      style = { ...(style || {}), ...(dropzoneDisabledStyle || {}) }
+    } else if (reject) {
       className = `${className} ${dropzoneRejectClassName}`
       style = { ...(style || {}), ...(dropzoneRejectStyle || {}) }
     } else if (active) {
@@ -419,7 +434,7 @@ class Dropzone extends React.Component {
           onDragEnter: this.handleDragEnter,
           onDragOver: this.handleDragOver,
           onDragLeave: this.handleDragLeave,
-          onDrop: this.handleDrop,
+          onDrop: dropzoneDisabled ? this.handleDropDisabled : this.handleDrop,
         }}
         files={files}
         extra={{
@@ -452,14 +467,17 @@ Dropzone.propTypes = {
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
   /* component customization */
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+
   canCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   canRemove: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   canRestart: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
   inputContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   inputWithFilesContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  submitButtonContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
   submitButtonDisabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  submitButtonContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   classNames: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
@@ -480,13 +498,14 @@ Dropzone.defaultProps = {
   maxFiles: Number.MAX_SAFE_INTEGER,
   autoUpload: true,
   previewTypes: ['image', 'audio', 'video'],
+  disabled: false,
   canCancel: true,
   canRemove: true,
   canRestart: true,
   inputContent: 'Drag Files or Click to Browse',
   inputWithFilesContent: 'Add Files',
-  submitButtonContent: 'Submit',
   submitButtonDisabled: false,
+  submitButtonContent: 'Submit',
   classNames: {},
   styles: {},
   addClassNames: {},

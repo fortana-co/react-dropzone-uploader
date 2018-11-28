@@ -20,16 +20,18 @@ The following props can be passed to `Dropzone`.
 | autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'uploading'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
 | previewTypes | array | `['image', 'audio', 'video']` | generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance |
 
+
 ## Component Customization Props
 | Name | Type | Default Value | Description |
 | --- | --- | --- | --- |
+| disabled | bool/func | `false` | true to disable dropzone and input |
 | canCancel | bool/func | `true` | false to remove cancel button in file preview |
 | canRestart | bool/func | `true` | false to remove restart button in file preview |
 | canRemove | bool/func | `true` | false to remove remove button in file preview |
-| inputContent | node/func | `'Drag Files or Click to Browse'` | '' or null to remove |
-| inputWithFilesContent | node/func | `'Add Files'` | '' or null to remove |
-| submitButtonContent | node/func | `'Submit'` | '' or null to remove |
+| inputContent | node/func | `'Drag Files or Click to Browse'` | child of input __label__; '' or null to remove |
+| inputWithFilesContent | node/func | `'Add Files'` | child of input __label__; '' or null to remove |
 | submitButtonDisabled | bool/func | `false` | true to disable submit button |
+| submitButtonContent | node/func | `'Submit'` | '' or null to remove |
 | classNames | object | `{}` | see "Custom Styles" section |
 | styles | object | `{}` | see "Custom Styles" section |
 | addClassNames | object | `{}` | see "Custom Styles" section |

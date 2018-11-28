@@ -7,8 +7,8 @@ const SubmitButton = (props) => {
     buttonClassName,
     style,
     buttonStyle,
-    content,
     disabled,
+    content,
     onSubmit,
     files,
   } = props
@@ -40,8 +40,8 @@ SubmitButton.propTypes = {
   buttonClassName: PropTypes.string,
   style: PropTypes.object,
   buttonStyle: PropTypes.object,
-  content: PropTypes.node,
   disabled: PropTypes.bool.isRequired,
+  content: PropTypes.node,
   onSubmit: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({

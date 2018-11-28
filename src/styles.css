@@ -18,6 +18,14 @@
   border-color: #2484FF;
 }
 
+.dzu-dropzoneDisabled {
+  opacity: 0.5;
+}
+
+.dzu-dropzoneDisabled *:hover {
+  cursor: unset;
+}
+
 .dzu-input {
   display: none;
 }

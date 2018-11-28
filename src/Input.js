@@ -11,6 +11,7 @@ const Input = (props) => {
     labelWithFilesStyle,
     accept,
     multiple,
+    disabled,
     content,
     withFilesContent,
     onFiles,
@@ -27,8 +28,9 @@ const Input = (props) => {
         className={className}
         style={style}
         type="file"
-        multiple={multiple}
         accept={accept}
+        multiple={multiple}
+        disabled={disabled}
         onChange={(e) => { onFiles(Array.from(e.target.files)); e.target.value = null }}
       />
     </label>
@@ -44,6 +46,7 @@ Input.propTypes = {
   labelWithFilesStyle: PropTypes.object,
   accept: PropTypes.string.isRequired,
   multiple: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   content: PropTypes.node,
   withFilesContent: PropTypes.node,
   onFiles: PropTypes.func.isRequired,

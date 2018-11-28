@@ -17,23 +17,25 @@ RDU's default styles are defined using CSS. They can be overridden using the `cl
 Both `classNames` and `styles` should be objects containing a subset of the following keys:
 
 - `dropzone`
-  + wrapper for dropzone
+  + dropzone wrapper
 - `dropzoneActive`
-  + wrapper for dropzone on drag over; this is __added__ to the __dropzone__ class
+  + dropzone wrapper on drag over; __added__ to the __dropzone__ class
 - `dropzoneReject`
-  + wrapper for dropzone on drag over if file MIME types in [DataTransfer.items](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items) don't match `accept` prop; this is __added__ to the __dropzone__ class
+  + dropzone wrapper on drag over if file MIME types in [DataTransfer.items](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items) don't match `accept` prop; __added__ to the __dropzone__ class
+- `dropzoneDisabled`
+  + dropzone wrapper if dropzone is disabled; __added__ to the __dropzone__ class
 - `input`
-  + input
+  + input (set to `display: none;` by default)
 - `inputLabel`
   + input label
 - `inputLabelWithFiles`
   + input label if dropzone has files
 - `preview`
-  + wrapper for preview div
+  + preview wrapper
 - `previewImage`
   + preview image
 - `submitButtonContainer`
-  + wrapper for submit button div
+  + submit button wrapper
 - `submitButton`
   + submit button
 
