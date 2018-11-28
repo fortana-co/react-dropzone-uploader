@@ -127,13 +127,9 @@ const Preview = ({ meta }) => {
 }
 
 const CustomPreview = () => {
-  const getUploadParams = () => {
-    return { url: 'https://httpbin.org/post' }
-  }
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
     <Dropzone
@@ -147,16 +143,7 @@ const CustomPreview = () => {
 }
 
 
-const Layout = (props) => {
-  const {
-    input,
-    previews,
-    submitButton,
-    dropzoneProps,
-    files,
-    extra: { maxFiles },
-  } = props
-
+const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }) => {
   return (
     <div>
       {previews}
@@ -171,13 +158,9 @@ const Layout = (props) => {
 }
 
 const CustomLayout = () => {
-  const getUploadParams = () => {
-    return { url: 'https://httpbin.org/post' }
-  }
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
     <Dropzone
@@ -190,9 +173,69 @@ const CustomLayout = () => {
   )
 }
 
+
+const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }) => {
+  return (
+    <div {...dropzoneProps}>
+      {files.length === 0 &&
+        <p className={defaultClassNames.inputLabel} style={{ cursor: 'unset' }}>Only Drop Files (No Input)</p>
+      }
+
+      {previews}
+
+      {files.length > 0 && submitButton}
+    </div>
+  )
+}
+
+const DropzoneNoInput = () => {
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
+
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      LayoutComponent={NoInputLayout}
+      onSubmit={handleSubmit}
+    />
+  )
+}
+
+
+const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps }) => {
+  const { ref, className, style } = dropzoneProps
+  return (
+    <div ref={ref} className={className} style={style}>
+      {previews}
+
+      {input}
+
+      {files.length > 0 && submitButton}
+    </div>
+  )
+}
+
+const InputNoDropzone = () => {
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
+
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      LayoutComponent={NoDropzoneLayout}
+      inputContent="Only Choose Files (No Dropzone)"
+      onSubmit={handleSubmit}
+    />
+  )
+}
+
 ReactDOM.render(<Standard />, document.getElementById('example-1'))
 ReactDOM.render(<ImageAudioVideo />, document.getElementById('example-2'))
 ReactDOM.render(<NoUpload />, document.getElementById('example-3'))
 ReactDOM.render(<SingleFileAutoSubmit />, document.getElementById('example-4'))
 ReactDOM.render(<CustomPreview />, document.getElementById('example-5'))
 ReactDOM.render(<CustomLayout />, document.getElementById('example-6'))
+ReactDOM.render(<DropzoneNoInput />, document.getElementById('example-7'))
+ReactDOM.render(<InputNoDropzone />, document.getElementById('example-8'))

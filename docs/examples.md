@@ -167,13 +167,9 @@ const Preview = ({ meta }) => {
 }
 
 const CustomPreview = () => {
-  const getUploadParams = () => {
-    return { url: 'https://httpbin.org/post' }
-  }
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
     <Dropzone
@@ -185,7 +181,6 @@ const CustomPreview = () => {
     />
   )
 }
-
 ~~~
 <div id="example-5" style="margin-bottom:100px;"></div>
 
@@ -196,36 +191,24 @@ Custom `LayoutComponent`. Renders file previews above dropzone, and submit butto
 ~~~js
 import Dropzone, { defaultClassNames } from 'react-dropzone-uploader'
 
-const Layout = (props) => {
-  const {
-    input,
-    previews,
-    submitButton,
-    dropzoneProps,
-    files,
-    extra: { maxFiles },
-  } = props
-
+const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }) => {
   return (
     <div>
+      {previews}
+
       <div {...dropzoneProps}>
         {files.length < maxFiles && input}
       </div>
 
-      {previews}
       {files.length > 0 && submitButton}
     </div>
   )
 }
 
 const CustomLayout = () => {
-  const getUploadParams = () => {
-    return { url: 'https://httpbin.org/post' }
-  }
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => {
-    console.log(files.map(f => f.meta))
-  }
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
 
   return (
     <Dropzone
@@ -239,5 +222,75 @@ const CustomLayout = () => {
 }
 ~~~
 <div id="example-6" style="margin-bottom:100px;"></div>
+
+
+## Dropzone With No Input
+If for some reason you want to do this...
+
+~~~js
+const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }) => {
+  return (
+    <div {...dropzoneProps}>
+      {files.length === 0 &&
+        <p className={defaultClassNames.inputLabel} style={{ cursor: 'unset' }}>Only Drop Files (No Input)</p>
+      }
+
+      {previews}
+
+      {files.length > 0 && submitButton}
+    </div>
+  )
+}
+
+const DropzoneNoInput = () => {
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
+
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      LayoutComponent={NoInputLayout}
+      onSubmit={handleSubmit}
+    />
+  )
+}
+~~~
+<div id="example-7" style="margin-bottom:100px;"></div>
+
+
+## Input With No Dropzone
+User can choose files with input, but can't drop them.
+
+~~~js
+const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps }) => {
+  const { ref, className, style } = dropzoneProps
+  return (
+    <div ref={ref} className={className} style={style}>
+      {previews}
+
+      {input}
+
+      {files.length > 0 && submitButton}
+    </div>
+  )
+}
+
+const InputNoDropzone = () => {
+  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
+
+  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      LayoutComponent={NoDropzoneLayout}
+      inputContent="Only Choose Files (No Dropzone)"
+      onSubmit={handleSubmit}
+    />
+  )
+}
+~~~
+<div id="example-8" style="margin-bottom:100px;"></div>
 
 <script src="./assets/bundle.js"></script>

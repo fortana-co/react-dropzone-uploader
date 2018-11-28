@@ -136,4 +136,5 @@
 .dzu-submitButton:disabled {
   background-color: #E6E6E6;
   color: #333333;
+  cursor: unset;
 }
