@@ -38,8 +38,8 @@ export const accepts = (file, accept) => {
   })
 }
 
-export const resolveValue = (value, files, extra) => {
-  if (typeof value === 'function') return value(files, extra)
+export const resolveValue = (value, ...args) => {
+  if (typeof value === 'function') return value(...args)
   return value
 }
 
@@ -56,20 +56,20 @@ export const defaultClassNames = {
   submitButton: 'dzu-submitButton',
 }
 
-export const mergeStyles = (classNames, styles, addClassNames, files, extra) => {
+export const mergeStyles = (classNames, styles, addClassNames, ...args) => {
   const resolvedClassNames = { ...defaultClassNames }
   const resolvedStyles = { ...styles }
 
   for (const key of Object.keys(classNames)) {
-    resolvedClassNames[key] = resolveValue(addClassNames[key], files, extra)
+    resolvedClassNames[key] = resolveValue(classNames[key], ...args)
   }
 
   for (const key of Object.keys(addClassNames)) {
-    resolvedClassNames[key] = `${resolvedClassNames[key]} ${resolveValue(addClassNames[key], files, extra)}`
+    resolvedClassNames[key] = `${resolvedClassNames[key]} ${resolveValue(addClassNames[key], ...args)}`
   }
 
   for (const key of Object.keys(styles)) {
-    resolvedStyles[key] = resolveValue(styles[key], files, extra)
+    resolvedStyles[key] = resolveValue(styles[key], ...args)
   }
 
   return { classNames: resolvedClassNames, styles: resolvedStyles }

@@ -13,6 +13,7 @@ src
 website
 docs
 
-__tests__
+tests
+coverage
 
 .*.md
