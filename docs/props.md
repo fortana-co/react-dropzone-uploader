@@ -29,6 +29,7 @@ The following props can be passed to `Dropzone`.
 | inputContent | node/func | `'Drag Files or Click to Browse'` | '' or null to remove |
 | inputWithFilesContent | node/func | `'Add Files'` | '' or null to remove |
 | submitButtonContent | node/func | `'Submit'` | '' or null to remove |
+| submitButtonDisabled | bool/func | `false` | true to disable submit button |
 | classNames | object | `{}` | see "Custom Styles" section |
 | styles | object | `{}` | see "Custom Styles" section |
 | addClassNames | object | `{}` | see "Custom Styles" section |

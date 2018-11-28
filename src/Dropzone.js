@@ -298,6 +298,7 @@ class Dropzone extends React.Component {
       inputContent,
       inputWithFilesContent,
       submitButtonContent,
+      submitButtonDisabled,
       classNames,
       styles,
       addClassNames,
@@ -376,7 +377,7 @@ class Dropzone extends React.Component {
         multiple={multiple}
         content={resolveValue(inputContent, files, extra)}
         withFilesContent={resolveValue(inputWithFilesContent, files, extra)}
-        onFiles={this.handleFiles}
+        onFiles={this.handleFiles} // see: https://stackoverflow.com/questions/39484895
         files={files}
         extra={extra}
       />
@@ -389,6 +390,7 @@ class Dropzone extends React.Component {
         style={submitButtonContainerStyle}
         buttonStyle={submitButtonStyle}
         content={resolveValue(submitButtonContent, files, extra)}
+        disabled={resolveValue(submitButtonDisabled, files, extra)}
         onSubmit={this.handleSubmit}
         files={files}
         extra={extra}
@@ -457,6 +459,7 @@ Dropzone.propTypes = {
   inputContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   inputWithFilesContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   submitButtonContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  submitButtonDisabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
   classNames: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
@@ -483,6 +486,7 @@ Dropzone.defaultProps = {
   inputContent: 'Drag Files or Click to Browse',
   inputWithFilesContent: 'Add Files',
   submitButtonContent: 'Submit',
+  submitButtonDisabled: false,
   classNames: {},
   styles: {},
   addClassNames: {},

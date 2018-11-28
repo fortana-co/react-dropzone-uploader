@@ -29,10 +29,7 @@ const Input = (props) => {
         type="file"
         multiple={multiple}
         accept={accept}
-        onChange={(e) => {
-          onFiles(Array.from(e.target.files))
-          e.target.value = null
-        }} // see: https://stackoverflow.com/questions/39484895
+        onChange={(e) => { onFiles(Array.from(e.target.files)); e.target.value = null }}
       />
     </label>
   )

@@ -79,7 +79,7 @@ const ImageAudioVideo = () => {
 
 
 ## No Upload
-Doesn't upload files. Limits dropzone to 2 files using `maxFiles` prop.
+Doesn't upload files. Disables submit button until 3 files have been dropped, dynamically updates number of remaining files.
 
 Logs file metadata to console on submit, and removes files from dropzone using `fileWithMeta.remove`.
 
@@ -98,9 +98,10 @@ const NoUpload = () => {
     <Dropzone
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      maxFiles={2}
-      inputContent="Drop Up To 2 Files"
-      inputWithFilesContent="Add One More File"
+      maxFiles={3}
+      inputContent="Drop 3 Files"
+      inputWithFilesContent={files => `${3 - files.length} more`}
+      submitButtonDisabled={files => files.length < 3}
     />
   )
 }
@@ -109,7 +110,7 @@ const NoUpload = () => {
 
 
 ## Single File, Auto Submit
-Automatically removes files from dropzone when it finishes uploading. Doesn't include submit button.
+Automatically removes file from dropzone when it finishes uploading. Limits dropzone to 1 file using `maxFiles` prop. Doesn't include submit button.
 
 Changes border color for "active" dropzone using `styles` prop.
 

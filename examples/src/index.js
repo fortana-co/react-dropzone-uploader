@@ -74,9 +74,10 @@ const NoUpload = () => {
     <Dropzone
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      maxFiles={2}
-      inputContent="Drop Up To 2 Files"
-      inputWithFilesContent="Add One More File"
+      maxFiles={3}
+      inputContent="Drop 3 Files"
+      inputWithFilesContent={files => `${3 - files.length} more`}
+      submitButtonDisabled={files => files.length < 3}
     />
   )
 }
