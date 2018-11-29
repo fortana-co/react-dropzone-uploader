@@ -178,7 +178,9 @@ const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }) => {
   return (
     <div {...dropzoneProps}>
       {files.length === 0 &&
-        <p className={defaultClassNames.inputLabel} style={{ cursor: 'unset' }}>Only Drop Files (No Input)</p>
+        <span className={defaultClassNames.inputLabel} style={{ cursor: 'unset' }}>
+          Only Drop Files (No Input)
+        </span>
       }
 
       {previews}
