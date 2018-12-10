@@ -83,7 +83,9 @@ If you want to include it in your page, you need to include the dependencies and
 
 
 ## Contributing
-<https://github.com/fortana-co/react-dropzone-uploader/blob/master/contributing.md>
+There are a number of places RDU could be improved; [see here](https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted).
+
+For example, RDU has solid core functionality, but has a minimalist look and feel. It would be more beginner-friendly with a larger variety of built-in components.
 
 
 ## Thanks

@@ -59,6 +59,14 @@ class Footer extends React.Component {
             </a>
 
             <a
+              href={`${this.props.config.repoUrl}/labels/help%20wanted`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Contribute
+            </a>
+
+            <a
               className="github-button"
               href={this.props.config.repoUrl}
               data-icon="octicon-star"
