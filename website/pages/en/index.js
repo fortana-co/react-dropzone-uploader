@@ -116,6 +116,12 @@ class Index extends React.Component {
 
         <Features />
 
+        <img
+          style={{ maxWidth: '60%', marginTop: 48, display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+          src="https://raw.githubusercontent.com/fortana-co/react-dropzone-uploader/master/dropzone.gif"
+          alt="dropzone.gif"
+        />
+
         <div className="mainContainer">
           <Installation />
         </div>
