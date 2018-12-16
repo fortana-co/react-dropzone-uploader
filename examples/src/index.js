@@ -7,17 +7,17 @@ import '../../src/styles.css'
 import Dropzone, { defaultClassNames } from '../../src/Dropzone'
 
 const Standard = () => {
-  const getUploadParams = ({ meta }) => {
-    const url = 'https://httpbin.org/post'
-    return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
+  const getUploadParams = () => {
+    return { url: 'https://httpbin.org/post' }
   }
 
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (
@@ -33,15 +33,17 @@ const Standard = () => {
 
 const ImageAudioVideo = () => {
   const getUploadParams = ({ meta }) => {
-    return { url: 'https://httpbin.org/post' }
+    const url = 'https://httpbin.org/post'
+    return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
   }
 
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (

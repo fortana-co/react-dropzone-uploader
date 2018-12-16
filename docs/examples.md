@@ -8,23 +8,23 @@ title: Live Examples
 
 
 ## Standard
-Uploads files to <https://httpbin.org/post>, and merges extra `fileUrl` field into file meta. Logs file metadata to console on submit.
+Uploads files to <https://httpbin.org/post>. Logs file metadata to console on submit, and removes files from dropzone using `fileWithMeta.remove`.
 
 Limits dropzone height with `styles` prop.
 
 ~~~js
 const Standard = () => {
-  const getUploadParams = ({ meta }) => {
-    const url = 'https://httpbin.org/post'
-    return { url, meta: { fileUrl: `${url}/${encodeURIComponent(meta.name)}` } }
+  const getUploadParams = () => {
+    return { url: 'https://httpbin.org/post' }
   }
 
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (
@@ -45,6 +45,8 @@ Only accepts __image__, __audio__, and __video__ files. Colors dropzone red on d
 
 Customization functions that receive `(files, extra)` allow `inputContent` and `inputLabel` style to react to dropzone state.
 
+Also merges extra `fileUrl` field into file meta.
+
 ~~~js
 const ImageAudioVideo = () => {
   const getUploadParams = ({ meta }) => {
@@ -56,8 +58,9 @@ const ImageAudioVideo = () => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files) => {
+  const handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
   }
 
   return (
@@ -80,8 +83,6 @@ const ImageAudioVideo = () => {
 
 ## No Upload
 Doesn't upload files. Disables submit button until 3 files have been dropped, dynamically updates number of remaining files.
-
-Logs file metadata to console on submit, and removes files from dropzone using `fileWithMeta.remove`.
 
 ~~~js
 const NoUpload = () => {
