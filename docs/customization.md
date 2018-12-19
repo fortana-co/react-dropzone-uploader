@@ -66,13 +66,15 @@ If, for example, you pass a __func__ instead of a __node__ for `inputContent`, t
 
 
 ## Component Injection
-If no combination of component customization props achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default component.
+If no combination of component customization props achieves the look and feel you want, RDU provides a component injection API as an escape hatch. The API is a variation on the render props pattern, and allows you to take complete control over RDU's UX.
+
+The `InputComponent`, `PreviewComponent`, `SubmitButtonComponent`, `LayoutComponent` props can each be used to override their corresponding default component.
 
 These components receive the props they need to react to the current state of the dropzone and its files, including the `files` and `extra` props mentioned above.
 
 `null`ing these props removes their corresponding components, except for `LayoutComponent`.
 
-The file input and submit button are simple, and it's usually easy to get the right look and feel without component injection. For the file preview these props might not be enough. In this case you would pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
+The file input and submit button are simple, and it's usually easy to get the right look and feel without component injection. For the file preview these props might not be enough. In this case you can pass a custom `PreviewComponent`, which should be a React component. The custom component receives the same props that would have been passed to the default component.
 
 
 ### Default Components
