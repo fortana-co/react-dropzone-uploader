@@ -23,8 +23,10 @@ class Dropzone extends React.Component {
 
   componentWillUnmount() {
     this._mounted = false
-    for (const file of this._files) {
-      if (file.meta.status === 'uploading') file.xhr.abort()
+    for (const fileWithMeta of this._files) {
+      if (fileWithMeta.meta.status === 'uploading') {
+        this.abort(fileWithMeta)
+      }
     }
   }
 
@@ -84,7 +86,14 @@ class Dropzone extends React.Component {
 
   handleCancel = (fileWithMeta) => {
     if (!fileWithMeta.xhr) return
+    this.abort(fileWithMeta)
+  }
+
+  abort = (fileWithMeta) => {
+    fileWithMeta.meta.status = 'aborted'
     fileWithMeta.xhr.abort()
+    this.handleChangeStatus(fileWithMeta)
+    this._forceUpdate()
   }
 
   handleRemove = (fileWithMeta) => {
@@ -263,20 +272,25 @@ class Dropzone extends React.Component {
       // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
       if (xhr.readyState !== 2 && xhr.readyState !== 4) return
 
-      if (xhr.status === 0) {
-        fileWithMeta.meta.status = 'aborted'
+      if (xhr.status === 0 && fileWithMeta.meta.status !== 'aborted') {
+        fileWithMeta.meta.status = 'exception_upload'
         this.handleChangeStatus(fileWithMeta)
         this._forceUpdate()
-      } else if (xhr.status < 400) {
+      }
+
+      if (xhr.status > 0 && xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
         if (xhr.readyState === 4) fileWithMeta.meta.status = 'done'
         this.handleChangeStatus(fileWithMeta)
         this._forceUpdate()
-      } else {
+      }
+
+      if (xhr.status >= 400 && fileWithMeta.meta.status !== 'error_upload') {
         fileWithMeta.meta.status = 'error_upload'
         this.handleChangeStatus(fileWithMeta)
         this._forceUpdate()
+        console.log(xhr.status)
       }
     })
 

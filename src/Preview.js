@@ -44,7 +44,9 @@ class Preview extends React.PureComponent {
       )
     }
 
-    if (status === 'error_upload_params' || status === 'error_upload') title = `${title} (upload failed)`
+    if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
+      title = `${title} (upload failed)`
+    }
     if (status === 'aborted') title = `${title} (cancelled)`
 
     return (
@@ -63,7 +65,8 @@ class Preview extends React.PureComponent {
           {status !== 'uploading' && status !== 'preparing' && canRemove &&
             <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
           }
-          {['error_upload_params', 'error_upload', 'aborted', 'ready'].includes(status) && canRestart &&
+          {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status)
+            && canRestart &&
             <span className="dzu-previewButton" style={iconByFn.restart} onClick={restart} />
           }
         </div>
@@ -93,6 +96,7 @@ Preview.propTypes = {
       'ready',
       'uploading',
       'error_upload_params',
+      'exception_upload',
       'aborted',
       'error_upload',
       'headers_received',

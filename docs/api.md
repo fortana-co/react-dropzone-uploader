@@ -16,7 +16,7 @@ This is called every time a file's status changes: `fileWithMeta.meta.status`.
 
 It receives `(fileWithMeta, status, []fileWithMeta)`. The first argument is the `fileWithMeta` object whose status changed, while the third argument is the array of all `fileWithMeta` objects being tracked by the dropzone.
 
-Possible status values are `'rejected_file_type'`, `'rejected_max_files'`, `'preparing'`, `'error_file_size'`, `'error_validation'`, `'ready'`, `'started'`, `'uploading'`, `'error_upload_params'`, `'aborted'`, `'restarted'`, `'removed'`, `'error_upload'`, `'headers_received'`, `'done'`.
+Possible status values are `'rejected_file_type'`, `'rejected_max_files'`, `'preparing'`, `'error_file_size'`, `'error_validation'`, `'ready'`, `'started'`, `'uploading'`, `'error_upload_params'`, `'exception_upload'`, `'aborted'`, `'restarted'`, `'removed'`, `'error_upload'`, `'headers_received'`, `'done'`.
 
 Returning a `meta` object from this callback lets you merge new values into the file's `meta`.
 
