@@ -23,6 +23,7 @@ Returning a `meta` object from this callback lets you merge new values into the 
 >`onChangeStatus` is never called repeatedly for the same status.
 
 
+
 ## `getUploadParams`
 `getUploadParams` is a callback that receives a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.
 
@@ -56,6 +57,23 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
 RDU's callback props `onChangeStatus`, `getUploadParams`, `onSubmit` and `validate` receive single or multiple `fileWithMeta` objects.
 
 These objects give you all the metadata you need to create a customized, reactive file dropzone, file input, or file uploader.
+
+
+### `fileWithMeta.meta.status`
+Some extra notes on `fileWithMeta.meta.status` values:
+
+- `'error_upload_params'`
+  + set if you pass `getUploadParams`, and your function doesn't return `{ url: '...' }`
+- `'exception_upload'`
+  + set if upload times out or there is no connection to upload server
+- `'aborted'`
+  + set if `fileWithMeta.meta.status` is `'uploading'` and user aborts upload, or client code calls `fileWithMeta.cancel`
+- `'error_upload'`
+  + set if upload response has HTTP status code >= 400
+- `'headers_received'`
+  + set when upload is complete (headers are available), but response body is still unavailable
+- `'done'`
+  + set when upload is complete and response body is available
 
 
 ### Mutability

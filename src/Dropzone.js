@@ -23,11 +23,7 @@ class Dropzone extends React.Component {
 
   componentWillUnmount() {
     this._mounted = false
-    for (const fileWithMeta of this._files) {
-      if (fileWithMeta.meta.status === 'uploading') {
-        this.abort(fileWithMeta)
-      }
-    }
+    for (const fileWithMeta of this._files) this.handleCancel(fileWithMeta)
   }
 
   _forceUpdate = () => {
@@ -85,11 +81,7 @@ class Dropzone extends React.Component {
   }
 
   handleCancel = (fileWithMeta) => {
-    if (!fileWithMeta.xhr) return
-    this.abort(fileWithMeta)
-  }
-
-  abort = (fileWithMeta) => {
+    if (fileWithMeta.meta.status !== 'uploading') return
     fileWithMeta.meta.status = 'aborted'
     fileWithMeta.xhr.abort()
     this.handleChangeStatus(fileWithMeta)
@@ -290,11 +282,11 @@ class Dropzone extends React.Component {
         fileWithMeta.meta.status = 'error_upload'
         this.handleChangeStatus(fileWithMeta)
         this._forceUpdate()
-        console.log(xhr.status)
       }
     })
 
     formData.append('file', fileWithMeta.file)
+    if (this.props.timeout) xhr.timeout = this.props.timeout
     xhr.send(formData)
     fileWithMeta.xhr = xhr
   }
@@ -477,6 +469,7 @@ Dropzone.propTypes = {
   validate: PropTypes.func,
 
   autoUpload: PropTypes.bool,
+  timeout: PropTypes.number,
 
   previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
 
