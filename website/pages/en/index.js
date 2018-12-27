@@ -89,9 +89,10 @@ const Features = () => (
       <li>Detailed file metadata and previews, especially for image, video and audio files</li>
       <li>Upload status and progress, upload cancellation and restart</li>
       <li>Easily set auth headers and additional upload fields</li>
-      <li>Modular design; use as standalone dropzone, file input, file uploader</li>
       <li>Customize styles using CSS or JS</li>
-      <li>Fully controllable via optional props, callbacks and component injection</li>
+      <li>Take full control of rendering with component injection props</li>
+      <li>Take control of upload lifecycle with `onChangeStatus` prop</li>
+      <li>Modular design; use as standalone dropzone, file input, file uploader</li>
       <li>Cross-browser support, mobile friendly, including direct uploads from camera</li>
       <li>Lightweight and fast</li>
     </ul>

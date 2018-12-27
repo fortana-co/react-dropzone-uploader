@@ -74,6 +74,10 @@ Some extra notes on `fileWithMeta.meta.status` values:
   + set when upload is complete (headers are available), but response body is still unavailable
 - `'done'`
   + set when upload is complete and response body is available
+- `'ready'`
+  + only set if you pass `autoUpload={false}`; set when file has been validated and is ready to upload; client code can call `fileWithMeta.restart` to start upload
+- `'started'`
+  + set if status is `'ready'` and user starts upload, or client code calls `fileWithMeta.restart`
 
 
 ### Mutability

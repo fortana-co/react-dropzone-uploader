@@ -11,9 +11,10 @@ React Dropzone Uploader is a customizable file dropzone and uploader for React.
 - Detailed file metadata and previews, especially for image, video and audio files
 - Upload status and progress, upload cancellation and restart
 - Easily set auth headers and additional upload fields ([see S3 example](https://react-dropzone-uploader.js.org/docs/s3))
-- Modular design; use as standalone dropzone, file input, file uploader
 - Customize styles using CSS or JS
-- Fully controllable via optional props, callbacks and component injection
+- Take full control of rendering with component injection props
+- Take control of upload lifecycle with `onChangeStatus` prop
+- Modular design; use as standalone dropzone, file input, file uploader
 - Cross-browser support, mobile friendly, including direct uploads from camera
 - Lightweight and fast
 
