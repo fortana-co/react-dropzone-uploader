@@ -6,7 +6,7 @@ title: Customization
 
 Notice the __"Drag Files or Click to Browse"__ text that appears by default in an empty dropzone? This is likely something you'll want to change. You can use the `inputContent` and `inputWithFilesContent` props to render any string or JSX you want. The latter is for the content that's rendered if the dropzone has files. If you'd rather not render file input content, just pass `null`.
 
-Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill this text, just pass an empty string or null.
+Want to change `submitButtonContent` from its default value of __"Submit"__? Just pass a new string or JSX for this prop. To kill this text, pass an empty string or null.
 
 See the rest of the component customization props [here](props.md#component-customization-props).
 
@@ -94,3 +94,15 @@ By default, RDU's layout component renders previews, file input and submit butto
 If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
 
 If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout trivial.
+
+
+### Pass Additional Props To Injected Components
+Component injection props can be [function or class components](https://reactjs.org/docs/components-and-props.html#function-and-class-components).
+
+A function component is literally a function that accepts a single props argument and returns a React element. So, if you want to pass additional props to your injected component, just do something like this:
+
+~~~js
+<Dropzone
+  PreviewComponent={props => <MyCustomPreview {...props} extraProp={10} />}
+/>
+~~~
