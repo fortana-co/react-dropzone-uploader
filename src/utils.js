@@ -75,3 +75,21 @@ export const mergeStyles = (classNames, styles, addClassNames, ...args) => {
 
   return { classNames: resolvedClassNames, styles: resolvedStyles }
 }
+
+export const getDataTransferItems = (event) => {
+  let items = []
+  if (event.dataTransfer) {
+    const dt = event.dataTransfer
+
+    // NOTE: Only the 'drop' event has access to DataTransfer.files, otherwise it will always be empty
+    if (dt.files && dt.files.length) {
+      items = dt.files
+    } else if (dt.items && dt.items.length) {
+      items = dt.items
+    }
+  } else if (event.target && event.target.files) {
+    items = event.target.files
+  }
+
+  return Array.prototype.slice.call(items)
+}

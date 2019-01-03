@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { getDataTransferItems } from './utils'
 
 const Input = (props) => {
   const {
@@ -31,7 +32,7 @@ const Input = (props) => {
         accept={accept}
         multiple={multiple}
         disabled={disabled}
-        onChange={(e) => { onFiles(Array.from(e.target.files)); e.target.value = null }}
+        onChange={(e) => { onFiles(getDataTransferItems(e)); e.target.value = null }}
       />
     </label>
   )

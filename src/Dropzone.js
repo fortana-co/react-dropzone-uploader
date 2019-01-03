@@ -5,7 +5,15 @@ import LayoutDefault from './Layout'
 import InputDefault from './Input'
 import PreviewDefault from './Preview'
 import SubmitButtonDefault from './SubmitButton'
-import { formatBytes, formatDuration, accepts, resolveValue, mergeStyles, defaultClassNames } from './utils'
+import {
+  formatBytes,
+  formatDuration,
+  accepts,
+  resolveValue,
+  mergeStyles,
+  defaultClassNames,
+  getDataTransferItems,
+} from './utils'
 
 let id = 0
 
@@ -33,14 +41,14 @@ class Dropzone extends React.Component {
   handleDragEnter = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.setState({ active: true, dragged: (e.dataTransfer && Array.from(e.dataTransfer.items)) || [] })
+    this.setState({ active: true, dragged: getDataTransferItems(e) })
   }
 
   handleDragOver = (e) => {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this._dragTimeoutId)
-    this.setState({ active: true, dragged: (e.dataTransfer && Array.from(e.dataTransfer.items)) || [] })
+    this.setState({ active: true, dragged: getDataTransferItems(e) })
   }
 
   handleDragLeave = (e) => {
@@ -55,9 +63,7 @@ class Dropzone extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
-
-    const { dataTransfer: { files } } = e
-    this.handleFiles([...files])
+    this.handleFiles(getDataTransferItems(e))
   }
 
   handleDropDisabled = (e) => {
@@ -114,7 +120,7 @@ class Dropzone extends React.Component {
 
   // expects an array of File objects
   handleFiles = (files) => {
-    files.forEach(this.handleFile)
+    files.forEach(f => this.handleFile(f))
     const { current } = this._dropzone
     if (current) setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
   }
