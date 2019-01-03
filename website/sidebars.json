@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Usage": ["quick-start", "api", "customization", "props"],
+    "Usage": ["quick-start", "api", "customization", "props", "why-rdu"],
     "Examples": ["examples", "s3"]
   }
 }

@@ -99,7 +99,7 @@ If this sounds daunting you probably haven't looked at [Layout](https://github.c
 ### Pass Additional Props To Injected Components
 Component injection props can be [function or class components](https://reactjs.org/docs/components-and-props.html#function-and-class-components).
 
-A function component is literally a function that accepts a single props argument and returns a React element. So, if you want to pass additional props to your injected component, just do something like this:
+A function component is literally a function that accepts a props argument and returns a React element. So, if you want to pass additional props to your injected component, just do something like this:
 
 ~~~js
 <Dropzone
