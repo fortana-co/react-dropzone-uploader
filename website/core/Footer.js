@@ -37,6 +37,8 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a href={this.docUrl('api')}>API Reference</a>
 
+            <a href={this.docUrl('why-rdu')}>Why RDU?</a>
+
             <a href={this.docUrl('examples')}>Live Examples</a>
           </div>
 

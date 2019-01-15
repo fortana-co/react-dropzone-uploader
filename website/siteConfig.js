@@ -19,6 +19,7 @@ const siteConfig = {
   headerLinks: [
     { doc: 'quick-start', label: 'Quick Start' },
     { doc: 'api', label: 'API' },
+    { doc: 'why-rdu', label: 'Why RDU?' },
     { doc: 'examples', label: 'Live Examples' },
     { search: true },
   ],
