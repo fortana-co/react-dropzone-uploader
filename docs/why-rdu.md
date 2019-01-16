@@ -15,7 +15,7 @@ My goal with RDU was to build a lightweight, customizable dropzone and uploader 
 ## React Dropzone
 There's also the popular and solid [react-dropzone](https://react-dropzone.netlify.com/), but this library only gives you a dropzone — it has no API for managing uploads.
 
-Uploading files, especially with status, progress, cancellation and restart, is hard to get right. And it's the most common use case for a dropzone, so I thought it would be nice to build a library that __gives you a dropzone and handles file uploads__.
+File uploads with status, progress, cancellation and restart are hard to get right. And they're the most common use case for a dropzone, so I thought it would be nice to build a library that gives you a dropzone AND handles file uploads.
 
 I also wanted a friendlier rendering API and better rendering defaults. __react-dropzone doesn't help you with rendering__:
 
@@ -27,38 +27,132 @@ RDU abstracts away things like `getRootProps` and `getInputProps`, which for mos
 
 
 ## RDU vs React Dropzone
-Here's a no BS comparison of RDU vs React Dropzone for implementing generic file uploads:
+Here's a no BS comparison of RDU and React Dropzone for implementing a dropzone that uploads files to <https://httpbin.org/post>:
 
-__react-dropzone-uploader__
-
-~~~js
-<Dropzone
-  getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
-  onSubmit={({ meta, file }, status) => { console.log(status, meta, file) }}
-  accept="image/*,audio/*,video/*"
-/>
-~~~
-
-__react-dropzone__
+__react-dropzone-uploader__: uploads files, and removes them if upload is successful.
 
 ~~~js
+class DropzoneWithPreview extends React.Component {
+  render() {
+    return (
+      <Dropzone
+        getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
+        onChangeStatus={({ remove }, status) => { if (status === 'headers_received') remove() }}
+        accept="image/*,audio/*,video/*"
+      />
+    )
+  }
+}
 ~~~
 
-...and for implementing a dropzone with file previews and a submit button, but no file uploads:
+__react-dropzone__ (code mostly taken from React Dropzone's docs)
 
-__react-dropzone-uploader__
+Uploads files, and removes them if upload is successful. Doesn't handle upload failure. Previews have no upload progress. No active state on drag over. No indication if dragged files have incorrect file types. Behaves incorrectly if user drags a second group of files before first group has finished uploading (bonus points if you can spot why this happens).
 
 ~~~js
-<Dropzone
-  onSubmit={({ meta, file }, status) => { console.log(status, meta, file) }}
-  accept="image/*,audio/*,video/*"
-/>
+const thumbsContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  marginTop: 16
+}
+​
+const thumb = {
+  display: 'inline-flex',
+  borderRadius: 2,
+  border: '1px solid #eaeaea',
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: 'border-box'
+}
+​
+const thumbInner = {
+  display: 'flex',
+  minWidth: 0,
+  overflow: 'hidden'
+}
+​
+const img = {
+  display: 'block',
+  width: 'auto',
+  height: '100%'
+}
+​
+class DropzoneWithPreview extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      files: []
+    }
+  }
+​
+  onDrop(files) {
+    this.setState({
+      files: files.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      }))
+    })
+    
+    const uploaders = files.map(file => {
+      const formData = new FormData()
+      formData.append('file', file);
+
+      return axios.post('https://httpbin.org/post', formData, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      })
+    })
+
+    axios.all(uploaders).then(() => {
+      // remove files once they've all been uploaded
+      this.setState({ files: [] })
+    })
+  }
+​
+  componentWillUnmount() {
+    // Make sure to revoke the data uris to avoid memory leaks
+    this.state.files.forEach(file => URL.revokeObjectURL(file.preview))
+  }
+​
+  render() {
+    const {files} = this.state
+​
+    const thumbs = files.map(file => (
+      <div style={thumb} key={file.name}>
+        <div style={thumbInner}>
+          <img
+            src={file.preview}
+            style={img}
+          />
+        </div>
+      </div>
+    ))
+​
+    return (
+      <section>
+        <Dropzone
+          onDrop={this.onDrop.bind(this)}
+          accept="image/*,audio/*,video/*"
+        >
+          {({getRootProps, getInputProps}) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>Drop files here</p>
+            </div>
+          )}
+        </Dropzone>
+        <aside style={thumbsContainer}>
+          {thumbs}
+        </aside>
+      </section>
+    )
+  }
+}
 ~~~
 
-__react-dropzone__
-
-~~~js
-~~~
+10 lines of code vs 100. The first implementation is production ready. The second isn't even close...
 
 
 ## Contributing
