@@ -8,6 +8,7 @@ module.exports = {
   webpackConfig: require('./webpack.config.js'),
   require: [
     path.join(__dirname, 'src', 'styles.css'),
+    path.join(__dirname, 'examples', 'styles.css'),
   ],
   exampleMode: 'expand',
   usageMode: 'expand',
@@ -36,6 +37,10 @@ module.exports = {
         {
           name: 'No Upload',
           content: 'examples/NoUpload.md',
+        },
+        {
+          name: 'Single File, Auto Submit',
+          content: 'examples/SingleFile.md',
         },
       ],
     },
