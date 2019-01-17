@@ -1,3 +1,4 @@
+/* eslint import/no-extraneous-dependencies: 0 */
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 

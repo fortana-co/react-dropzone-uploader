@@ -51,6 +51,7 @@
     "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
     "react-dom": ">=16.2.0",
+    "react-styleguidist": "^8.0.6",
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.4.3",
     "style-loader": "^0.23.1",
@@ -69,7 +70,9 @@
     "build": "NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css",
     "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
     "lint": "eslint src",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "start": "styleguidist server",
+    "styleguide": "styleguidist build"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
