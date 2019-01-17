@@ -5,12 +5,10 @@ Changes border color for "active" dropzone using `styles` prop.
 ~~~js
 const SingleFileAutoSubmit = () => {
   const toast = (innerHTML) => {
-    const container = document.getElementById('toast')
-    container.innerHTML = innerHTML
-    container.className = 'show'
-    setTimeout(() => {
-      container.className = container.className.replace('show', '')
-    }, 3000)
+    const el = document.getElementById('toast')
+    el.innerHTML = innerHTML
+    el.className = 'show'
+    setTimeout(() => { el.className = el.className.replace('show', '') }, 3000)
   }
 
   const getUploadParams = () => {

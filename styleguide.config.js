@@ -21,7 +21,7 @@ module.exports = {
   sections: [
     {
       name: 'Live Examples',
-      components: './src/Dropzone.js',
+      components: ['./src/Dropzone.js'],
     },
     {
       name: 'Examples',
@@ -41,6 +41,22 @@ module.exports = {
         {
           name: 'Single File, Auto Submit',
           content: 'examples/SingleFile.md',
+        },
+        {
+          name: 'Custom Preview',
+          content: 'examples/CustomPreview.md',
+        },
+        {
+          name: 'Custom Layout',
+          content: 'examples/CustomLayout.md',
+        },
+        {
+          name: 'Dropzone With No Input',
+          content: 'examples/NoInput.md',
+        },
+        {
+          name: 'Input With No Dropzone',
+          content: 'examples/NoDropzone.md',
         },
       ],
     },

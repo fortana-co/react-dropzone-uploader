@@ -1,3 +1,4 @@
+/* eslint import/no-extraneous-dependencies: 0 */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ToastContainer, toast } from 'react-toastify'
@@ -131,7 +132,10 @@ const Preview = ({ meta }) => {
 const CustomPreview = () => {
   const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+  const handleSubmit = (files, allFiles) => {
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  }
 
   return (
     <Dropzone
@@ -162,7 +166,10 @@ const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { 
 const CustomLayout = () => {
   const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+  const handleSubmit = (files, allFiles) => {
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  }
 
   return (
     <Dropzone
@@ -195,7 +202,10 @@ const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }) => {
 const DropzoneNoInput = () => {
   const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+  const handleSubmit = (files, allFiles) => {
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  }
 
   return (
     <Dropzone
@@ -223,7 +233,10 @@ const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps 
 const InputNoDropzone = () => {
   const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
+  const handleSubmit = (files, allFiles) => {
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  }
 
   return (
     <Dropzone
