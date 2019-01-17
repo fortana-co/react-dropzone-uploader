@@ -9,6 +9,7 @@ module.exports = {
   require: [
     path.join(__dirname, 'src', 'styles.css'),
     path.join(__dirname, 'examples', 'styles.css'),
+    path.resolve(__dirname, 'styleguide.setup.js'),
   ],
   exampleMode: 'expand',
   usageMode: 'expand',
@@ -18,47 +19,50 @@ module.exports = {
     transforms: { dangerousTaggedTemplateString: true },
     objectAssign: 'Object.assign',
   },
+  styles: {
+    StyleGuide: {
+      content: {
+        padding: [[16, 0]],
+      },
+    },
+    Heading: {
+      heading1: {
+        fontSize: 32,
+      },
+    },
+  },
   sections: [
     {
-      name: 'Live Examples',
-      components: ['./src/Dropzone.js'],
+      name: 'Standard',
+      content: 'examples/Standard.md',
     },
     {
-      name: 'Examples',
-      sections: [
-        {
-          name: 'Standard',
-          content: 'examples/Standard.md',
-        },
-        {
-          name: 'Only Image, Audio, Video',
-          content: 'examples/Accept.md',
-        },
-        {
-          name: 'No Upload',
-          content: 'examples/NoUpload.md',
-        },
-        {
-          name: 'Single File, Auto Submit',
-          content: 'examples/SingleFile.md',
-        },
-        {
-          name: 'Custom Preview',
-          content: 'examples/CustomPreview.md',
-        },
-        {
-          name: 'Custom Layout',
-          content: 'examples/CustomLayout.md',
-        },
-        {
-          name: 'Dropzone With No Input',
-          content: 'examples/NoInput.md',
-        },
-        {
-          name: 'Input With No Dropzone',
-          content: 'examples/NoDropzone.md',
-        },
-      ],
+      name: 'Only Image, Audio, Video',
+      content: 'examples/Accept.md',
+    },
+    {
+      name: 'No Upload',
+      content: 'examples/NoUpload.md',
+    },
+    {
+      name: 'Single File, Auto Submit',
+      content: 'examples/SingleFile.md',
+    },
+    {
+      name: 'Custom Preview',
+      content: 'examples/CustomPreview.md',
+    },
+    {
+      name: 'Custom Layout',
+      content: 'examples/CustomLayout.md',
+    },
+    {
+      name: 'Dropzone With No Input',
+      content: 'examples/NoInput.md',
+    },
+    {
+      name: 'Input With No Dropzone',
+      content: 'examples/NoDropzone.md',
     },
   ],
 }

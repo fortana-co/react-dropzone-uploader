@@ -71,8 +71,8 @@
     "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
     "lint": "eslint src",
     "test": "jest --coverage",
-    "start": "styleguidist server",
-    "styleguide": "styleguidist build"
+    "styleguide": "styleguidist server",
+    "build-styleguide": "styleguidist build"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"

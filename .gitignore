@@ -5,6 +5,7 @@
 ## docs
 /website/i18n
 /website/build
+/styleguide
 
 # production
 /dist
@@ -15,4 +16,3 @@
 # misc
 .DS_Store
 .env
-
