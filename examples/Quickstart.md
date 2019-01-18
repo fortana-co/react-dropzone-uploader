@@ -1,6 +1,8 @@
 ~~~js
-// import 'react-dropzone-uploader/dist/styles.css'
-// import Dropzone from 'react-dropzone-uploader'
+/**
+import 'react-dropzone-uploader/dist/styles.css'
+import Dropzone from 'react-dropzone-uploader'
+**/
 
 const MyUploader = () => {
   // specify upload params and url for your files

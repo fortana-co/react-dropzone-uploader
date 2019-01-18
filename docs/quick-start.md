@@ -23,5 +23,4 @@ RDU handles common use cases with almost no config. The following code gives you
 >You can edit code for this example __and see changes live__. Open your browser's console to see how RDU manages file metadata and the upload lifecycle.
 
 <div id="rsg-root"></div>
-<script type="text/javascript" src="./assets/styleguide-quickstart/build/1.9aa4cc6a.js"></script>
-<script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.308ade50.js"></script>
+<script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.084e60ab.js"></script>
