@@ -4,6 +4,9 @@
 .gitattributes
 package-lock.json
 webpack.config.js
+styleguide.config.js
+styleguide-quickstart.config.js
+styleguide.setup.js
 
 examples
 node_modules

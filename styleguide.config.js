@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   title: 'Live Examples · React Dropzone Uploader',
-  styleguideDir: path.join(__dirname, 'styleguide'),
+  styleguideDir: path.join(__dirname, 'docs/assets/styleguide'),
   webpackConfig: require('./webpack.config.js'),
   require: [
     path.join(__dirname, 'src', 'styles.css'),

@@ -36,7 +36,7 @@ import 'react-dropzone-uploader/dist/styles.css'
 
 
 ## Quick Start
-RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading. [Check out a live demo](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading. [Check out a live demo](https://react-dropzone-uploader.js.org/docs/quick-start).
 
 ~~~js
 import 'react-dropzone-uploader/dist/styles.css'

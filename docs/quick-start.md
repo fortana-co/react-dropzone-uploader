@@ -18,29 +18,10 @@ import 'react-dropzone-uploader/dist/styles.css'
 
 
 ## `Dropzone`
-RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading. [Check out a live demo](https://codepen.io/kylebebak/pen/wYRNzY/?editors=0010).
+RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading.
 
-~~~js
-import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone from 'react-dropzone-uploader'
+>You can edit code for this example __and see changes live__. Open your browser's console to see how RDU manages file metadata and the upload lifecycle.
 
-const MyUploader = () => {
-  // specify upload params and url for your files
-  const getUploadParams = ({ meta }) => { return { url: 'https://httpbin.org/post' } }
-  
-  // called every time a file's `status` changes
-  const handleChangeStatus = ({ meta, file }, status) => { console.log(status, meta, file) }
-  
-  // receives array of files that are done uploading when submit button is clicked
-  const handleSubmit = (files) => { console.log(files.map(f => f.meta)) }
-
-  return (
-    <Dropzone
-      getUploadParams={getUploadParams}
-      onChangeStatus={handleChangeStatus}
-      onSubmit={handleSubmit}
-      accept="image/*,audio/*,video/*"
-    />
-  )
-}
-~~~
+<div id="rsg-root"></div>
+<script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.74ddf1da.js"></script>
+<script type="text/javascript" src="./assets/styleguide-quickstart/build/1.9aa4cc6a.js"></script>

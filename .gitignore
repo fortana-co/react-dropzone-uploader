@@ -5,7 +5,6 @@
 ## docs
 /website/i18n
 /website/build
-/styleguide
 
 # production
 /dist

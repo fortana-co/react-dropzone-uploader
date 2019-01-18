@@ -47,8 +47,4 @@ module.exports = [
     filename: 'react-dropzone-uploader.umd.js',
     library: 'ReactDropzoneUploader',
   }),
-  createConfig('./examples/src/index.js', {
-    path: path.resolve('docs', 'assets'),
-    filename: 'bundle.js',
-  }),
 ]
