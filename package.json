@@ -74,7 +74,8 @@
     "styleguide": "styleguidist server",
     "build-styleguide": "styleguidist build",
     "styleguide-quickstart": "styleguidist server --config styleguide-quickstart.config.js",
-    "build-styleguide-quickstart": "styleguidist build --config styleguide-quickstart.config.js"
+    "build-styleguide-quickstart": "styleguidist build --config styleguide-quickstart.config.js",
+    "build-docs": "./build_docs.sh"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"

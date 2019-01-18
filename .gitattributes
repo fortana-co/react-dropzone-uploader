@@ -1,3 +1,5 @@
 package-lock.json binary
 yarn.lock binary
 bundle.js binary
+docs/assets/styleguide/build/* binary
+docs/assets/styleguide-quickstart/build/* binary
