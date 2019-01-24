@@ -11,7 +11,7 @@ with open('docs/quick-start.md', 'w') as f:
             f.write(line)
     for file in os.listdir('docs/assets/styleguide-quickstart/build'):
         if file.startswith('bundle') and file.endswith('.js'):
-            f.write(f'<script type="text/javascript" src="./assets/styleguide-quickstart/build/{file}"></script>\n')
+            f.write(f'<script type="text/javascript" src="./assets/styleguide-quickstart/build/{file}" async="true"></script>\n')
             path = f'docs/assets/styleguide-quickstart/build/{file}'
             with open(path, 'r') as script:
                 text = script.read().replace('"build/"', '"assets/styleguide-quickstart/build/"')
@@ -26,7 +26,7 @@ with open('docs/examples.md', 'w') as f:
             f.write(line)
     for file in os.listdir('docs/assets/styleguide/build'):
         if file.startswith('bundle') and file.endswith('.js'):
-            f.write(f'<script type="text/javascript" src="./assets/styleguide/build/{file}"></script>\n')
+            f.write(f'<script type="text/javascript" src="./assets/styleguide/build/{file}" async="true"></script>\n')
             path = f'docs/assets/styleguide/build/{file}'
             with open(path, 'r') as script:
                 text = script.read().replace('"build/"', '"assets/styleguide/build/"')
