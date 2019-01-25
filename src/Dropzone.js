@@ -240,7 +240,12 @@ class Dropzone extends React.Component {
 
   uploadFile = async (fileWithMeta) => {
     const { getUploadParams } = this.props
-    const params = await getUploadParams(fileWithMeta)
+    let params
+    try {
+      params = await getUploadParams(fileWithMeta)
+    } catch (e) {
+      console.error('Error Upload Params', e.stack)
+    }
     const { fields = {}, headers = {}, meta: extraMeta = {}, method = 'POST', url } = params || {}
     delete extraMeta.status
 
