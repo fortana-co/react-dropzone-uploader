@@ -18,7 +18,6 @@ The following props can be passed to `Dropzone`.
 | maxFiles | number | `2^53 - 1` | max number of files that can be tracked and rendered by the dropzone |
 | validate | func | | generic validation function called after file is prepared; receives __fileWithMeta__ object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets __meta.status__ to __'error_validation'__, and sets __meta.validationError__ to the returned value |
 | autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'uploading'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
-| previewTypes | array | `['image', 'audio', 'video']` | generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance |
 | timeout | number | | pass an integer to make upload time out after this many ms; if upload times out, onChangeStatus is invoked with value __'exception_upload'__ |
 
 

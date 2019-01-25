@@ -194,8 +194,6 @@ class Dropzone extends React.Component {
   }
 
   generatePreview = async (fileWithMeta) => {
-    const { previewTypes } = this.props
-
     const { meta: { type }, file } = fileWithMeta
     const isImage = type.startsWith('image/')
     const isAudio = type.startsWith('audio/')
@@ -209,7 +207,7 @@ class Dropzone extends React.Component {
     }
 
     try {
-      if (isImage && previewTypes.includes('image')) {
+      if (isImage) {
         const img = new Image()
         img.src = objectUrl
         fileWithMeta.meta.previewUrl = objectUrl
@@ -218,14 +216,14 @@ class Dropzone extends React.Component {
         fileWithMeta.meta.height = img.height
       }
 
-      if (isAudio && previewTypes.includes('audio')) {
+      if (isAudio) {
         const audio = new Audio()
         audio.src = objectUrl
         await fileCallbackToPromise(audio, 'onloadedmetadata')
         fileWithMeta.meta.duration = audio.duration
       }
 
-      if (isVideo && previewTypes.includes('video')) {
+      if (isVideo) {
         const video = document.createElement('video')
         video.src = objectUrl
         await fileCallbackToPromise(video, 'onloadedmetadata')
@@ -482,8 +480,6 @@ Dropzone.propTypes = {
   autoUpload: PropTypes.bool,
   timeout: PropTypes.number,
 
-  previewTypes: PropTypes.arrayOf(PropTypes.oneOf(['image', 'audio', 'video'])),
-
   /* component customization */
   disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
@@ -515,7 +511,6 @@ Dropzone.defaultProps = {
   maxSizeBytes: Number.MAX_SAFE_INTEGER,
   maxFiles: Number.MAX_SAFE_INTEGER,
   autoUpload: true,
-  previewTypes: ['image', 'audio', 'video'],
   disabled: false,
   canCancel: true,
   canRemove: true,

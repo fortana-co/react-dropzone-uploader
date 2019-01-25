@@ -16,12 +16,47 @@ This is called every time a file's status changes: `fileWithMeta.meta.status`.
 
 It receives `(fileWithMeta, status, []fileWithMeta)`. The first argument is the `fileWithMeta` object whose status changed, while the third argument is the array of all `fileWithMeta` objects being tracked by the dropzone.
 
-Possible status values are `'rejected_file_type'`, `'rejected_max_files'`, `'preparing'`, `'error_file_size'`, `'error_validation'`, `'ready'`, `'started'`, `'uploading'`, `'error_upload_params'`, `'exception_upload'`, `'aborted'`, `'restarted'`, `'removed'`, `'error_upload'`, `'headers_received'`, `'done'`.
-
 Returning a `meta` object from this callback lets you merge new values into the file's `meta`.
 
 >`onChangeStatus` is never called repeatedly for the same status.
 
+
+### Status Values
+Here are all possible values for `fileWithMeta.meta.status`.
+
+- `'rejected_file_type'`:
+  + set because of `accept` prop; file not added to dropzone's file array
+- `'rejected_max_files'`:
+  + set because of `maxFiles` prop; file not added to dropzone's file array
+- `'preparing'`:
+  + set before file validation and preview generation
+- `'error_file_size'`:
+  + set because of `minSizeBytes` and/or `maxSizeBytes` props
+- `'error_validation'`:
+  + set if you pass `validate` function and it returns falsy value
+- `'ready'`:
+  + only set if you pass `autoUpload={false}`; set when file has been prepared and validated; client code can call `fileWithMeta.restart` to start upload
+- `'started'`:
+  + set if status is `'ready'` and user starts upload, or client code calls `fileWithMeta.restart`
+- `'uploading'`:
+  + set when file upload starts
+- `'error_upload_params'`:
+  + set if you pass `getUploadParams` and it throws an exception, or it doesn't return `{ url: '...' }`
+- `'exception_upload'`:
+  + set if upload times out or there is no connection to upload server
+- `'aborted'`:
+  + set if `fileWithMeta.meta.status` is `'uploading'` and user aborts upload, or client code calls `fileWithMeta.cancel`
+- `'restarted'`:
+  + set if user restarts upload, or client code calls `fileWithMeta.restart`
+- `'removed'`:
+  + set if user removes file from dropzone, or client code calls `fileWithMeta.remove`
+- `'error_upload'`:
+  + set if upload response has HTTP [status code >= 400](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/status)
+- `'headers_received'`:
+  + set for successful upload when [xhr.readyState is HEADERS_RECEIVED](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState); headers are available but response body is not
+- `'done'`:
+  + set for successful upload when [xhr.readyState is DONE](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState); response body is available
+  + if you don't pass a `getUploadParams` function because you're not using RDU to upload files, this is set after file is prepared and validated
 
 
 ## `getUploadParams`
@@ -57,27 +92,6 @@ RDU maintains an array of files it's currently tracking and rendering. The eleme
 RDU's callback props `onChangeStatus`, `getUploadParams`, `onSubmit` and `validate` receive single or multiple `fileWithMeta` objects.
 
 These objects give you all the metadata you need to create a customized, reactive file dropzone, file input, or file uploader.
-
-
-### `fileWithMeta.meta.status`
-Some extra notes on `fileWithMeta.meta.status` values:
-
-- `'error_upload_params'`
-  + set if you pass `getUploadParams`, and your function doesn't return `{ url: '...' }`
-- `'exception_upload'`
-  + set if upload times out or there is no connection to upload server
-- `'aborted'`
-  + set if `fileWithMeta.meta.status` is `'uploading'` and user aborts upload, or client code calls `fileWithMeta.cancel`
-- `'error_upload'`
-  + set if upload response has HTTP status code >= 400
-- `'headers_received'`
-  + set when upload is complete (headers are available), but response body is still unavailable
-- `'done'`
-  + set when upload is complete and response body is available
-- `'ready'`
-  + only set if you pass `autoUpload={false}`; set when file has been validated and is ready to upload; client code can call `fileWithMeta.restart` to start upload
-- `'started'`
-  + set if status is `'ready'` and user starts upload, or client code calls `fileWithMeta.restart`
 
 
 ### Mutability
