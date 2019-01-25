@@ -1,12 +1,15 @@
 .babelrc
 .eslintrc.js
+.eslintignore
 .gitignore
 .gitattributes
 package-lock.json
-webpack.config.js
 styleguide.config.js
 styleguide-quickstart.config.js
 styleguide.setup.js
+update_styleguides.py
+webpack.config.js
+webpack.build.config.js
 
 examples
 node_modules
@@ -20,4 +23,4 @@ coverage
 
 .*.md
 
-dropzone.gif
+*.gif
