@@ -43,7 +43,6 @@
 <tr><td>maxFiles</td><td>number</td><td><code>2^53 - 1</code></td><td>max number of files that can be tracked and rendered by the dropzone</td></tr>
 <tr><td>validate</td><td>func</td><td></td><td>generic validation function called after file is prepared; receives <strong>fileWithMeta</strong> object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets <strong>meta.status</strong> to <strong>'error_validation'</strong>, and sets <strong>meta.validationError</strong> to the returned value</td></tr>
 <tr><td>autoUpload</td><td>bool</td><td><code>true</code></td><td>pass false to prevent file from being uploaded automatically; sets <strong>meta.status</strong> to <strong>'ready'</strong> (instead of <strong>'uploading'</strong>) after file is prepared and validated; you can call <strong>fileWithMeta.restart</strong> whenever you want to initiate file upload</td></tr>
-<tr><td>previewTypes</td><td>array</td><td><code>['image', 'audio', 'video']</code></td><td>generate rich previews (thumbnail, duration, dimensions) for these file types; defaults to all 3 types; only change this if you think generating rich previews is hurting performance</td></tr>
 <tr><td>timeout</td><td>number</td><td></td><td>pass an integer to make upload time out after this many ms; if upload times out, onChangeStatus is invoked with value <strong>'exception_upload'</strong></td></tr>
 </tbody>
 </table>

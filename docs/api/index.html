@@ -33,11 +33,79 @@
 <h2><a class="anchor" aria-hidden="true" id="onchangestatus"></a><a href="#onchangestatus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>onChangeStatus</code></h2>
 <p>This is called every time a file's status changes: <code>fileWithMeta.meta.status</code>.</p>
 <p>It receives <code>(fileWithMeta, status, []fileWithMeta)</code>. The first argument is the <code>fileWithMeta</code> object whose status changed, while the third argument is the array of all <code>fileWithMeta</code> objects being tracked by the dropzone.</p>
-<p>Possible status values are <code>'rejected_file_type'</code>, <code>'rejected_max_files'</code>, <code>'preparing'</code>, <code>'error_file_size'</code>, <code>'error_validation'</code>, <code>'ready'</code>, <code>'started'</code>, <code>'uploading'</code>, <code>'error_upload_params'</code>, <code>'exception_upload'</code>, <code>'aborted'</code>, <code>'restarted'</code>, <code>'removed'</code>, <code>'error_upload'</code>, <code>'headers_received'</code>, <code>'done'</code>.</p>
 <p>Returning a <code>meta</code> object from this callback lets you merge new values into the file's <code>meta</code>.</p>
 <blockquote>
 <p><code>onChangeStatus</code> is never called repeatedly for the same status.</p>
 </blockquote>
+<h3><a class="anchor" aria-hidden="true" id="status-values"></a><a href="#status-values" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Status Values</h3>
+<p>Here are all possible values for <code>fileWithMeta.meta.status</code>.</p>
+<ul>
+<li><code>'rejected_file_type'</code>:
+<ul>
+<li>set because of <code>accept</code> prop; file not added to dropzone's file array</li>
+</ul></li>
+<li><code>'rejected_max_files'</code>:
+<ul>
+<li>set because of <code>maxFiles</code> prop; file not added to dropzone's file array</li>
+</ul></li>
+<li><code>'preparing'</code>:
+<ul>
+<li>set before file validation and preview generation</li>
+</ul></li>
+<li><code>'error_file_size'</code>:
+<ul>
+<li>set because of <code>minSizeBytes</code> and/or <code>maxSizeBytes</code> props</li>
+</ul></li>
+<li><code>'error_validation'</code>:
+<ul>
+<li>set if you pass <code>validate</code> function and it returns falsy value</li>
+</ul></li>
+<li><code>'ready'</code>:
+<ul>
+<li>only set if you pass <code>autoUpload={false}</code>; set when file has been prepared and validated; client code can call <code>fileWithMeta.restart</code> to start upload</li>
+</ul></li>
+<li><code>'started'</code>:
+<ul>
+<li>set if status is <code>'ready'</code> and user starts upload, or client code calls <code>fileWithMeta.restart</code></li>
+</ul></li>
+<li><code>'uploading'</code>:
+<ul>
+<li>set when file upload starts</li>
+</ul></li>
+<li><code>'error_upload_params'</code>:
+<ul>
+<li>set if you pass <code>getUploadParams</code> and it throws an exception, or it doesn't return <code>{ url: '...' }</code></li>
+</ul></li>
+<li><code>'exception_upload'</code>:
+<ul>
+<li>set if upload times out or there is no connection to upload server</li>
+</ul></li>
+<li><code>'aborted'</code>:
+<ul>
+<li>set if <code>fileWithMeta.meta.status</code> is <code>'uploading'</code> and user aborts upload, or client code calls <code>fileWithMeta.cancel</code></li>
+</ul></li>
+<li><code>'restarted'</code>:
+<ul>
+<li>set if user restarts upload, or client code calls <code>fileWithMeta.restart</code></li>
+</ul></li>
+<li><code>'removed'</code>:
+<ul>
+<li>set if user removes file from dropzone, or client code calls <code>fileWithMeta.remove</code></li>
+</ul></li>
+<li><code>'error_upload'</code>:
+<ul>
+<li>set if upload response has HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/status">status code &gt;= 400</a></li>
+</ul></li>
+<li><code>'headers_received'</code>:
+<ul>
+<li>set for successful upload when <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState">xhr.readyState is HEADERS_RECEIVED</a>; headers are available but response body is not</li>
+</ul></li>
+<li><code>'done'</code>:
+<ul>
+<li>set for successful upload when <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState">xhr.readyState is DONE</a>; response body is available</li>
+<li>if you don't pass a <code>getUploadParams</code> function because you're not using RDU to upload files, this is set after file is prepared and validated</li>
+</ul></li>
+</ul>
 <h2><a class="anchor" aria-hidden="true" id="getuploadparams"></a><a href="#getuploadparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>getUploadParams</code></h2>
 <p><code>getUploadParams</code> is a callback that receives a <code>fileWithMeta</code> object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.</p>
 <p><code>getUploadParams</code> can be async, in case you need to go over the network to get upload params for a file. It should return an object with <code>{ fields (object), headers (object), meta (object), method (string), url (string) }</code>.</p>
@@ -69,42 +137,6 @@
 </ul>
 <p>RDU's callback props <code>onChangeStatus</code>, <code>getUploadParams</code>, <code>onSubmit</code> and <code>validate</code> receive single or multiple <code>fileWithMeta</code> objects.</p>
 <p>These objects give you all the metadata you need to create a customized, reactive file dropzone, file input, or file uploader.</p>
-<h3><a class="anchor" aria-hidden="true" id="filewithmetametastatus"></a><a href="#filewithmetametastatus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>fileWithMeta.meta.status</code></h3>
-<p>Some extra notes on <code>fileWithMeta.meta.status</code> values:</p>
-<ul>
-<li><code>'error_upload_params'</code>
-<ul>
-<li>set if you pass <code>getUploadParams</code>, and your function doesn't return <code>{ url: '...' }</code></li>
-</ul></li>
-<li><code>'exception_upload'</code>
-<ul>
-<li>set if upload times out or there is no connection to upload server</li>
-</ul></li>
-<li><code>'aborted'</code>
-<ul>
-<li>set if <code>fileWithMeta.meta.status</code> is <code>'uploading'</code> and user aborts upload, or client code calls <code>fileWithMeta.cancel</code></li>
-</ul></li>
-<li><code>'error_upload'</code>
-<ul>
-<li>set if upload response has HTTP status code &gt;= 400</li>
-</ul></li>
-<li><code>'headers_received'</code>
-<ul>
-<li>set when upload is complete (headers are available), but response body is still unavailable</li>
-</ul></li>
-<li><code>'done'</code>
-<ul>
-<li>set when upload is complete and response body is available</li>
-</ul></li>
-<li><code>'ready'</code>
-<ul>
-<li>only set if you pass <code>autoUpload={false}</code>; set when file has been validated and is ready to upload; client code can call <code>fileWithMeta.restart</code> to start upload</li>
-</ul></li>
-<li><code>'started'</code>
-<ul>
-<li>set if status is <code>'ready'</code> and user starts upload, or client code calls <code>fileWithMeta.restart</code></li>
-</ul></li>
-</ul>
 <h3><a class="anchor" aria-hidden="true" id="mutability"></a><a href="#mutability" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mutability</h3>
 <p>Note that <code>fileWithMeta</code> objects <strong>are mutable</strong>. If you mutate them, RDU may behave unexpectedly, so don't do this!</p>
 <blockquote>
@@ -115,7 +147,7 @@
 <p>To control which files can be dropped or picked, you can use the <code>accept</code> prop, which is really the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Limiting_accepted_file_types">HTML5 input accept attribute</a>. Also available are the <code>minSizeBytes</code>, <code>maxSizeBytes</code> and <code>maxFiles</code> props.</p>
 <p>Files whose sizes fall outside the range <code>[minSizeBytes, maxSizeBytes]</code> are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call <code>onChangeStatus</code> with special status values, but are not rendered.</p>
 <p>If you need totally custom filter logic, you can pass a generic <code>validate</code> function. This function receives a <code>fileWithMeta</code> object. If you return a falsy value from <code>validate</code>, the file is accepted, else it's rejected.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/quick-start"><span class="arrow-prev">← </span><span>Quick Start</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#onchangestatus"><code>onChangeStatus</code></a></li><li><a href="#getuploadparams"><code>getUploadParams</code></a></li><li><a href="#onsubmit"><code>onSubmit</code></a></li><li><a href="#filewithmeta-objects"><code>fileWithMeta</code> Objects</a><ul class="toc-headings"><li><a href="#filewithmetametastatus"><code>fileWithMeta.meta.status</code></a></li><li><a href="#mutability">Mutability</a></li></ul></li><li><a href="#accepted-files">Accepted Files</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>Docs</h5><a href="/docs/api">API Reference</a><a href="/docs/why-rdu">Why RDU?</a><a href="/docs/examples">Live Examples</a></div><div><h5>Community</h5><a href="http://stackoverflow.com/questions/tagged/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://github.com/fortana-co/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">GitHub</a><a href="https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted" target="_blank" rel="noreferrer noopener">Contribute</a><a class="github-button" href="https://github.com/fortana-co/react-dropzone-uploader" data-icon="octicon-star" data-count-href="/fortana-co/react-dropzone-uploader/stargazers" data-show-count="true" data-count-aria-label="Stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>Built With</h5><a href="https://docusaurus.io/">Docusaurus for website generation</a><a href="https://pages.github.com/">GitHub Pages for hosting</a><a href="https://js.org/">js.org for the domain name</a><a href="https://community.algolia.com/docsearch/">Algolia for search</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 <a href="https://fortana.co">Fortana</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/quick-start"><span class="arrow-prev">← </span><span>Quick Start</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#onchangestatus"><code>onChangeStatus</code></a><ul class="toc-headings"><li><a href="#status-values">Status Values</a></li></ul></li><li><a href="#getuploadparams"><code>getUploadParams</code></a></li><li><a href="#onsubmit"><code>onSubmit</code></a></li><li><a href="#filewithmeta-objects"><code>fileWithMeta</code> Objects</a><ul class="toc-headings"><li><a href="#mutability">Mutability</a></li></ul></li><li><a href="#accepted-files">Accepted Files</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>Docs</h5><a href="/docs/api">API Reference</a><a href="/docs/why-rdu">Why RDU?</a><a href="/docs/examples">Live Examples</a></div><div><h5>Community</h5><a href="http://stackoverflow.com/questions/tagged/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://github.com/fortana-co/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">GitHub</a><a href="https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted" target="_blank" rel="noreferrer noopener">Contribute</a><a class="github-button" href="https://github.com/fortana-co/react-dropzone-uploader" data-icon="octicon-star" data-count-href="/fortana-co/react-dropzone-uploader/stargazers" data-show-count="true" data-count-aria-label="Stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>Built With</h5><a href="https://docusaurus.io/">Docusaurus for website generation</a><a href="https://pages.github.com/">GitHub Pages for hosting</a><a href="https://js.org/">js.org for the domain name</a><a href="https://community.algolia.com/docsearch/">Algolia for search</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 <a href="https://fortana.co">Fortana</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
