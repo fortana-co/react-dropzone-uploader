@@ -38,6 +38,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "babel-polyfill": "^6.26.0",
     "css-loader": "^1.0.0",
     "docusaurus-init": "^1.0.2",
     "enzyme": "^3.7.0",
