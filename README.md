@@ -68,6 +68,14 @@ const MyUploader = () => {
 See more live examples here: <https://react-dropzone-uploader.js.org/docs/examples>.
 
 
+## Browser Support
+| Chrome | Firefox | Edge | Safari | IE | iOS Safari | Chrome for Android |
+| --- | --- | --- | --- | --- | --- | --- |
+| ✔ | ✔ | ✔ | 10+, 9\* | 11\* | ✔ | ✔ |
+
+\* requires `Promise` polyfill, e.g. [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill)
+
+
 ## UMD Build
 This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@2.5.1/dist/react-dropzone-uploader.umd.js>.
 

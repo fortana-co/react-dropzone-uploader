@@ -24,3 +24,11 @@ RDU handles common use cases with almost no config. The following code gives you
 
 <div id="rsg-root"></div>
 <script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.1b4df07a.js" async="true"></script>
+
+
+## Browser Support
+| Chrome | Firefox | Edge | Safari | IE | iOS Safari | Chrome for Android |
+| --- | --- | --- | --- | --- | --- | --- |
+| ✔ | ✔ | ✔ | 10+, 9\* | 11\* | ✔ | ✔ |
+
+\* requires `Promise` polyfill, e.g. [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill)
