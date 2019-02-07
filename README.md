@@ -68,6 +68,10 @@ const MyUploader = () => {
 See more live examples here: <https://react-dropzone-uploader.js.org/docs/examples>.
 
 
+## Props
+Check out [the full table of RDU's props](https://react-dropzone-uploader.js.org/docs/props).
+
+
 ## Browser Support
 | Chrome | Firefox | Edge | Safari | IE | iOS Safari | Chrome for Android |
 | --- | --- | --- | --- | --- | --- | --- |
