@@ -81,7 +81,7 @@ Check out [the full table of RDU's props](https://react-dropzone-uploader.js.org
 
 
 ## UMD Build
-This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@2.5.1/dist/react-dropzone-uploader.umd.js>.
+This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@2.5.2/dist/react-dropzone-uploader.umd.js>.
 
 If you want to include it in your page, you need to include the dependencies and CSS as well.
 
@@ -90,8 +90,8 @@ If you want to include it in your page, you need to include the dependencies and
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
 
-<script src="https://unpkg.com/react-dropzone-uploader@2.5.1/dist/react-dropzone-uploader.umd.js"></script>
-<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@2.5.1/dist/styles.css"></script>
+<script src="https://unpkg.com/react-dropzone-uploader@2.5.2/dist/react-dropzone-uploader.umd.js"></script>
+<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@2.5.2/dist/styles.css"></script>
 ~~~
 
 
@@ -99,6 +99,19 @@ If you want to include it in your page, you need to include the dependencies and
 There are a number of places RDU could be improved; [see here](https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted).
 
 For example, RDU has solid core functionality, but has a minimalist look and feel. It would be more beginner-friendly with a larger variety of built-in components.
+
+
+### Running Dev
+Clone the project, install dependencies, and run the dev server.
+
+~~~sh
+git clone git://github.com/fortana-co/react-dropzone-uploader.git
+cd react-dropzone-uploader
+npm install  # or `yarn install`
+npm run dev
+~~~
+
+This runs code in `examples/src/index.js`, which has many examples that use `Dropzone`. The library source code is in the `/src` directory.
 
 
 ## Thanks

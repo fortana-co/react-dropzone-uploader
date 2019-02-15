@@ -163,3 +163,16 @@ Possible improvements to RDU are tracked as [GitHub issues with the "__help want
 For example, I know nothing about writing tests for React components, and I know RDU would benefit from having them. I'd also like to add TypeScript annotations, and better support for older browsers.
 
 I would be super happy to give contributors complete control of implementing these features.
+
+
+### Running Dev
+Clone the project, install dependencies, and run the dev server.
+
+~~~sh
+git clone git://github.com/fortana-co/react-dropzone-uploader.git
+cd react-dropzone-uploader
+npm install  # or `yarn install`
+npm run dev
+~~~
+
+This runs code in `examples/src/index.js`, which has many examples that use `Dropzone`. The library source code is in the `/src` directory.
