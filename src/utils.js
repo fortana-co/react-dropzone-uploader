@@ -1,4 +1,4 @@
-export const formatBytes = (b) => {
+export const formatBytes = b => {
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   let l = 0
   let n = b
@@ -11,7 +11,7 @@ export const formatBytes = (b) => {
   return `${n.toFixed(n >= 10 || l < 1 ? 0 : 1)}${units[l]}`
 }
 
-export const formatDuration = (seconds) => {
+export const formatDuration = seconds => {
   const date = new Date(null)
   date.setSeconds(seconds)
   const dateString = date.toISOString().slice(11, 19)
@@ -27,15 +27,18 @@ export const accepts = (file, accept) => {
   const mimeType = file.type || ''
   const baseMimeType = mimeType.replace(/\/.*$/, '')
 
-  return accept.split(',').map(t => t.trim()).some((type) => {
-    if (type.charAt(0) === '.') {
-      return fileName.toLowerCase().endsWith(type.toLowerCase())
-    } else if (type.endsWith('/*')) {
-      // this is something like an image/* mime type
-      return baseMimeType === type.replace(/\/.*$/, '')
-    }
-    return mimeType === type
-  })
+  return accept
+    .split(',')
+    .map(t => t.trim())
+    .some(type => {
+      if (type.charAt(0) === '.') {
+        return fileName.toLowerCase().endsWith(type.toLowerCase())
+      } else if (type.endsWith('/*')) {
+        // this is something like an image/* mime type
+        return baseMimeType === type.replace(/\/.*$/, '')
+      }
+      return mimeType === type
+    })
 }
 
 export const resolveValue = (value, ...args) => {
@@ -76,7 +79,7 @@ export const mergeStyles = (classNames, styles, addClassNames, ...args) => {
   return { classNames: resolvedClassNames, styles: resolvedStyles }
 }
 
-export const getDataTransferItems = (event) => {
+export const getDataTransferItems = event => {
   let items = []
   if (event.dataTransfer) {
     const dt = event.dataTransfer

@@ -37,9 +37,7 @@ class Preview extends React.PureComponent {
           <span className="dzu-previewFileNameError">{title}</span>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
-          {canRemove &&
-            <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
-          }
+          {canRemove && <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />}
         </div>
       )
     }
@@ -55,20 +53,18 @@ class Preview extends React.PureComponent {
         {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
 
         <div className="dzu-previewStatusContainer">
-          {isUpload &&
+          {isUpload && (
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
-          }
+          )}
 
-          {status === 'uploading' && canCancel &&
+          {status === 'uploading' && canCancel && (
             <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
-          }
-          {status !== 'uploading' && status !== 'preparing' && canRemove &&
+          )}
+          {status !== 'uploading' && status !== 'preparing' && canRemove && (
             <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
-          }
-          {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status)
-            && canRestart &&
-            <span className="dzu-previewButton" style={iconByFn.restart} onClick={restart} />
-          }
+          )}
+          {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
+            canRestart && <span className="dzu-previewButton" style={iconByFn.restart} onClick={restart} />}
         </div>
       </div>
     )
@@ -88,7 +84,8 @@ Preview.propTypes = {
     remove: PropTypes.func.isRequired,
     xhr: PropTypes.any,
   }).isRequired,
-  meta: PropTypes.shape({ // copy of fileWithMeta.meta, won't be mutated
+  // copy of fileWithMeta.meta, won't be mutated
+  meta: PropTypes.shape({
     status: PropTypes.oneOf([
       'preparing',
       'error_file_size',

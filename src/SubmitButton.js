@@ -1,17 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const SubmitButton = (props) => {
-  const {
-    className,
-    buttonClassName,
-    style,
-    buttonStyle,
-    disabled,
-    content,
-    onSubmit,
-    files,
-  } = props
+const SubmitButton = props => {
+  const { className, buttonClassName, style, buttonStyle, disabled, content, onSubmit, files } = props
 
   const _disabled =
     files.some(f => ['uploading', 'preparing'].includes(f.meta.status)) ||
@@ -23,12 +14,7 @@ const SubmitButton = (props) => {
 
   return (
     <div className={className} style={style}>
-      <button
-        className={buttonClassName}
-        style={buttonStyle}
-        onClick={handleSubmit}
-        disabled={disabled || _disabled}
-      >
+      <button className={buttonClassName} style={buttonStyle} onClick={handleSubmit} disabled={disabled || _disabled}>
         {content}
       </button>
     </div>

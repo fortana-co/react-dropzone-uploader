@@ -29,6 +29,7 @@ module.exports = {
       }
     }],
     "arrow-body-style": 0,
+    "arrow-parens": 0,
     "indent": [2, 2],
     "quotes": [2, "single"],
     "linebreak-style": [2, "unix"],

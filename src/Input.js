@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getDataTransferItems } from './utils'
 
-const Input = (props) => {
+const Input = props => {
   const {
     className,
     labelClassName,
@@ -32,7 +32,10 @@ const Input = (props) => {
         accept={accept}
         multiple={multiple}
         disabled={disabled}
-        onChange={(e) => { onFiles(getDataTransferItems(e)); e.target.value = null }}
+        onChange={e => {
+          onFiles(getDataTransferItems(e))
+          e.target.value = null
+        }}
       />
     </label>
   )
