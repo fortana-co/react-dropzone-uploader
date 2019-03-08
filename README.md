@@ -81,7 +81,7 @@ Check out [the full table of RDU's props](https://react-dropzone-uploader.js.org
 
 
 ## UMD Build
-This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js>.
+This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@VERSION/dist/react-dropzone-uploader.umd.js>.
 
 If you want to include it in your page, you need to include the dependencies and CSS as well.
 
@@ -90,8 +90,8 @@ If you want to include it in your page, you need to include the dependencies and
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
 
-<script src="https://unpkg.com/react-dropzone-uploader@<version>/dist/react-dropzone-uploader.umd.js"></script>
-<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@<version>/dist/styles.css"></script>
+<script src="https://unpkg.com/react-dropzone-uploader@VERSION/dist/react-dropzone-uploader.umd.js"></script>
+<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@VERSION/dist/styles.css"></script>
 ~~~
 
 
