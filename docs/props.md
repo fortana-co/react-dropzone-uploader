@@ -8,7 +8,7 @@ The following props can be passed to `Dropzone`.
 
 | Name | Type | Default Value | Description |
 | --- | --- | --- | --- |
-| onChangeStatus | func | | called every time __fileWithMeta.meta.status__ changes; receives __(fileWithMeta, status, []fileWithMeta)__; possible status values are __'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'uploading', 'error_upload_params', 'exception_upload', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'__ |
+| onChangeStatus | func | | called every time __fileWithMeta.meta.status__ changes; receives __(fileWithMeta, status, []fileWithMeta)__; possible status values are __'rejected_file_type', 'rejected_max_files', 'preparing', 'error_file_size', 'error_validation', 'ready', 'started', 'getting_upload_params', 'error_upload_params', 'uploading', 'exception_upload', 'aborted', 'restarted', 'removed', 'error_upload', 'headers_received', 'done'__ |
 | getUploadParams | func | | called after file is prepared and validated, right before upload; receives __fileWithMeta__ object; should return params needed for upload: __{ fields (object), headers (object), meta (object), method (string), url (string) }__; omit to remove upload functionality from dropzone |
 | onSubmit | func | | called when user presses submit button; receives array of __fileWithMeta__ objects whose status is __'headers_received'__ or __'done'__; also receives array of all __fileWithMeta__ objects as second argument; omit to remove submit button |
 | accept | string | `'*'` | the accept attribute of the file dropzone/input |
@@ -17,7 +17,7 @@ The following props can be passed to `Dropzone`.
 | maxSizeBytes | number | `2^53 - 1` | max file size in bytes (1024 * 1024 = 1MB) |
 | maxFiles | number | `2^53 - 1` | max number of files that can be tracked and rendered by the dropzone |
 | validate | func | | generic validation function called after file is prepared; receives __fileWithMeta__ object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets __meta.status__ to __'error_validation'__, and sets __meta.validationError__ to the returned value |
-| autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'uploading'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
+| autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'getting_upload_params'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
 | timeout | number | | pass an integer to make upload time out after this many ms; if upload times out, onChangeStatus is invoked with value __'exception_upload'__ |
 
 

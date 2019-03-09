@@ -111,7 +111,7 @@ class Dropzone extends React.Component {
     else fileWithMeta.meta.status = 'restarted'
     this.handleChangeStatus(fileWithMeta)
 
-    fileWithMeta.meta.status = 'uploading'
+    fileWithMeta.meta.status = 'getting_upload_params'
     fileWithMeta.meta.percent = 0
     this.handleChangeStatus(fileWithMeta)
     this._forceUpdate()
@@ -182,7 +182,7 @@ class Dropzone extends React.Component {
     if (getUploadParams) {
       if (autoUpload) {
         this.uploadFile(fileWithMeta)
-        fileWithMeta.meta.status = 'uploading'
+        fileWithMeta.meta.status = 'getting_upload_params'
       } else {
         fileWithMeta.meta.status = 'ready'
       }
@@ -305,6 +305,9 @@ class Dropzone extends React.Component {
     if (this.props.timeout) xhr.timeout = this.props.timeout
     xhr.send(body || formData)
     fileWithMeta.xhr = xhr
+    fileWithMeta.meta.status = 'uploading'
+    this.handleChangeStatus(fileWithMeta)
+    this._forceUpdate()
   }
 
   render() {

@@ -24,37 +24,39 @@ Returning a `meta` object from this callback lets you merge new values into the 
 ### Status Values
 Here are all possible values for `fileWithMeta.meta.status`.
 
-- `'rejected_file_type'`:
+- `'rejected_file_type'`
   + set because of `accept` prop; file not added to dropzone's file array
-- `'rejected_max_files'`:
+- `'rejected_max_files'`
   + set because of `maxFiles` prop; file not added to dropzone's file array
-- `'preparing'`:
+- `'preparing'`
   + set before file validation and preview generation
-- `'error_file_size'`:
+- `'error_file_size'`
   + set because of `minSizeBytes` and/or `maxSizeBytes` props
-- `'error_validation'`:
+- `'error_validation'`
   + set if you pass `validate` function and it returns falsy value
-- `'ready'`:
+- `'ready'`
   + only set if you pass `autoUpload={false}`; set when file has been prepared and validated; client code can call `fileWithMeta.restart` to start upload
-- `'started'`:
+- `'started'`
   + set if status is `'ready'` and user starts upload, or client code calls `fileWithMeta.restart`
-- `'uploading'`:
-  + set when file upload starts
-- `'error_upload_params'`:
+- `'getting_upload_params'`
+  + set after file is prepared, right before `getUploadParams` is called
+- `'error_upload_params'`
   + set if you pass `getUploadParams` and it throws an exception, or it doesn't return `{ url: '...' }`
-- `'exception_upload'`:
+- `'uploading'`
+  + set right after `xhr.send` is called and xhr is set on `fileWithMeta`
+- `'exception_upload'`
   + set if upload times out or there is no connection to upload server
-- `'aborted'`:
+- `'aborted'`
   + set if `fileWithMeta.meta.status` is `'uploading'` and user aborts upload, or client code calls `fileWithMeta.cancel`
-- `'restarted'`:
+- `'restarted'`
   + set if user restarts upload, or client code calls `fileWithMeta.restart`
-- `'removed'`:
+- `'removed'`
   + set if user removes file from dropzone, or client code calls `fileWithMeta.remove`
-- `'error_upload'`:
+- `'error_upload'`
   + set if upload response has HTTP [status code >= 400](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/status)
-- `'headers_received'`:
+- `'headers_received'`
   + set for successful upload when [xhr.readyState is HEADERS_RECEIVED](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState); headers are available but response body is not
-- `'done'`:
+- `'done'`
   + set for successful upload when [xhr.readyState is DONE](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState); response body is available
   + if you don't pass a `getUploadParams` function because you're not using RDU to upload files, this is set after file is prepared and validated
 
@@ -62,9 +64,11 @@ Here are all possible values for `fileWithMeta.meta.status`.
 ## `getUploadParams`
 `getUploadParams` is a callback that receives a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.
 
-`getUploadParams` can be async, in case you need to go over the network to get upload params for a file. It should return an object with `{ fields (object), headers (object), meta (object), method (string), url (string) }`.
+`getUploadParams` can be async, in case you need to go over the network to get upload params for a file. It should return an object with `{ fields (object), headers (object), meta (object), method (string), body, url (string) }`.
 
-The only required key is `url`. __POST__ is the default method. `fields` lets you [append fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append) submitted with the request. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
+The only required key is `url`. __POST__ is the default method. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
+
+If you don't pass your own [request `body`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send#Syntax), RDU automatically creates it for you, wrapping the file in a `formData` instance. `fields` lets you [append additional fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append).
 
 Returning a `meta` object from this callback lets you merge new values into the file's `meta`.
 

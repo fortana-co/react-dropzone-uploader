@@ -5,7 +5,7 @@ const SubmitButton = props => {
   const { className, buttonClassName, style, buttonStyle, disabled, content, onSubmit, files } = props
 
   const _disabled =
-    files.some(f => ['uploading', 'preparing'].includes(f.meta.status)) ||
+    files.some(f => ['preparing', 'getting_upload_params', 'uploading'].includes(f.meta.status)) ||
     !files.some(f => ['headers_received', 'done'].includes(f.meta.status))
 
   const handleSubmit = () => {

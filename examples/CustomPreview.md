@@ -24,7 +24,7 @@ const CustomPreview = () => {
       onSubmit={handleSubmit}
       PreviewComponent={Preview}
       inputContent="Drop Files (Custom Preview)"
-      disabled={files => files.some(f => ['uploading', 'preparing'].includes(f.meta.status))}
+      disabled={files => files.some(f => ['preparing', 'getting_upload_params', 'uploading'].includes(f.meta.status))}
     />
   )
 }

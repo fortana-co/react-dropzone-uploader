@@ -57,10 +57,10 @@ class Preview extends React.PureComponent {
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           )}
 
-          {status === 'uploading' && canCancel && (
+          {(status === 'uploading') && canCancel && (
             <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
           )}
-          {status !== 'uploading' && status !== 'preparing' && canRemove && (
+          {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
             <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
           )}
           {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
@@ -91,8 +91,9 @@ Preview.propTypes = {
       'error_file_size',
       'error_validation',
       'ready',
-      'uploading',
+      'getting_upload_params',
       'error_upload_params',
+      'uploading',
       'exception_upload',
       'aborted',
       'error_upload',
