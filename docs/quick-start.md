@@ -31,4 +31,4 @@ RDU handles common use cases with almost no config. The following code gives you
 | ✔ | ✔ | ✔ | 10+, 9\* | 11\* | ✔ | ✔ |
 
 \* requires `Promise` polyfill, e.g. [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill)
-<script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.d76f4581.js" async="true"></script>
+<script type="text/javascript" src="./assets/styleguide-quickstart/build/bundle.f4039e47.js" async="true"></script>
