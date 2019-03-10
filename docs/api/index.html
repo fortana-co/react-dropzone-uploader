@@ -40,67 +40,71 @@
 <h3><a class="anchor" aria-hidden="true" id="status-values"></a><a href="#status-values" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Status Values</h3>
 <p>Here are all possible values for <code>fileWithMeta.meta.status</code>.</p>
 <ul>
-<li><code>'rejected_file_type'</code>:
+<li><code>'rejected_file_type'</code>
 <ul>
 <li>set because of <code>accept</code> prop; file not added to dropzone's file array</li>
 </ul></li>
-<li><code>'rejected_max_files'</code>:
+<li><code>'rejected_max_files'</code>
 <ul>
 <li>set because of <code>maxFiles</code> prop; file not added to dropzone's file array</li>
 </ul></li>
-<li><code>'preparing'</code>:
+<li><code>'preparing'</code>
 <ul>
 <li>set before file validation and preview generation</li>
 </ul></li>
-<li><code>'error_file_size'</code>:
+<li><code>'error_file_size'</code>
 <ul>
 <li>set because of <code>minSizeBytes</code> and/or <code>maxSizeBytes</code> props</li>
 </ul></li>
-<li><code>'error_validation'</code>:
+<li><code>'error_validation'</code>
 <ul>
 <li>set if you pass <code>validate</code> function and it returns falsy value</li>
 </ul></li>
-<li><code>'ready'</code>:
+<li><code>'ready'</code>
 <ul>
 <li>only set if you pass <code>autoUpload={false}</code>; set when file has been prepared and validated; client code can call <code>fileWithMeta.restart</code> to start upload</li>
 </ul></li>
-<li><code>'started'</code>:
+<li><code>'started'</code>
 <ul>
 <li>set if status is <code>'ready'</code> and user starts upload, or client code calls <code>fileWithMeta.restart</code></li>
 </ul></li>
-<li><code>'uploading'</code>:
+<li><code>'getting_upload_params'</code>
 <ul>
-<li>set when file upload starts</li>
+<li>set after file is prepared, right before <code>getUploadParams</code> is called</li>
 </ul></li>
-<li><code>'error_upload_params'</code>:
+<li><code>'error_upload_params'</code>
 <ul>
 <li>set if you pass <code>getUploadParams</code> and it throws an exception, or it doesn't return <code>{ url: '...' }</code></li>
 </ul></li>
-<li><code>'exception_upload'</code>:
+<li><code>'uploading'</code>
+<ul>
+<li>set right after <code>xhr.send</code> is called and xhr is set on <code>fileWithMeta</code></li>
+</ul></li>
+<li><code>'exception_upload'</code>
 <ul>
 <li>set if upload times out or there is no connection to upload server</li>
 </ul></li>
-<li><code>'aborted'</code>:
+<li><code>'aborted'</code>
 <ul>
 <li>set if <code>fileWithMeta.meta.status</code> is <code>'uploading'</code> and user aborts upload, or client code calls <code>fileWithMeta.cancel</code></li>
 </ul></li>
-<li><code>'restarted'</code>:
+<li><code>'restarted'</code>
 <ul>
 <li>set if user restarts upload, or client code calls <code>fileWithMeta.restart</code></li>
 </ul></li>
-<li><code>'removed'</code>:
+<li><code>'removed'</code>
 <ul>
 <li>set if user removes file from dropzone, or client code calls <code>fileWithMeta.remove</code></li>
 </ul></li>
-<li><code>'error_upload'</code>:
+<li><code>'error_upload'</code>
 <ul>
 <li>set if upload response has HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/status">status code &gt;= 400</a></li>
 </ul></li>
-<li><code>'headers_received'</code>:
+<li><code>'headers_received'</code>
 <ul>
 <li>set for successful upload when <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState">xhr.readyState is HEADERS_RECEIVED</a>; headers are available but response body is not</li>
 </ul></li>
-<li><code>'done'</code>:
+<li><code>'done'</code>
 <ul>
 <li>set for successful upload when <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState">xhr.readyState is DONE</a>; response body is available</li>
 <li>if you don't pass a <code>getUploadParams</code> function because you're not using RDU to upload files, this is set after file is prepared and validated</li>
@@ -108,8 +112,9 @@
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="getuploadparams"></a><a href="#getuploadparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>getUploadParams</code></h2>
 <p><code>getUploadParams</code> is a callback that receives a <code>fileWithMeta</code> object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.</p>
-<p><code>getUploadParams</code> can be async, in case you need to go over the network to get upload params for a file. It should return an object with <code>{ fields (object), headers (object), meta (object), method (string), url (string) }</code>.</p>
-<p>The only required key is <code>url</code>. <strong>POST</strong> is the default method. <code>fields</code> lets you <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData/append">append fields to the formData instance</a> submitted with the request. <code>headers</code> sets headers using <code>XMLHttpRequest.setRequestHeader</code>, which makes it easy to authenticate with the upload server.</p>
+<p><code>getUploadParams</code> can be async, in case you need to go over the network to get upload params for a file. It should return an object with <code>{ fields (object), headers (object), meta (object), method (string), body, url (string) }</code>.</p>
+<p>The only required key is <code>url</code>. <strong>POST</strong> is the default method. <code>headers</code> sets headers using <code>XMLHttpRequest.setRequestHeader</code>, which makes it easy to authenticate with the upload server.</p>
+<p>If you don't pass your own <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send#Syntax">request <code>body</code></a>, RDU automatically creates it for you, wrapping the file in a <code>formData</code> instance. <code>fields</code> lets you <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData/append">append additional fields to the formData instance</a>.</p>
 <p>Returning a <code>meta</code> object from this callback lets you merge new values into the file's <code>meta</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="onsubmit"></a><a href="#onsubmit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>onSubmit</code></h2>
 <p>This is called when a user presses the submit button.</p>
