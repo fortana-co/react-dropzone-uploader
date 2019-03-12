@@ -57,7 +57,7 @@ class Preview extends React.PureComponent {
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           )}
 
-          {(status === 'uploading') && canCancel && (
+          {status === 'uploading' && canCancel && (
             <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
           )}
           {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
