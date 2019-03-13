@@ -27,27 +27,25 @@ RDU abstracts away things like `getRootProps` and `getInputProps`, which for mos
 
 
 ## RDU vs React Dropzone
-Here's a no BS comparison of RDU and React Dropzone for implementing a dropzone that uploads files to <https://httpbin.org/post>:
+Here's a comparison of RDU and React Dropzone for implementing a dropzone that uploads files to <https://httpbin.org/post>:
 
 __react-dropzone-uploader__: uploads files, and removes them if upload is successful.
 
 ~~~js
-class DropzoneWithPreview extends React.Component {
-  render() {
-    return (
-      <Dropzone
-        getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
-        onChangeStatus={({ remove }, status) => { if (status === 'headers_received') remove() }}
-        accept="image/*,audio/*,video/*"
-      />
-    )
-  }
+const DropzoneWithPreview = () => {
+  return (
+    <Dropzone
+      getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
+      onChangeStatus={({ remove }, status) => { if (status === 'headers_received') remove() }}
+      accept="image/*,audio/*,video/*"
+    />
+  )
 }
 ~~~
 
-__react-dropzone__ (code mostly taken from React Dropzone's docs)
+__react-dropzone__ (code mostly taken from React Dropzone's docs):
 
-Uploads files, and removes them if upload is successful. Doesn't handle upload failure. Previews have no upload progress. No active state on drag over. No indication if dragged files have incorrect file types. Behaves incorrectly if user drags a second group of files before first group has finished uploading (bonus points if you can spot why this happens).
+Uploads files, and removes them if upload is successful. Doesn't handle upload failure. Previews have no upload progress. No active state on drag over. No reject state if dragged files have incorrect file types. Behaves incorrectly if user drags a second group of files before first group has finished uploading (bonus points if you can spot why this happens).
 
 ~~~js
 const thumbsContainer = {
@@ -152,7 +150,7 @@ class DropzoneWithPreview extends React.Component {
 }
 ~~~
 
-10 lines of code vs 100. The first implementation is production ready. The second isn't even close...
+10 lines of code that are production ready, vs 100 that aren't even close.
 
 
 ## Contributing

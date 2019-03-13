@@ -64,11 +64,21 @@ Here are all possible values for `fileWithMeta.meta.status`.
 ## `getUploadParams`
 `getUploadParams` is a callback that receives a `fileWithMeta` object and returns the params needed to upload the file. If this prop isn't passed, RDU doesn't initiate and manage file uploads.
 
-`getUploadParams` can be async, in case you need to go over the network to get upload params for a file. It should return an object with `{ fields (object), headers (object), meta (object), method (string), body, url (string) }`.
+`getUploadParams` can be async, in case you need to go over the network to get upload params for a file. It should return an object with `{ url (string), method (string), body, fields (object), headers (object), meta (object) }`.
 
 The only required key is `url`. __POST__ is the default method. `headers` sets headers using `XMLHttpRequest.setRequestHeader`, which makes it easy to authenticate with the upload server.
 
-If you don't pass your own [request `body`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send#Syntax), RDU automatically creates it for you, wrapping the file in a `formData` instance. `fields` lets you [append additional fields to the formData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append).
+If you pass your own [request `body`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send#Syntax), RDU uploads it using [xhr.send](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send).
+
+~~~js
+const getUploadParams = ({ file, meta }) => {
+  const body = new FormData()
+  body.append('fileField', file)
+  return { url: 'https://httpbin.org/post', body }
+}
+~~~
+
+If you don't, RDU creates the request body for you. It creates a `FormData` instance and appends the file to it using `formData.append('file', fileWithMeta.file)`. `fields` lets you [append additional fields to the FormData instance](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append).
 
 Returning a `meta` object from this callback lets you merge new values into the file's `meta`.
 
