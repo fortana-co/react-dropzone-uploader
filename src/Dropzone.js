@@ -15,8 +15,6 @@ import {
   getDataTransferItems,
 } from './utils'
 
-let id = 0
-
 class Dropzone extends React.Component {
   constructor(props) {
     super(props)
@@ -95,7 +93,7 @@ class Dropzone extends React.Component {
   }
 
   handleRemove = fileWithMeta => {
-    const index = this._files.findIndex(f => f.meta.id === fileWithMeta.meta.id)
+    const index = this._files.findIndex(f => f === fileWithMeta)
     if (index !== -1) {
       fileWithMeta.meta.status = 'removed'
       this.handleChangeStatus(fileWithMeta)
@@ -120,12 +118,12 @@ class Dropzone extends React.Component {
 
   // expects an array of File objects
   handleFiles = files => {
-    files.forEach(f => this.handleFile(f))
+    files.forEach((f, i) => this.handleFile(f, `${new Date().getTime()}-${i}`))
     const { current } = this._dropzone
     if (current) setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
   }
 
-  handleFile = async file => {
+  handleFile = async (file, id) => {
     const { name, size, type, lastModified } = file
     const { minSizeBytes, maxSizeBytes, maxFiles, accept, getUploadParams, autoUpload, validate } = this.props
 
@@ -157,7 +155,6 @@ class Dropzone extends React.Component {
     this._files.push(fileWithMeta)
     this.handleChangeStatus(fileWithMeta)
     this._forceUpdate()
-    id += 1
 
     if (size < minSizeBytes || size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
