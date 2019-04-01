@@ -475,7 +475,7 @@ class Dropzone extends React.Component {
 
 Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
-  getUploadParams: PropTypes.func, // should return { url, method, body, fields = {}, headers = {}, meta = {} }
+  getUploadParams: PropTypes.func,
   onSubmit: PropTypes.func,
 
   accept: PropTypes.string,

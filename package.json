@@ -5,6 +5,7 @@
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
   "main": "./dist/react-dropzone-uploader.js",
   "module": "./dist/react-dropzone-uploader.umd.js",
+  "types": "./index.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -79,7 +80,8 @@
     "build-docs": "./build_docs.sh",
     "test": "jest --coverage",
     "lint": "prettier --check 'src/**/*.js' && eslint src",
-    "prettier": "prettier --write 'src/**/*.js'"
+    "prettier": "prettier --write 'src/**/*.js'",
+    "postinstall": "rm -f .git/hooks/applypatch-msg & rm -f .git/hooks/commit-msg & rm -f .git/hooks/prepare-commit-msg"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
