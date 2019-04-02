@@ -5,7 +5,7 @@
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
   "main": "./dist/react-dropzone-uploader.js",
   "module": "./dist/react-dropzone-uploader.umd.js",
-  "types": "./index.d.ts",
+  "types": "src/index.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -27,7 +27,6 @@
     "react-dom": ">=16.2.0",
     "prop-types": ">=15.5.10"
   },
-  "types": "src/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",

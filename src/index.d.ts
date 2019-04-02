@@ -1,126 +1,163 @@
-import React from "react";
+import React from 'react'
 
 export type StatusValue =
-  | "rejected_file_type"
-  | "rejected_max_files"
-  | "preparing"
-  | "error_file_size"
-  | "error_validation"
-  | "ready"
-  | "started"
-  | "getting_upload_params"
-  | "error_upload_params"
-  | "uploading"
-  | "exception_upload"
-  | "aborted"
-  | "restarted"
-  | "removed"
-  | "error_upload"
-  | "headers_received"
-  | "done";
+  | 'rejected_file_type'
+  | 'rejected_max_files'
+  | 'preparing'
+  | 'error_file_size'
+  | 'error_validation'
+  | 'ready'
+  | 'started'
+  | 'getting_upload_params'
+  | 'error_upload_params'
+  | 'uploading'
+  | 'exception_upload'
+  | 'aborted'
+  | 'restarted'
+  | 'removed'
+  | 'error_upload'
+  | 'headers_received'
+  | 'done'
 
-export type FileWithMeta = {
-  file: File;
-  meta: IMeta;
-  cancel(): void;
-  restart(): void;
-  remove(): void;
-  xhr: XMLHttpRequest;
-};
+export type MethodValue =
+  | 'delete'
+  | 'get'
+  | 'head'
+  | 'options'
+  | 'patch'
+  | 'post'
+  | 'put'
+  | 'DELETE'
+  | 'GET'
+  | 'HEAD'
+  | 'OPTIONS'
+  | 'PATCH'
+  | 'POST'
+  | 'PUT'
 
-type DropzoneStyle =
-  | React.CSSProperties
-  | ((files: FileWithMeta, extra: IExtra) => React.CSSProperties);
-
-interface IMeta {
-  status: StatusValue;
-  type: string; // MIME type, example: `image/*`
-  name: string;
-  uploadedDate: string; // ISO string
-  percent: number;
-  size: number; // bytes
-  lastModifiedDate: string; // ISO string
-  previewUrl: string;
-  duration: number; // seconds
-  width: number;
-  height: number;
-  videoWidth: number;
-  videoHeight: number;
-  id: number;
-  validationError: any;
+export interface IMeta {
+  id: string
+  status: StatusValue
+  type: string // MIME type, example: `image/*`
+  name: string
+  uploadedDate: string // ISO string
+  percent: string
+  size: number // bytes
+  lastModifiedDate: string // ISO string
+  previewUrl?: string // from URL.createObjectURL
+  duration?: number // seconds
+  width?: number
+  height?: number
+  videoWidth?: number
+  videoHeight?: number
+  validationError?: any
 }
 
-interface IExtra {
-  active: boolean;
-  reject: boolean;
-  dragged: boolean;
-  accept: string;
-  multiple: boolean;
-  minSizeBytes: number;
-  maxSizeBytes: number;
-  maxFiles: number;
+export interface IFileWithMeta {
+  file: File
+  meta: IMeta
+  cancel: () => void
+  restart: () => void
+  remove: () => void
+  xhr?: XMLHttpRequest
+}
+
+export interface IDraggedFile {
+  name?: string
+  type?: string
+}
+
+export interface IExtra {
+  active: boolean
+  reject: boolean
+  dragged: IDraggedFile[]
+  accept: string
+  multiple: boolean
+  minSizeBytes: number
+  maxSizeBytes: number
+  maxFiles: number
 }
 
 interface IUploadParams {
-  url: string;
-  method?: string;
-  body?: FormData;
-  fields?: { [name: string]: string | Blob };
-  headers?: { [name: string]: string };
-  meta?: any;
+  url: string
+  method?: MethodValue
+  body?: string | FormData | ArrayBuffer | Blob | File | URLSearchParams
+  fields?: { [name: string]: string | Blob }
+  headers?: { [name: string]: string }
+  meta?: { [name: string]: any }
 }
 
-interface IStyles {
-  dropzone?: DropzoneStyle;
-  dropzoneActive?: DropzoneStyle;
-  dropzoneReject?: DropzoneStyle;
-  dropzoneDisabled?: DropzoneStyle;
-  input?: DropzoneStyle;
-  inputLabel?: DropzoneStyle;
-  inputLabelWithFiles?: DropzoneStyle;
-  preview?: DropzoneStyle;
-  previewImage?: DropzoneStyle;
-  submitButtonContainer?: DropzoneStyle;
-  submitButton?: DropzoneStyle;
+export type CustomizationFunction<T> = (allFiles: IFileWithMeta[], extra: IExtra) => T
+
+type StyleCustomizationObject<T> = {
+  dropzone?: T | CustomizationFunction<T>
+  dropzoneActive?: T | CustomizationFunction<T>
+  dropzoneReject?: T | CustomizationFunction<T>
+  dropzoneDisabled?: T | CustomizationFunction<T>
+  input?: T | CustomizationFunction<T>
+  inputLabel?: T | CustomizationFunction<T>
+  inputLabelWithFiles?: T | CustomizationFunction<T>
+  preview?: T | CustomizationFunction<T>
+  previewImage?: T | CustomizationFunction<T>
+  submitButtonContainer?: T | CustomizationFunction<T>
+  submitButton?: T | CustomizationFunction<T>
 }
 
-interface IClassNames {
-  dropzone?: string;
-  dropzoneActive?: string;
-  dropzoneReject?: string;
-  dropzoneDisabled?: string;
-  input?: string;
-  inputLabel?: string;
-  inputLabelWithFiles?: string;
-  preview?: string;
-  previewImage?: string;
-  submitButtonContainer?: string;
-  submitButton?: string;
+interface ICommonProps {
+  allFiles: IFileWithMeta[]
+  extra: IExtra
+  [others: string]: any // fix this
 }
 
-interface IDropzoneProps {
-  accept?: string;
-  autoUpload?: boolean;
-  classNames?: IClassNames;
-  maxFiles?: number;
-  maxSizeBytes?: number;
-  minSizeBytes?: number;
-  styles?: IStyles;
-  timeout?: number;
+export interface IDropzoneProps {
+  onChangeStatus?(file: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]): { meta: { [name: string]: any } } | undefined
+  getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
+  onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
 
-  onChangeStatus?(
-    targetFile: FileWithMeta,
-    status: StatusValue,
-    allFiles: FileWithMeta[]
-  ): void;
+  accept?: string
+  multiple?: boolean
+  minSizeBytes?: number
+  maxSizeBytes?: number
+  maxFiles?: number
 
-  getUploadParams(file: FileWithMeta): IUploadParams | Promise<IUploadParams>;
+  validate?(file: IFileWithMeta): any // usually a string, but can be anything
 
-  onSubmit?(successFiles: FileWithMeta[], allFiles: FileWithMeta[]): void;
+  autoUpload?: boolean
+  timeout?: number
 
-  validate?(file: FileWithMeta): any; // usually a string, but can be anything
+  /* component customization */
+  disabled?: boolean | CustomizationFunction<boolean>
 
-  inputContent?(files: FileWithMeta[], extra: IExtra): React.ReactNode;
+  canCancel: boolean | CustomizationFunction<boolean>
+  canRemove: boolean | CustomizationFunction<boolean>
+  canRestart: boolean | CustomizationFunction<boolean>
+
+  inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  submitButtonDisabled: boolean | CustomizationFunction<boolean>
+  submitButtonContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  classNames?: StyleCustomizationObject<string>
+  styles?: StyleCustomizationObject<React.CSSProperties>
+  addClassNames: StyleCustomizationObject<string>
+
+  /* component injection */
+  InputComponent(props: ICommonProps): React.ReactNode
+  PreviewComponent(props: ICommonProps): React.ReactNode
+  SubmitButtonComponent(props: ICommonProps): React.ReactNode
+  LayoutComponent(props: ICommonProps): React.ReactNode
 }
 
 export default class Dropzone extends React.Component<IDropzoneProps> {}
+
+export class Layout extends React.Component<ICommonProps> {}
+export class Input extends React.Component<ICommonProps> {}
+export class Preview extends React.Component<ICommonProps> {}
+export class SubmitButton extends React.Component<ICommonProps> {}
+
+export function formatBytes(bytes: number): string
+export function formatDuration(seconds: number): string
+export function accepts(file: IDraggedFile, accept?: string): boolean
+
+export const defaultClassNames: { [name: string]: string }
