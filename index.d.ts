@@ -1,12 +1,10 @@
-import React from 'react'
+import * as React from 'react'
 
-type Status = 'rejected_file_type' | 'rejected_max_files' | 'preparing' | 'error_file_size' | 'error_validation' | 'ready' | 'started' | 'getting_upload_params' | 'error_upload_params' | 'uploading' | 'exception_upload' | 'aborted' | 'restarted' | 'removed' | 'error_upload' | 'headers_received' | 'done'
-
-type Method = 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT'
+export type Status = 'rejected_file_type' | 'rejected_max_files' | 'preparing' | 'error_file_size' | 'error_validation' | 'ready' | 'started' | 'getting_upload_params' | 'error_upload_params' | 'uploading' | 'exception_upload' | 'aborted' | 'restarted' | 'removed' | 'error_upload' | 'headers_received' | 'done'
 
 export interface Meta {
   id: string
-  status: Status
+  status: Status,
   type: string
   name: string
   uploadedDate: string
@@ -30,46 +28,78 @@ export interface FileWithMeta {
   xhr?: XMLHttpRequest
 }
 
-export interface DropzoneProps {
-  onChangeStatus?: (fileWithMeta: FileWithMeta, status: Status, files: FileWithMeta[]) => ?{ meta?: {} }
-  getUploadParams?: (fileWithMeta: FileWithMeta) => { url: string, method?: Method, body?: any, fields?: {}, headers?: {}, meta?: {} }
-  onSubmit: PropTypes.func;
-
-  accept: PropTypes.string;
-  multiple: PropTypes.bool;
-  minSizeBytes: PropTypes.number.isRequired;
-  maxSizeBytes: PropTypes.number.isRequired;
-  maxFiles: PropTypes.number.isRequired;
-
-  validate: PropTypes.func;
-
-  autoUpload: PropTypes.bool;
-  timeout: PropTypes.number;
-
-  /* component customization */
-  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]);
-
-  canCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]);
-  canRemove: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]);
-  canRestart: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]);
-
-  inputContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]);
-  inputWithFilesContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]);
-
-  submitButtonDisabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]);
-  submitButtonContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]);
-
-  classNames: PropTypes.object.isRequired;
-  styles: PropTypes.object.isRequired;
-  addClassNames: PropTypes.object.isRequired;
-
-  /* component injection */
-  InputComponent: PropTypes.func;
-  PreviewComponent: PropTypes.func;
-  SubmitButtonComponent: PropTypes.func;
-  LayoutComponent: PropTypes.func;
+export interface DraggedFile {
+  name?: string
+  type?: string
 }
 
-declare const Dropzone: React.SFC<DropzoneProps>
+export interface Extra {
+  active: boolean
+  reject: boolean
+  dragged: DraggedFile[]
+  accept: string
+  multiple: boolean
+  minSizeBytes: number
+  maxSizeBytes: number
+  maxFiles: number
+}
+
+export type CustomizationFunction<T> = (files: FileWithMeta[], extra: Extra) => T
+
+type StyleCustomizationObject<T> = {
+  dropzone?: T | CustomizationFunction<T>
+  dropzoneActive?: T | CustomizationFunction<T>
+  dropzoneReject?: T | CustomizationFunction<T>
+  dropzoneDisabled?: T | CustomizationFunction<T>
+  input?: T | CustomizationFunction<T>
+  inputLabel?: T | CustomizationFunction<T>
+  inputLabelWithFiles?: T | CustomizationFunction<T>
+  preview?: T | CustomizationFunction<T>
+  previewImage?: T | CustomizationFunction<T>
+  submitButtonContainer?: T | CustomizationFunction<T>
+  submitButton?: T | CustomizationFunction<T>
+}
+
+export interface DropzoneProps {
+  onChangeStatus?: (fileWithMeta: FileWithMeta, status: Status, files: FileWithMeta[]) => { meta: {} } | undefined
+  getUploadParams?: (fileWithMeta: FileWithMeta) => { url: string, method?: 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT', body?: any, fields?: {}, headers?: {}, meta?: {} }
+  onSubmit?: (files: FileWithMeta[], allFiles: FileWithMeta[]) => void
+
+  accept?: string
+  multiple?: boolean
+  minSizeBytes?: number
+  maxSizeBytes?: number
+  maxFiles?: number
+
+  validate: (file: FileWithMeta) => any
+
+  autoUpload?: boolean
+  timeout?: number
+
+  /* component customization */
+  disabled?: boolean | CustomizationFunction<boolean>
+
+  canCancel: boolean | CustomizationFunction<boolean>
+  canRemove: boolean | CustomizationFunction<boolean>
+  canRestart: boolean | CustomizationFunction<boolean>
+
+  inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  submitButtonDisabled: boolean | CustomizationFunction<boolean>
+  submitButtonContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  classNames?: StyleCustomizationObject<string>
+  styles?: StyleCustomizationObject<{}>
+  addClassNames: StyleCustomizationObject<string>
+
+  /* component injection */
+  InputComponent: () => React.ReactNode
+  PreviewComponent: () => React.ReactNode
+  SubmitButtonComponent: () => React.ReactNode
+  LayoutComponent: () => React.ReactNode
+}
+
+declare const Dropzone: React.Component<DropzoneProps>
 
 export default Dropzone
