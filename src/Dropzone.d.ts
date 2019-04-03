@@ -110,7 +110,7 @@ interface ICommonProps {
 }
 
 export interface IDropzoneProps {
-  onChangeStatus?(file: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]): { meta: { [name: string]: any } } | undefined
+  onChangeStatus?(file: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]): { meta: { [name: string]: any } } | void
   getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
   onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
 
