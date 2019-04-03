@@ -104,10 +104,22 @@ type StyleCustomizationObject<T> = {
 }
 
 interface ICommonProps {
-  allFiles: IFileWithMeta[]
+  files: IFileWithMeta[]
   extra: IExtra
-  [others: string]: any // fix this
 }
+
+export interface IPreviewProps extends ICommonProps {
+  meta: IMeta
+}
+
+export interface ILayoutProps extends ICommonProps {
+  input: React.ReactNode
+  previews: React.ReactNode[] | null
+  submitButton: React.ReactNode
+  dropzoneProps: {}
+}
+
+type ReactComponent<Props> = (props: Props) => React.ReactNode | React.Component<Props>
 
 export interface IDropzoneProps {
   onChangeStatus?(file: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]): { meta: { [name: string]: any } } | void
@@ -143,18 +155,18 @@ export interface IDropzoneProps {
   addClassNames?: StyleCustomizationObject<string>
 
   /* component injection */
-  InputComponent?(props: ICommonProps): React.ReactNode
-  PreviewComponent?(props: ICommonProps): React.ReactNode
-  SubmitButtonComponent?(props: ICommonProps): React.ReactNode
-  LayoutComponent?(props: ICommonProps): React.ReactNode
+  InputComponent?: ReactComponent<ICommonProps>
+  SubmitButtonComponent?: ReactComponent<ICommonProps>
+  LayoutComponent?: ReactComponent<ILayoutProps>
+  PreviewComponent?: ReactComponent<IPreviewProps>
 }
 
 export default class Dropzone extends React.Component<IDropzoneProps> {}
 
-export class Layout extends React.Component<ICommonProps> {}
-export class Input extends React.Component<ICommonProps> {}
+export const Layout: React.FunctionComponent<ICommonProps>
+export const Input: React.FunctionComponent<ICommonProps>
+export const SubmitButton: React.FunctionComponent<ICommonProps>
 export class Preview extends React.Component<ICommonProps> {}
-export class SubmitButton extends React.Component<ICommonProps> {}
 
 export function formatBytes(bytes: number): string
 export function formatDuration(seconds: number): string
