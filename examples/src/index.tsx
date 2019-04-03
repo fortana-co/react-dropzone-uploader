@@ -1,8 +1,8 @@
 /* eslint import/no-extraneous-dependencies: 0 */
 import 'babel-polyfill'
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 

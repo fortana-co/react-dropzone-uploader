@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export type StatusValue =
   | 'rejected_file_type'
@@ -128,25 +128,25 @@ export interface IDropzoneProps {
   /* component customization */
   disabled?: boolean | CustomizationFunction<boolean>
 
-  canCancel: boolean | CustomizationFunction<boolean>
-  canRemove: boolean | CustomizationFunction<boolean>
-  canRestart: boolean | CustomizationFunction<boolean>
+  canCancel?: boolean | CustomizationFunction<boolean>
+  canRemove?: boolean | CustomizationFunction<boolean>
+  canRestart?: boolean | CustomizationFunction<boolean>
 
-  inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
-  inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputWithFilesContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
 
-  submitButtonDisabled: boolean | CustomizationFunction<boolean>
-  submitButtonContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  submitButtonDisabled?: boolean | CustomizationFunction<boolean>
+  submitButtonContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
 
   classNames?: StyleCustomizationObject<string>
   styles?: StyleCustomizationObject<React.CSSProperties>
-  addClassNames: StyleCustomizationObject<string>
+  addClassNames?: StyleCustomizationObject<string>
 
   /* component injection */
-  InputComponent(props: ICommonProps): React.ReactNode
-  PreviewComponent(props: ICommonProps): React.ReactNode
-  SubmitButtonComponent(props: ICommonProps): React.ReactNode
-  LayoutComponent(props: ICommonProps): React.ReactNode
+  InputComponent?(props: ICommonProps): React.ReactNode
+  PreviewComponent?(props: ICommonProps): React.ReactNode
+  SubmitButtonComponent?(props: ICommonProps): React.ReactNode
+  LayoutComponent?(props: ICommonProps): React.ReactNode
 }
 
 export default class Dropzone extends React.Component<IDropzoneProps> {}

@@ -5,7 +5,7 @@
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
   "main": "./dist/react-dropzone-uploader.js",
   "module": "./dist/react-dropzone-uploader.umd.js",
-  "types": "src/index.d.ts",
+  "types": "./dist/Dropzone.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -35,6 +35,8 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.8.10",
+    "@types/react-dom": "^16.8.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^23.6.0",
@@ -59,6 +61,7 @@
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.5.2",
     "style-loader": "^0.23.1",
+    "typescript": "^3.4.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.21.0",
@@ -71,14 +74,14 @@
     }
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css",
-    "dev": "webpack-dev-server --config webpack.config.js --mode development --open",
+    "build": "NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/Dropzone.d.ts dist/Dropzone.d.ts",
+    "dev": "tsc -w & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "styleguidist server",
     "build-styleguide": "styleguidist build",
     "styleguide-quickstart": "styleguidist server --config styleguide-quickstart.config.js",
     "build-styleguide-quickstart": "styleguidist build --config styleguide-quickstart.config.js",
     "build-docs": "./build_docs.sh",
-    "test": "jest --coverage",
+    "test": "tsc && jest --coverage",
     "lint": "prettier --check 'src/**/*.js' && eslint src",
     "prettier": "prettier --write 'src/**/*.js'",
     "postinstall": "rm -f .git/hooks/applypatch-msg & rm -f .git/hooks/commit-msg & rm -f .git/hooks/prepare-commit-msg"
