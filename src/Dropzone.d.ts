@@ -171,6 +171,8 @@ export interface IDropzoneProps {
   autoUpload?: boolean
   timeout?: number
 
+  initialFiles?: File[]
+
   /* component customization */
   disabled?: boolean | CustomizationFunction<boolean>
 

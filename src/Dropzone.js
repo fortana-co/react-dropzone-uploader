@@ -27,6 +27,10 @@ class Dropzone extends React.Component {
     this._dropzone = React.createRef()
   }
 
+  componentDidMount() {
+    if (this.props.initialFiles) this.handleFiles(this.props.initialFiles)
+  }
+
   componentWillUnmount() {
     this._mounted = false
     for (const fileWithMeta of this._files) this.handleCancel(fileWithMeta)
@@ -488,6 +492,8 @@ Dropzone.propTypes = {
 
   autoUpload: PropTypes.bool,
   timeout: PropTypes.number,
+
+  initialFiles: PropTypes.arrayOf(PropTypes.any),
 
   /* component customization */
   disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),

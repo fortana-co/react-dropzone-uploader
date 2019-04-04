@@ -64,5 +64,9 @@ module.exports = {
       name: 'Input With No Dropzone',
       content: 'examples/NoDropzone.md',
     },
+    {
+      name: 'Initial File From Data URL',
+      content: 'examples/InitialFileFromDataUrl.md',
+    },
   ],
 }
