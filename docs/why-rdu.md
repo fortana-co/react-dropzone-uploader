@@ -158,9 +158,9 @@ If you like RDU and want to make it better, read on!
 
 Possible improvements to RDU are tracked as [GitHub issues with the "__help wanted__" tag](https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted).
 
-For example, I know nothing about writing tests for React components, and I know RDU would benefit from having them. I'd also like to add TypeScript annotations, and better support for older browsers.
+For example, I don't know much about writing tests for React components, and I know RDU would benefit from having them. I'd also like better support for older browsers.
 
-I would be super happy to give contributors complete control of implementing these features.
+I'd be super happy to give contributors complete control of implementing these features.
 
 
 ### Running Dev

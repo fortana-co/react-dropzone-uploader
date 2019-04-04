@@ -89,7 +89,7 @@ interface IUploadParams {
 
 export type CustomizationFunction<T> = (allFiles: IFileWithMeta[], extra: IExtra) => T
 
-type StyleCustomizationObject<T> = {
+interface IStyleCustomization<T> {
   dropzone?: T | CustomizationFunction<T>
   dropzoneActive?: T | CustomizationFunction<T>
   dropzoneReject?: T | CustomizationFunction<T>
@@ -108,15 +108,49 @@ interface ICommonProps {
   extra: IExtra
 }
 
-export interface IPreviewProps extends ICommonProps {
-  meta: IMeta
-}
-
 export interface ILayoutProps extends ICommonProps {
   input: React.ReactNode
   previews: React.ReactNode[] | null
   submitButton: React.ReactNode
   dropzoneProps: {}
+}
+
+export interface IPreviewProps extends ICommonProps {
+  meta: IMeta
+  className?: string
+  imageClassName?: string
+  style?: React.CSSProperties
+  imageStyle?: React.CSSProperties
+  fileWithMeta: IFileWithMeta
+  isUpload: boolean
+  canCancel: boolean
+  canRemove: boolean
+  canRestart: boolean
+}
+
+export interface IInputProps extends ICommonProps {
+  className?: string
+  labelClassName?: string
+  labelWithFilesClassName?: string
+  style?: React.CSSProperties
+  labelStyle?: React.CSSProperties
+  labelWithFilesStyle?: React.CSSProperties
+  accept: string
+  multiple: boolean
+  disabled: boolean
+  content?: React.ReactNode
+  withFilesContent?: React.ReactNode
+  onFiles: (files: File[]) => void
+}
+
+export interface ISubmitButtonProps extends ICommonProps {
+  className?: string
+  buttonClassName?: string
+  style?: React.CSSProperties
+  buttonStyle?: React.CSSProperties
+  disabled: boolean
+  content?: React.ReactNode
+  onSubmit: (files: IFileWithMeta[]) => void
 }
 
 type ReactComponent<Props> = (props: Props) => React.ReactNode | React.Component<Props>
@@ -150,23 +184,23 @@ export interface IDropzoneProps {
   submitButtonDisabled?: boolean | CustomizationFunction<boolean>
   submitButtonContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
 
-  classNames?: StyleCustomizationObject<string>
-  styles?: StyleCustomizationObject<React.CSSProperties>
-  addClassNames?: StyleCustomizationObject<string>
+  classNames?: IStyleCustomization<string>
+  styles?: IStyleCustomization<React.CSSProperties>
+  addClassNames?: IStyleCustomization<string>
 
   /* component injection */
-  InputComponent?: ReactComponent<ICommonProps>
-  SubmitButtonComponent?: ReactComponent<ICommonProps>
   LayoutComponent?: ReactComponent<ILayoutProps>
   PreviewComponent?: ReactComponent<IPreviewProps>
+  InputComponent?: ReactComponent<IInputProps>
+  SubmitButtonComponent?: ReactComponent<ISubmitButtonProps>
 }
 
 export default class Dropzone extends React.Component<IDropzoneProps> {}
 
-export const Layout: React.FunctionComponent<ICommonProps>
-export const Input: React.FunctionComponent<ICommonProps>
-export const SubmitButton: React.FunctionComponent<ICommonProps>
-export class Preview extends React.Component<ICommonProps> {}
+export const Layout: React.FunctionComponent<ILayoutProps>
+export class Preview extends React.Component<IPreviewProps> {}
+export const Input: React.FunctionComponent<IInputProps>
+export const SubmitButton: React.FunctionComponent<ISubmitButtonProps>
 
 export function formatBytes(bytes: number): string
 export function formatDuration(seconds: number): string

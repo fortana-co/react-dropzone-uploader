@@ -17,6 +17,7 @@ React Dropzone Uploader is a customizable file dropzone and uploader for React.
 - Modular design; use as standalone dropzone, file input, or file uploader
 - Cross-browser support, mobile friendly, including direct uploads from camera
 - Lightweight and fast
+- TypeScript definitions
 
 ![](https://raw.githubusercontent.com/fortana-co/react-dropzone-uploader/master/rdu.gif)
 
@@ -99,6 +100,10 @@ If you want to include it in your page, you need to include the dependencies and
 There are a number of places RDU could be improved; [see here](https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted).
 
 For example, RDU has solid core functionality, but has a minimalist look and feel. It would be more beginner-friendly with a larger variety of built-in components.
+
+
+### Shout Outs
+Thanks to @nchen63 for helping with [TypeScript defs](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Dropzone.d.ts)!
 
 
 ### Running Dev
