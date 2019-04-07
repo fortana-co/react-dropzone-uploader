@@ -1,6 +1,5 @@
 export = null
 
-/* eslint import/no-extraneous-dependencies: 0 */
 import 'babel-polyfill'
 
 import React from 'react'
@@ -9,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import '../../src/styles.css'
-import Dropzone, { defaultClassNames } from '../../src/Dropzone'
+import Dropzone, { defaultClassNames, IDropzoneProps, ILayoutProps, IPreviewProps } from '../../src/Dropzone'
 import { imageDataUrl } from './data'
 
 const Standard = () => {
@@ -17,11 +16,11 @@ const Standard = () => {
     return { url: 'https://httpbin.org/post' }
   }
 
-  const handleChangeStatus = ({ meta }, status) => {
+  const handleChangeStatus: IDropzoneProps['onChangeStatus'] = ({ meta }, status) => {
     console.log(status, meta)
   }
 
-  const handleSubmit = (files, allFiles) => {
+  const handleSubmit: IDropzoneProps['onSubmit'] = (files, allFiles) => {
     console.log(files.map(f => f.meta))
     allFiles.forEach(f => f.remove())
   }
@@ -121,7 +120,7 @@ const SingleFileAutoSubmit = () => {
   )
 }
 
-const Preview = ({ meta }) => {
+const Preview = ({ meta }: IPreviewProps) => {
   const { name, percent, status } = meta
   return (
     <span style={{ alignSelf: 'flex-start', margin: '10px 3%' }}>
@@ -149,7 +148,7 @@ const CustomPreview = () => {
   )
 }
 
-const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }) => {
+const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }: ILayoutProps) => {
   return (
     <div>
       {previews}
@@ -180,7 +179,7 @@ const CustomLayout = () => {
   )
 }
 
-const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }) => {
+const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }: ILayoutProps) => {
   return (
     <div {...dropzoneProps}>
       {files.length === 0 && (
@@ -207,8 +206,9 @@ const DropzoneNoInput = () => {
   return <Dropzone getUploadParams={getUploadParams} LayoutComponent={NoInputLayout} onSubmit={handleSubmit} />
 }
 
-const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps }) => {
+const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps }: ILayoutProps) => {
   const { ref, className, style } = dropzoneProps
+
   return (
     <div ref={ref} className={className} style={style}>
       {previews}
@@ -248,8 +248,6 @@ class InitialFileFromDataUrl extends React.Component {
     this.setState({ file })
   }
 
-  getUploadParams = () => ({ url: 'https://httpbin.org/post' })
-
   handleSubmit = (files, allFiles) => {
     console.log(files.map(f => f.meta))
     allFiles.forEach(f => f.remove())
@@ -267,7 +265,7 @@ class InitialFileFromDataUrl extends React.Component {
 
     return (
       <Dropzone
-        getUploadParams={this.getUploadParams}
+        getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
         InputComponent={null}
         onSubmit={this.handleSubmit}
         initialFiles={[file]}
@@ -279,6 +277,42 @@ class InitialFileFromDataUrl extends React.Component {
   }
 }
 
+const OnFilesLayout = ({ previews, submitButton, dropzoneProps, files, extra }: ILayoutProps) => {
+  const handleClick = async () => {
+    const res = await fetch(imageDataUrl)
+    const buf = await res.arrayBuffer()
+    const file = new File([buf], 'image_data_url.jpg', { type: 'image/jpeg' })
+    extra.onFiles([file])
+  }
+
+  return (
+    <div {...dropzoneProps} style={{ height: 200 }}>
+      <button style={{ marginTop: 10 }} onClick={handleClick}>
+        Upload file from data URL
+      </button>
+      {previews}
+
+      {files.length > 0 && submitButton}
+    </div>
+  )
+}
+
+const CustomOnFiles = () => {
+  return (
+    <Dropzone
+      getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
+      LayoutComponent={OnFilesLayout}
+      onSubmit={(files, allFiles) => {
+        console.log(files.map(f => f.meta))
+        allFiles.forEach(f => f.remove())
+      }}
+      canCancel={false}
+      canRemove={false}
+      canRestart={false}
+    />
+  )
+}
+
 ReactDOM.render(<Standard />, document.getElementById('example-1'))
 ReactDOM.render(<ImageAudioVideo />, document.getElementById('example-2'))
 ReactDOM.render(<NoUpload />, document.getElementById('example-3'))
@@ -288,3 +322,4 @@ ReactDOM.render(<CustomLayout />, document.getElementById('example-6'))
 ReactDOM.render(<DropzoneNoInput />, document.getElementById('example-7'))
 ReactDOM.render(<InputNoDropzone />, document.getElementById('example-8'))
 ReactDOM.render(<InitialFileFromDataUrl />, document.getElementById('example-9'))
+ReactDOM.render(<CustomOnFiles />, document.getElementById('example-10'))

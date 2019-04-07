@@ -41,7 +41,7 @@ export interface IMeta {
   type: string // MIME type, example: `image/*`
   name: string
   uploadedDate: string // ISO string
-  percent: string
+  percent: number
   size: number // bytes
   lastModifiedDate: string // ISO string
   previewUrl?: string // from URL.createObjectURL
@@ -78,7 +78,7 @@ export interface IExtra {
   maxFiles: number
 }
 
-interface IUploadParams {
+export interface IUploadParams {
   url: string
   method?: MethodValue
   body?: string | FormData | ArrayBuffer | Blob | File | URLSearchParams
@@ -89,7 +89,7 @@ interface IUploadParams {
 
 export type CustomizationFunction<T> = (allFiles: IFileWithMeta[], extra: IExtra) => T
 
-interface IStyleCustomization<T> {
+export interface IStyleCustomization<T> {
   dropzone?: T | CustomizationFunction<T>
   dropzoneActive?: T | CustomizationFunction<T>
   dropzoneReject?: T | CustomizationFunction<T>
@@ -103,16 +103,33 @@ interface IStyleCustomization<T> {
   submitButton?: T | CustomizationFunction<T>
 }
 
-interface ICommonProps {
-  files: IFileWithMeta[]
-  extra: IExtra
+export interface IExtraLayout extends IExtra {
+  onFiles(files: File[]): void
+  onCancelFile(file: IFileWithMeta): void
+  onRemoveFile(file: IFileWithMeta): void
+  onRestartFile(file: IFileWithMeta): void
 }
 
-export interface ILayoutProps extends ICommonProps {
+export interface ILayoutProps {
+  files: IFileWithMeta[]
+  extra: IExtraLayout
   input: React.ReactNode
   previews: React.ReactNode[] | null
   submitButton: React.ReactNode
-  dropzoneProps: {}
+  dropzoneProps: {
+    ref: React.RefObject<HTMLDivElement>
+    className: string
+    style?: React.CSSProperties
+    onDragEnter(event: React.DragEvent<HTMLDivElement>): void
+    onDragOver(event: React.DragEvent<HTMLDivElement>): void
+    onDragLeave(event: React.DragEvent<HTMLDivElement>): void
+    onDrop(event: React.DragEvent<HTMLDivElement>): void
+  }
+}
+
+interface ICommonProps {
+  files: IFileWithMeta[]
+  extra: IExtra
 }
 
 export interface IPreviewProps extends ICommonProps {

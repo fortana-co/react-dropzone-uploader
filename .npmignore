@@ -24,3 +24,5 @@ coverage
 .*.md
 
 *.gif
+
+.DS_Store
