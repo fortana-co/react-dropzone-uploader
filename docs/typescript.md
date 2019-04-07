@@ -10,7 +10,7 @@ RDU has a flexible and powerful API. Using TypeScript will help you use it prope
 
 It makes it especially easy to see and inspect the props passed to injected components, and the arguments passed to function props. 🚀
 
-~~~ts
+~~~js
 import Dropzone, { IDropzoneProps, ILayoutProps } from 'react-dropzone-uploader'
 
 // add type defs to custom LayoutComponent prop to easily inspect props passed to injected components
