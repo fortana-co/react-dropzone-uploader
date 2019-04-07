@@ -99,6 +99,7 @@ class Dropzone extends React.Component {
   handleRemove = fileWithMeta => {
     const index = this._files.findIndex(f => f === fileWithMeta)
     if (index !== -1) {
+      URL.revokeObjectURL(fileWithMeta.meta.previewUrl || '')
       fileWithMeta.meta.status = 'removed'
       this.handleChangeStatus(fileWithMeta)
       this._files.splice(index, 1)
@@ -237,7 +238,7 @@ class Dropzone extends React.Component {
         fileWithMeta.meta.videoWidth = video.videoWidth
         fileWithMeta.meta.videoHeight = video.videoHeight
       }
-      URL.revokeObjectURL(objectUrl)
+      if (!isImage) URL.revokeObjectURL(objectUrl)
     } catch (e) {
       URL.revokeObjectURL(objectUrl)
     }
