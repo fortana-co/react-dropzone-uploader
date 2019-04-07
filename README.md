@@ -17,7 +17,7 @@ React Dropzone Uploader is a customizable file dropzone and uploader for React.
 - Modular design; use as standalone dropzone, file input, or file uploader
 - Cross-browser support, mobile friendly, including direct uploads from camera
 - Lightweight and fast
-- TypeScript definitions
+- Excellent TypeScript definitions
 
 ![](https://raw.githubusercontent.com/fortana-co/react-dropzone-uploader/master/rdu.gif)
 

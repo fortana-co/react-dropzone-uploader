@@ -12,7 +12,7 @@ import Dropzone, { defaultClassNames, IDropzoneProps, ILayoutProps, IPreviewProp
 import { imageDataUrl } from './data'
 
 const Standard = () => {
-  const getUploadParams = () => {
+  const getUploadParams: IDropzoneProps['getUploadParams'] = () => {
     return { url: 'https://httpbin.org/post' }
   }
 

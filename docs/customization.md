@@ -80,7 +80,7 @@ The file input and submit button are simple, and it's usually easy to get the ri
 ### Default Components
 If you use the component injection API, you'll probably want to copy the default component and modify it.
 
-You'll also need to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types.
+You'll also need to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types. Or, [if you're using TypeScript](https://react-dropzone-uploader.js.org/docs/typescript), add a type definition to the props received by your custom component and inspect away.
 
 - [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
 - [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)

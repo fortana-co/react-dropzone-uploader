@@ -9,7 +9,7 @@ React already has dropzone/uploader libraries, two of the most popular being [re
 1. __The others weren't really built for React__. They're wrappers around [fine-uploader](https://fineuploader.com/) and [Dropzone.js](https://www.dropzonejs.com/), file uploaders with sprawling APIs that weren't designed with React in mind. Both weigh many times more than RDU.
 2. __They're not maintained__. The react-fine-uploader and fine-uploader repos were shut down in 2018. React-Dropzone-Component hasn't seen a commit to source code since 2017; [pretty much ditto](https://gitlab.com/meno/dropzone/issues/74) with Dropzone.js.
 
-My goal with RDU was to build a lightweight, customizable dropzone and uploader with a minimal API and sensible defaults. __It tries to make the easy things effortless, and the hardest things possible__.
+My goal with RDU was to build a lightweight, customizable dropzone and uploader with a minimal API, sensible defaults, and great support for TypeScript. __It tries to make the easy things effortless, and the hardest things possible__.
 
 
 ## React Dropzone

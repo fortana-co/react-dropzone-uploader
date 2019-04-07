@@ -54,9 +54,3 @@ If you use the component injection API, you'll want to know which props are pass
 - [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
 - [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
 - [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
-
-
-## TypeScript Definitions
-RDU [ships with TypeScript definitions](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Dropzone.d.ts) for its exported components and functions, along with some useful interfaces and types.
-
-RDU has a flexible, powerful API, and using TypeScript will help you get a handle on everything it can do.

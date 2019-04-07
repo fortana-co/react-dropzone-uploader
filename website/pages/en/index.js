@@ -95,7 +95,7 @@ const Features = () => (
       <li>Modular design; use as standalone dropzone, file input, or file uploader</li>
       <li>Cross-browser support, mobile friendly, including direct uploads from camera</li>
       <li>Lightweight and fast</li>
-      <li>TypeScript definitions</li>
+      <li>Excellent TypeScript definitions</li>
     </ul>
   </div>
 );

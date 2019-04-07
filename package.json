@@ -1,8 +1,8 @@
 {
   "name": "react-dropzone-uploader",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "author": "Kyle Bebak <kylebebak@gmail.com>",
-  "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps",
+  "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
   "module": "./dist/react-dropzone-uploader.umd.js",
   "types": "./dist/Dropzone.d.ts",
@@ -84,8 +84,7 @@
     "build-docs": "./build_docs.sh",
     "test": "tsc && jest --coverage",
     "lint": "prettier --check 'src/**/*.js' && eslint src",
-    "prettier": "prettier --write 'src/**/*.js'",
-    "postinstall": "rm -f .git/hooks/applypatch-msg & rm -f .git/hooks/commit-msg & rm -f .git/hooks/prepare-commit-msg"
+    "prettier": "prettier --write 'src/**/*.js'"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
