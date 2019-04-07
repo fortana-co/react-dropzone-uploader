@@ -30,41 +30,41 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">TypeScript</h1></header><article><div><span><p>RDU <a href="https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Dropzone.d.ts">ships with precise TypeScript definitions</a> for just about everything in the library.</p>
 <p>RDU has a flexible and powerful API. Using TypeScript will help you use it properly, and help you get a handle on everything it can do.</p>
 <p>It makes it especially easy to see and inspect the props passed to injected components, and the arguments passed to function props. 🚀</p>
-<pre><code class="hljs css language-ts">import Dropzone, { IDropzoneProps, ILayoutProps } from 'react-dropzone-uploader'
+<pre><code class="hljs css language-js"><span class="token keyword">import</span> Dropzone<span class="token punctuation">,</span> <span class="token punctuation">{</span> IDropzoneProps<span class="token punctuation">,</span> ILayoutProps <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-dropzone-uploader'</span>
 
-// add type defs to custom LayoutComponent prop to easily inspect props passed to injected components
-const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }: ILayoutProps) =&gt; {
-  return (
-    &lt;div&gt;
-      {previews}
+<span class="token comment">// add type defs to custom LayoutComponent prop to easily inspect props passed to injected components</span>
+<span class="token keyword">const</span> <span class="token function-variable function">Layout</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> input<span class="token punctuation">,</span> previews<span class="token punctuation">,</span> submitButton<span class="token punctuation">,</span> dropzoneProps<span class="token punctuation">,</span> files<span class="token punctuation">,</span> extra<span class="token punctuation">:</span> <span class="token punctuation">{</span> maxFiles <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">:</span> ILayoutProps<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+      <span class="token punctuation">{</span>previews<span class="token punctuation">}</span>
 
-      &lt;div {...dropzoneProps}&gt;{files.length &lt; maxFiles &amp;&amp; input}&lt;/div&gt;
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token spread"><span class="token punctuation">{</span><span class="token punctuation">...</span><span class="token attr-value">dropzoneProps</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span><span class="token punctuation">{</span>files<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> maxFiles <span class="token operator">&amp;&amp;</span> input<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 
-      {files.length &gt; 0 &amp;&amp; submitButton}
-    &lt;/div&gt;
-  )
-}
+      <span class="token punctuation">{</span>files<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> submitButton<span class="token punctuation">}</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
-const CustomLayout = () =&gt; {
-  // add type defs to function props to get TS support inside function bodies,
-  // and not just where functions are passed as props into Dropzone
-  const getUploadParams: IDropzoneProps['getUploadParams'] = () =&gt; ({ url: 'https://httpbin.org/post' })
+<span class="token keyword">const</span> <span class="token function-variable function">CustomLayout</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// add type defs to function props to get TS support inside function bodies,</span>
+  <span class="token comment">// and not just where functions are passed as props into Dropzone</span>
+  <span class="token keyword">const</span> getUploadParams<span class="token punctuation">:</span> IDropzoneProps<span class="token punctuation">[</span><span class="token string">'getUploadParams'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span> url<span class="token punctuation">:</span> <span class="token string">'https://httpbin.org/post'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
 
-  const handleSubmit: IDropzoneProps['onSubmit'] = (files, allFiles) =&gt; {
-    console.log(files.map(f =&gt; f.meta))
-    allFiles.forEach(f =&gt; f.remove())
-  }
+  <span class="token keyword">const</span> handleSubmit<span class="token punctuation">:</span> IDropzoneProps<span class="token punctuation">[</span><span class="token string">'onSubmit'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>files<span class="token punctuation">,</span> allFiles<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>files<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>f <span class="token operator">=></span> f<span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    allFiles<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>f <span class="token operator">=></span> f<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
 
-  return (
-    &lt;Dropzone
-      getUploadParams={getUploadParams}
-      LayoutComponent={Layout}
-      onSubmit={handleSubmit}
-      classNames={{ inputLabelWithFiles: defaultClassNames.inputLabel }}
-      inputContent="Drop Files (Custom Layout)"
-    /&gt;
-  )
-}
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Dropzone</span>
+      <span class="token attr-name">getUploadParams</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>getUploadParams<span class="token punctuation">}</span></span>
+      <span class="token attr-name">LayoutComponent</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>Layout<span class="token punctuation">}</span></span>
+      <span class="token attr-name">onSubmit</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>handleSubmit<span class="token punctuation">}</span></span>
+      <span class="token attr-name">classNames</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> inputLabelWithFiles<span class="token punctuation">:</span> defaultClassNames<span class="token punctuation">.</span>inputLabel <span class="token punctuation">}</span><span class="token punctuation">}</span></span>
+      <span class="token attr-name">inputContent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Drop Files (Custom Layout)<span class="token punctuation">"</span></span>
+    <span class="token punctuation">/></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/props"><span class="arrow-prev">← </span><span>Props</span></a><a class="docs-next button" href="/docs/why-rdu"><span>Why RDU?</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"></a><div><h5>Docs</h5><a href="/docs/api">API Reference</a><a href="/docs/why-rdu">Why RDU?</a><a href="/docs/examples">Live Examples</a></div><div><h5>Community</h5><a href="http://stackoverflow.com/questions/tagged/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://github.com/fortana-co/react-dropzone-uploader" target="_blank" rel="noreferrer noopener">GitHub</a><a href="https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted" target="_blank" rel="noreferrer noopener">Contribute</a><a class="github-button" href="https://github.com/fortana-co/react-dropzone-uploader" data-icon="octicon-star" data-count-href="/fortana-co/react-dropzone-uploader/stargazers" data-show-count="true" data-count-aria-label="Stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>Built With</h5><a href="https://docusaurus.io/">Docusaurus for website generation</a><a href="https://pages.github.com/">GitHub Pages for hosting</a><a href="https://js.org/">js.org for the domain name</a><a href="https://community.algolia.com/docsearch/">Algolia for search</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright">Copyright © 2019 <a href="https://fortana.co">Fortana</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
