@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getDataTransferItems } from './utils'
+import { getFilesFromEvent } from './utils'
 
 const Input = props => {
   const {
@@ -33,7 +33,7 @@ const Input = props => {
         multiple={multiple}
         disabled={disabled}
         onChange={e => {
-          onFiles(getDataTransferItems(e))
+          onFiles(getFilesFromEvent(e))
           e.target.value = null
         }}
       />

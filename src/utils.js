@@ -79,7 +79,7 @@ export const mergeStyles = (classNames, styles, addClassNames, ...args) => {
   return { classNames: resolvedClassNames, styles: resolvedStyles }
 }
 
-export const getDataTransferItems = event => {
+export const getFilesFromEvent = event => {
   let items = []
   if (event.dataTransfer) {
     const dt = event.dataTransfer

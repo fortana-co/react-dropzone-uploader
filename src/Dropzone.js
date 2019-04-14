@@ -12,7 +12,7 @@ import {
   resolveValue,
   mergeStyles,
   defaultClassNames,
-  getDataTransferItems,
+  getFilesFromEvent,
 } from './utils'
 
 class Dropzone extends React.Component {
@@ -43,14 +43,14 @@ class Dropzone extends React.Component {
   handleDragEnter = e => {
     e.preventDefault()
     e.stopPropagation()
-    this.setState({ active: true, dragged: getDataTransferItems(e) })
+    this.setState({ active: true, dragged: getFilesFromEvent(e) })
   }
 
   handleDragOver = e => {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this._dragTimeoutId)
-    this.setState({ active: true, dragged: getDataTransferItems(e) })
+    this.setState({ active: true, dragged: getFilesFromEvent(e) })
   }
 
   handleDragLeave = e => {
@@ -65,7 +65,7 @@ class Dropzone extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
-    this.handleFiles(getDataTransferItems(e))
+    this.handleFiles(getFilesFromEvent(e))
   }
 
   handleDropDisabled = e => {
@@ -550,4 +550,5 @@ export {
   formatDuration,
   accepts,
   defaultClassNames,
+  getFilesFromEvent,
 }

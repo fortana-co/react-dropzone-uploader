@@ -224,5 +224,6 @@ export const SubmitButton: React.FunctionComponent<ISubmitButtonProps>
 export function formatBytes(bytes: number): string
 export function formatDuration(seconds: number): string
 export function accepts(file: IDraggedFile, accept?: string): boolean
+export function getFilesFromEvent(event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>): Array<File | DataTransferItem>
 
 export const defaultClassNames: { [name: string]: string }
