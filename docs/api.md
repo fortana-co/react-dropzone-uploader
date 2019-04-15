@@ -122,3 +122,12 @@ To control which files can be dropped or picked, you can use the `accept` prop, 
 Files whose sizes fall outside the range `[minSizeBytes, maxSizeBytes]` are rendered in the dropzone with a special error status. Files rejected because they don't have the correct type, or because they exceed your max number of files, call `onChangeStatus` with special status values, but are not rendered.
 
 If you need totally custom filter logic, you can pass a generic `validate` function. This function receives a `fileWithMeta` object. If you return a falsy value from `validate`, the file is accepted, else it's rejected.
+
+
+## Utility Functions
+In case you want to use them, RDU exports the following utility functions:
+
+- `formatBytes(bytes: number): string`
+- `formatDuration(seconds: number): string`
+- `accepts(file: { name?: string; type?: string }, accept?: string): boolean`
+- `getFilesFromEvent(event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>): Array<File | DataTransferItem>`

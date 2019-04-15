@@ -20,10 +20,12 @@ export const formatDuration = seconds => {
 }
 
 // adapted from: https://github.com/okonet/attr-accept/blob/master/src/index.js
+// returns true if file.name is empty and accept string is something like ".csv",
+// because file comes from dataTransferItem for drag events, and
+// dataTransferItem.name is always empty
 export const accepts = (file, accept) => {
-  if (!file || !accept || accept === '*') return true
+  if (!accept || accept === '*') return true
 
-  const fileName = file.name || ''
   const mimeType = file.type || ''
   const baseMimeType = mimeType.replace(/\/.*$/, '')
 
@@ -32,7 +34,7 @@ export const accepts = (file, accept) => {
     .map(t => t.trim())
     .some(type => {
       if (type.charAt(0) === '.') {
-        return fileName.toLowerCase().endsWith(type.toLowerCase())
+        return file.name === undefined || file.name.toLowerCase().endsWith(type.toLowerCase())
       } else if (type.endsWith('/*')) {
         // this is something like an image/* mime type
         return baseMimeType === type.replace(/\/.*$/, '')

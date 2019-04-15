@@ -8,7 +8,14 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import '../../src/styles.css'
-import Dropzone, { defaultClassNames, IDropzoneProps, ILayoutProps, IPreviewProps } from '../../src/Dropzone'
+import Dropzone, {
+  getFilesFromEvent,
+  defaultClassNames,
+  IDropzoneProps,
+  ILayoutProps,
+  IPreviewProps,
+  IInputProps,
+} from '../../src/Dropzone'
 import { imageDataUrl } from './data'
 
 const Standard = () => {
@@ -107,6 +114,7 @@ const SingleFileAutoSubmit = () => {
       <Dropzone
         getUploadParams={getUploadParams}
         onChangeStatus={handleChangeStatus}
+        accept=".png"
         maxFiles={1}
         multiple={false}
         canCancel={false}
@@ -114,6 +122,7 @@ const SingleFileAutoSubmit = () => {
         styles={{
           dropzone: { width: 400, height: 200 },
           dropzoneActive: { borderColor: 'green' },
+          dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },
         }}
       />
     </React.Fragment>
@@ -179,6 +188,40 @@ const CustomLayout = () => {
   )
 }
 
+const Input = ({ accept, onFiles, files }: IInputProps) => {
+  const text = files.length > 0 ? 'Add more files' : 'Choose files'
+
+  return (
+    <label style={{ backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', padding: 15, borderRadius: 3 }}>
+      {text}
+      <input
+        style={{ display: 'none' }}
+        type="file"
+        accept={accept}
+        multiple
+        onChange={e => {
+          onFiles(getFilesFromEvent(e) as File[])
+        }}
+      />
+    </label>
+  )
+}
+
+const CustomInput = () => {
+  const handleSubmit = (files, allFiles) => {
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  }
+
+  return (
+    <Dropzone
+      getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
+      onSubmit={handleSubmit}
+      InputComponent={Input}
+    />
+  )
+}
+
 const NoInputLayout = ({ previews, submitButton, dropzoneProps, files }: ILayoutProps) => {
   return (
     <div {...dropzoneProps}>
@@ -210,13 +253,13 @@ const NoDropzoneLayout = ({ previews, submitButton, input, files, dropzoneProps 
   const { ref, className, style } = dropzoneProps
 
   return (
-    <div ref={ref} className={className} style={style}>
+    <p ref={ref} className={className} style={style}>
       {previews}
 
       {input}
 
       {files.length > 0 && submitButton}
-    </div>
+    </p>
   )
 }
 
@@ -286,14 +329,14 @@ const OnFilesLayout = ({ previews, submitButton, dropzoneProps, files, extra }: 
   }
 
   return (
-    <div {...dropzoneProps} style={{ height: 200 }}>
+    <section {...dropzoneProps} style={{ height: 200 }}>
       <button style={{ marginTop: 10 }} onClick={handleClick}>
         Upload file from data URL
       </button>
       {previews}
 
       {files.length > 0 && submitButton}
-    </div>
+    </section>
   )
 }
 
@@ -319,7 +362,8 @@ ReactDOM.render(<NoUpload />, document.getElementById('example-3'))
 ReactDOM.render(<SingleFileAutoSubmit />, document.getElementById('example-4'))
 ReactDOM.render(<CustomPreview />, document.getElementById('example-5'))
 ReactDOM.render(<CustomLayout />, document.getElementById('example-6'))
-ReactDOM.render(<DropzoneNoInput />, document.getElementById('example-7'))
-ReactDOM.render(<InputNoDropzone />, document.getElementById('example-8'))
-ReactDOM.render(<InitialFileFromDataUrl />, document.getElementById('example-9'))
-ReactDOM.render(<CustomOnFiles />, document.getElementById('example-10'))
+ReactDOM.render(<CustomInput />, document.getElementById('example-7'))
+ReactDOM.render(<DropzoneNoInput />, document.getElementById('example-8'))
+ReactDOM.render(<InputNoDropzone />, document.getElementById('example-9'))
+ReactDOM.render(<InitialFileFromDataUrl />, document.getElementById('example-10'))
+ReactDOM.render(<CustomOnFiles />, document.getElementById('example-11'))

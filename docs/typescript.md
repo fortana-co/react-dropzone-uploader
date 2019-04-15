@@ -47,3 +47,5 @@ const CustomLayout = () => {
   )
 }
 ~~~
+
+If you want more examples, [check out the ones used to test RDU's TypeScript definitions](https://github.com/fortana-co/react-dropzone-uploader/blob/master/examples/src/index.tsx).

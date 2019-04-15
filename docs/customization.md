@@ -39,7 +39,7 @@ Both `classNames` and `styles` should be objects containing a subset of the foll
 - `submitButton`
   + submit button
 
-Each key points to a [CSS class in the default stylesheet](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css). A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`.
+Each key points to a [CSS class in the default stylesheet](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css). A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string `''`. Note that RDU exports a `defaultClassNames` object, a map from these keys to the CSS class names in the default stylesheet.
 
 If you prefer to use style object literals instead of CSS classes, point a key to a style object. The style object is passed to the target component's `style` prop, which means it takes precedence over its default class, but doesn't overwrite it.
 
@@ -62,7 +62,6 @@ You can use both `classNames` and `addClassNames` if you want to overwrite some 
 If, for example, you pass a __func__ instead of a __node__ for `inputContent`, this function receives `(files, extra)`, and should return the __node__ to be rendered.
 
 `files` is the array of `fileWithMeta` objects tracked by the dropzone, and `extra` is an object with other dropzone state and props. `extra` contains the following keys: `{ active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }`.
-
 
 
 ## Component Injection

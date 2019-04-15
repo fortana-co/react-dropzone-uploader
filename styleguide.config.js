@@ -57,6 +57,10 @@ module.exports = {
       content: 'examples/CustomLayout.md',
     },
     {
+      name: 'Custom Input',
+      content: 'examples/CustomInput.md',
+    },
+    {
       name: 'Dropzone With No Input',
       content: 'examples/NoInput.md',
     },

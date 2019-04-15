@@ -62,15 +62,10 @@ export interface IFileWithMeta {
   xhr?: XMLHttpRequest
 }
 
-export interface IDraggedFile {
-  name?: string
-  type?: string
-}
-
 export interface IExtra {
   active: boolean
   reject: boolean
-  dragged: IDraggedFile[]
+  dragged: DataTransferItem[]
   accept: string
   multiple: boolean
   minSizeBytes: number
@@ -120,10 +115,10 @@ export interface ILayoutProps {
     ref: React.RefObject<HTMLDivElement>
     className: string
     style?: React.CSSProperties
-    onDragEnter(event: React.DragEvent<HTMLDivElement>): void
-    onDragOver(event: React.DragEvent<HTMLDivElement>): void
-    onDragLeave(event: React.DragEvent<HTMLDivElement>): void
-    onDrop(event: React.DragEvent<HTMLDivElement>): void
+    onDragEnter(event: React.DragEvent<HTMLElement>): void
+    onDragOver(event: React.DragEvent<HTMLElement>): void
+    onDragLeave(event: React.DragEvent<HTMLElement>): void
+    onDrop(event: React.DragEvent<HTMLElement>): void
   }
 }
 
@@ -173,7 +168,11 @@ export interface ISubmitButtonProps extends ICommonProps {
 type ReactComponent<Props> = (props: Props) => React.ReactNode | React.Component<Props>
 
 export interface IDropzoneProps {
-  onChangeStatus?(file: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]): { meta: { [name: string]: any } } | void
+  onChangeStatus?(
+    file: IFileWithMeta,
+    status: StatusValue,
+    allFiles: IFileWithMeta[],
+  ): { meta: { [name: string]: any } } | void
   getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
   onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
 
@@ -223,7 +222,9 @@ export const SubmitButton: React.FunctionComponent<ISubmitButtonProps>
 
 export function formatBytes(bytes: number): string
 export function formatDuration(seconds: number): string
-export function accepts(file: IDraggedFile, accept?: string): boolean
-export function getFilesFromEvent(event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>): Array<File | DataTransferItem>
+export function accepts(file: { name?: string; type?: string }, accept?: string): boolean
+export function getFilesFromEvent(
+  event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
+): Array<File | DataTransferItem>
 
 export const defaultClassNames: { [name: string]: string }
