@@ -79,7 +79,7 @@
 <li>submit button</li>
 </ul></li>
 </ul>
-<p>Each key points to a <a href="https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css">CSS class in the default stylesheet</a>. A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string <code>''</code>.</p>
+<p>Each key points to a <a href="https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/styles.css">CSS class in the default stylesheet</a>. A class can be overridden by pointing its key to a different class name, or it can be removed by pointing its key to the empty string <code>''</code>. Note that RDU exports a <code>defaultClassNames</code> object, a map from these keys to the CSS class names in the default stylesheet.</p>
 <p>If you prefer to use style object literals instead of CSS classes, point a key to a style object. The style object is passed to the target component's <code>style</code> prop, which means it takes precedence over its default class, but doesn't overwrite it.</p>
 <p>To overwrite it, you can remove the default class by passing an empty string inside the <code>classNames</code> prop.</p>
 <blockquote>
