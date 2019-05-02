@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import '../../src/styles.css'
 import Dropzone, {
-  getFilesFromEvent,
   defaultClassNames,
   IDropzoneProps,
   ILayoutProps,
@@ -188,7 +187,7 @@ const CustomLayout = () => {
   )
 }
 
-const Input = ({ accept, onFiles, files }: IInputProps) => {
+const Input = ({ accept, onFiles, files, getFilesFromEvent }: IInputProps) => {
   const text = files.length > 0 ? 'Add more files' : 'Choose files'
 
   return (

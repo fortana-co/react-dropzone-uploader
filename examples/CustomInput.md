@@ -1,7 +1,7 @@
-Standard file uploader with custom `InputComponent`. Uses `getFilesFromEvent` to ensure array of files is extracted from `onChange` event and passed to `onFiles`.
+Standard file uploader with custom `InputComponent`. Uses default `getFilesFromEvent` prop to ensure array of files is extracted from `onChange` event and passed to `onFiles`.
 
 ~~~js
-const Input = ({ accept, onFiles, files }) => {
+const Input = ({ accept, onFiles, files, getFilesFromEvent }) => {
   const text = files.length > 0 ? 'Add more files' : 'Choose files'
 
   return (

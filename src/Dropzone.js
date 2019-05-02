@@ -12,7 +12,7 @@ import {
   resolveValue,
   mergeStyles,
   defaultClassNames,
-  getFilesFromEvent,
+  getFilesFromEvent as defaultGetFilesFromEvent,
 } from './utils'
 
 class Dropzone extends React.Component {
@@ -40,17 +40,23 @@ class Dropzone extends React.Component {
     if (this._mounted) this.forceUpdate()
   }
 
-  handleDragEnter = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    this.setState({ active: true, dragged: getFilesFromEvent(e) })
+  getFilesFromEvent = () => {
+    return this.props.getFilesFromEvent || defaultGetFilesFromEvent
   }
 
-  handleDragOver = e => {
+  handleDragEnter = async e => {
+    e.preventDefault()
+    e.stopPropagation()
+    const dragged = await this.getFilesFromEvent()(e)
+    this.setState({ active: true, dragged })
+  }
+
+  handleDragOver = async e => {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this._dragTimeoutId)
-    this.setState({ active: true, dragged: getFilesFromEvent(e) })
+    const dragged = await this.getFilesFromEvent()(e)
+    this.setState({ active: true, dragged })
   }
 
   handleDragLeave = e => {
@@ -61,11 +67,12 @@ class Dropzone extends React.Component {
     this._dragTimeoutId = setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
   }
 
-  handleDrop = e => {
+  handleDrop = async e => {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
-    this.handleFiles(getFilesFromEvent(e))
+    const files = await this.getFilesFromEvent()(e)
+    this.handleFiles(files)
   }
 
   handleDropDisabled = e => {
@@ -411,6 +418,7 @@ class Dropzone extends React.Component {
           style={inputStyle}
           labelStyle={inputLabelStyle}
           labelWithFilesStyle={inputLabelWithFilesStyle}
+          getFilesFromEvent={this.getFilesFromEvent()}
           accept={accept}
           multiple={multiple}
           disabled={dropzoneDisabled}
@@ -483,6 +491,8 @@ Dropzone.propTypes = {
   getUploadParams: PropTypes.func,
   onSubmit: PropTypes.func,
 
+  getFilesFromEvent: PropTypes.func,
+
   accept: PropTypes.string,
   multiple: PropTypes.bool,
   minSizeBytes: PropTypes.number.isRequired,
@@ -550,5 +560,5 @@ export {
   formatDuration,
   accepts,
   defaultClassNames,
-  getFilesFromEvent,
+  defaultGetFilesFromEvent as getFilesFromEvent,
 }

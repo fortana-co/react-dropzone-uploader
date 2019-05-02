@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getFilesFromEvent } from './utils'
 
 const Input = props => {
   const {
@@ -10,6 +9,7 @@ const Input = props => {
     style,
     labelStyle,
     labelWithFilesStyle,
+    getFilesFromEvent,
     accept,
     multiple,
     disabled,
@@ -32,8 +32,9 @@ const Input = props => {
         accept={accept}
         multiple={multiple}
         disabled={disabled}
-        onChange={e => {
-          onFiles(getFilesFromEvent(e))
+        onChange={async e => {
+          const chosenFiles = await getFilesFromEvent(e)
+          onFiles(chosenFiles)
           e.target.value = null
         }}
       />
@@ -48,6 +49,7 @@ Input.propTypes = {
   style: PropTypes.object,
   labelStyle: PropTypes.object,
   labelWithFilesStyle: PropTypes.object,
+  getFilesFromEvent: PropTypes.func.isRequired,
   accept: PropTypes.string.isRequired,
   multiple: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,

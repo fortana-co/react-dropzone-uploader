@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+type getFilesFromEventFunction = (
+  event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
+) => Promise<Array<File | DataTransferItem>>
+
 export type StatusValue =
   | 'rejected_file_type'
   | 'rejected_max_files'
@@ -147,6 +151,7 @@ export interface IInputProps extends ICommonProps {
   style?: React.CSSProperties
   labelStyle?: React.CSSProperties
   labelWithFilesStyle?: React.CSSProperties
+  getFilesFromEvent: getFilesFromEventFunction
   accept: string
   multiple: boolean
   disabled: boolean
@@ -175,6 +180,8 @@ export interface IDropzoneProps {
   ): { meta: { [name: string]: any } } | void
   getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
   onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
+
+  getFilesFromEvent?: getFilesFromEventFunction
 
   accept?: string
   multiple?: boolean
@@ -223,8 +230,6 @@ export const SubmitButton: React.FunctionComponent<ISubmitButtonProps>
 export function formatBytes(bytes: number): string
 export function formatDuration(seconds: number): string
 export function accepts(file: { name?: string; type?: string }, accept?: string): boolean
-export function getFilesFromEvent(
-  event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
-): Array<File | DataTransferItem>
+export const getFilesFromEvent: getFilesFromEventFunction
 
 export const defaultClassNames: { [name: string]: string }
