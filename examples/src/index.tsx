@@ -4,6 +4,7 @@ import 'babel-polyfill'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { getDroppedOrSelectedFiles } from 'html5-file-selector'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -198,8 +199,9 @@ const Input = ({ accept, onFiles, files, getFilesFromEvent }: IInputProps) => {
         type="file"
         accept={accept}
         multiple
-        onChange={e => {
-          onFiles(getFilesFromEvent(e) as File[])
+        onChange={async e => {
+          const chosenFiles = await getFilesFromEvent(e)
+          onFiles(chosenFiles as File[])
         }}
       />
     </label>
@@ -212,11 +214,18 @@ const CustomInput = () => {
     allFiles.forEach(f => f.remove())
   }
 
+  const getFilesFromEvent = async e => {
+    const chosenFiles = await getDroppedOrSelectedFiles(e)
+    return chosenFiles.map(f => f.fileObject)
+  }
+
   return (
     <Dropzone
+      accept="image/*,audio/*,video/*,.pdf"
       getUploadParams={() => ({ url: 'https://httpbin.org/post' })}
       onSubmit={handleSubmit}
       InputComponent={Input}
+      getFilesFromEvent={getFilesFromEvent}
     />
   )
 }

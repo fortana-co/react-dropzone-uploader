@@ -44,10 +44,14 @@ class Dropzone extends React.Component {
     return this.props.getFilesFromEvent || defaultGetFilesFromEvent
   }
 
+  getDataTransferItemsFromEvent = () => {
+    return this.props.getDataTransferItemsFromEvent || defaultGetFilesFromEvent
+  }
+
   handleDragEnter = async e => {
     e.preventDefault()
     e.stopPropagation()
-    const dragged = await this.getFilesFromEvent()(e)
+    const dragged = await this.getDataTransferItemsFromEvent()(e)
     this.setState({ active: true, dragged })
   }
 
@@ -55,7 +59,7 @@ class Dropzone extends React.Component {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this._dragTimeoutId)
-    const dragged = await this.getFilesFromEvent()(e)
+    const dragged = await this.getDataTransferItemsFromEvent()(e)
     this.setState({ active: true, dragged })
   }
 
@@ -492,6 +496,7 @@ Dropzone.propTypes = {
   onSubmit: PropTypes.func,
 
   getFilesFromEvent: PropTypes.func,
+  getDataTransferItemsFromEvent: PropTypes.func,
 
   accept: PropTypes.string,
   multiple: PropTypes.bool,

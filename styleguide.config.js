@@ -57,7 +57,7 @@ module.exports = {
       content: 'examples/CustomLayout.md',
     },
     {
-      name: 'Custom Input',
+      name: 'Custom Input, Directory Drag and Drop',
       content: 'examples/CustomInput.md',
     },
     {
