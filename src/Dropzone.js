@@ -316,6 +316,7 @@ class Dropzone extends React.Component {
 
     formData.append('file', fileWithMeta.file)
     if (this.props.timeout) xhr.timeout = this.props.timeout
+    if (this.props.withCredentials) xhr.withCredentials = true
     xhr.send(body || formData)
     fileWithMeta.xhr = xhr
     fileWithMeta.meta.status = 'uploading'
@@ -508,6 +509,7 @@ Dropzone.propTypes = {
 
   autoUpload: PropTypes.bool,
   timeout: PropTypes.number,
+  withCredentials: PropTypes.bool,
 
   initialFiles: PropTypes.arrayOf(PropTypes.any),
 
