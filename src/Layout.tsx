@@ -1,7 +1,7 @@
 import React from 'react'
-import {ILayoutProps} from './types'
+import { ILayoutProps } from './types'
 
-const Layout = (props:ILayoutProps) => {
+const Layout = (props: ILayoutProps) => {
   const {
     input,
     previews,

@@ -537,5 +537,5 @@ export {
   IDropzoneProps,
   ILayoutProps,
   IPreviewProps,
-  IInputProps
+  IInputProps,
 }

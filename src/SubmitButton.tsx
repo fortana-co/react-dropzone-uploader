@@ -1,7 +1,7 @@
 import React from 'react'
-import {ISubmitButtonProps} from './types'
+import { ISubmitButtonProps } from './types'
 
-const SubmitButton = (props:ISubmitButtonProps) => {
+const SubmitButton = (props: ISubmitButtonProps) => {
   const { className, buttonClassName, style, buttonStyle, disabled, content, onSubmit, files } = props
 
   const _disabled =

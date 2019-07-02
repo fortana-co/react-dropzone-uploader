@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { formatBytes, formatDuration } from './utils'
-import {IPreviewProps} from './types'
+import { IPreviewProps } from './types'
 //@ts-ignore
 import cancelImg from './assets/cancel.svg'
 //@ts-ignore

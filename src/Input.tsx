@@ -1,8 +1,8 @@
 import React from 'react'
-import {IInputProps} from './types'
+import { IInputProps } from './types'
 import PropTypes from 'prop-types'
 
-const Input = (props:IInputProps) => {
+const Input = (props: IInputProps) => {
   const {
     className,
     labelClassName,

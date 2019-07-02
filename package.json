@@ -85,7 +85,7 @@
     "build-docs": "./build_docs.sh",
     "test": "tsc && jest --coverage",
     "lint": "prettier --check 'src/**/*.js' && eslint src",
-    "prettier": "prettier --write 'src/**/*.js'"
+    "prettier": "prettier --write 'src/**/*.tsx'"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
