@@ -94,21 +94,18 @@ export const mergeStyles = (
 export const getFilesFromEvent = (
   event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
 ): Promise<Array<File | DataTransferItem>> => {
-  let items = []
-  //@ts-ignore
-  if (event.dataTransfer) {
-    //@ts-ignore
+  let items: FileList | DataTransferItemList
+  
+  if ('dataTransfer' in event) {
     const dt = event.dataTransfer
 
     // NOTE: Only the 'drop' event has access to DataTransfer.files, otherwise it will always be empty
-    if (dt.files && dt.files.length) {
+    if ('files' in dt && dt.files.length) {
       items = dt.files
     } else if (dt.items && dt.items.length) {
       items = dt.items
     }
-    //@ts-ignore
   } else if (event.target && event.target.files) {
-    //@ts-ignore
     items = event.target.files
   }
 
