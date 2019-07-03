@@ -1,10 +1,13 @@
+//@ts-ignore
 export = null
 
 import 'babel-polyfill'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+//@ts-ignore
 import { getDroppedOrSelectedFiles } from 'html5-file-selector'
+//@ts-ignore
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
