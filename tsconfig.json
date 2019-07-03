@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    // "module": "commonjs",
     "esModuleInterop": true,
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true,
+    "declaration": true
+
   },
-  "include": ["examples/src/index.tsx", "src/*.tsx"]
+  "include": ["examples/src/index.tsx", "src/*.tsx"],
+  "exclude": ["**/node_modules/*"]
 }

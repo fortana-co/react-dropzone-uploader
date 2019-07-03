@@ -41,10 +41,5 @@ module.exports = [
     libraryTarget: 'commonjs2',
     filename: 'react-dropzone-uploader.js',
   }),
-  createConfig('./src/Dropzone.js', {
-    path: path.resolve('dist'),
-    libraryTarget: 'umd',
-    filename: 'react-dropzone-uploader.umd.js',
-    library: 'ReactDropzoneUploader',
-  }),
+
 ]

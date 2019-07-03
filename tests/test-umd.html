@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
+
+    <script src="../dist/react-dropzone-uploader.umd.js"></script>
+    <link rel="stylesheet" href="../dist/styles.css">
+
+  <title>Document</title>
+</head>
+<body>
+  <div id="example"></div>
+</body>
+
+<script>
+  const styles = {
+    dropzoneActive: {
+      borderColor: 'green',
+    },
+  }
+
+  const App = () => {
+    const getUploadParams = ({ meta }) => {
+      const url = 'https://httpbin.org/post'
+      const fileUrl = `${url}/${encodeURIComponent(meta.name)}`
+      return { url, meta: { fileUrl } }
+    }
+
+    const handleChangeStatus = ({ meta, file }, status) => {
+      console.log(status, meta, file)
+    }
+
+    const handleSubmit = (files, allFiles) => {
+      console.log(files.map(f => f.meta))
+      allFiles.forEach(f => f.remove())
+    }
+
+    return React.createElement(ReactDropzoneUploader.default, {
+      getUploadParams: getUploadParams,
+      onChangeStatus: handleChangeStatus,
+      onSubmit: handleSubmit,
+      styles: styles,
+      height: 200,
+    })
+  }
+
+  ReactDOM.render(React.createElement(App, null), document.getElementById('example'))
+</script>
+
+</html>
