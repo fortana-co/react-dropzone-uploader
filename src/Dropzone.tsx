@@ -14,7 +14,21 @@ import {
   getFilesFromEvent as defaultGetFilesFromEvent,
 } from './utils'
 
-import { IDropzoneProps, IFileWithMeta, IExtra, IExtraLayout, IInputProps, ILayoutProps, IPreviewProps } from './types'
+import {
+  IDropzoneProps,
+  IFileWithMeta,
+  IExtra,
+  IExtraLayout,
+  IInputProps,
+  ILayoutProps,
+  IPreviewProps,
+  ISubmitButtonProps,
+  StatusValue,
+  MethodValue,
+  IMeta,
+  IUploadParams,
+  IStyleCustomization,
+} from './types'
 
 class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragged: (File | DataTransferItem)[] }> {
   static defaultProps: IDropzoneProps
@@ -534,8 +548,17 @@ export {
   accepts,
   defaultClassNames,
   defaultGetFilesFromEvent as getFilesFromEvent,
+  IFileWithMeta,
+  IExtra,
+  IExtraLayout,
   IDropzoneProps,
   ILayoutProps,
   IPreviewProps,
   IInputProps,
+  ISubmitButtonProps,
+  StatusValue,
+  MethodValue,
+  IMeta,
+  IUploadParams,
+  IStyleCustomization,
 }
