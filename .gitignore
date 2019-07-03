@@ -19,3 +19,4 @@ examples/src/index.js
 .env
 
 **/*.js
+**/*.d.ts
