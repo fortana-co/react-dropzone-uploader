@@ -69,14 +69,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     return this.props.getDataTransferItemsFromEvent || defaultGetFilesFromEvent
   }
 
-  handleDragEnter = async (e: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => {
+  handleDragEnter = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     const dragged = (await this.getDataTransferItemsFromEvent()(e)) as DataTransferItem[]
     this.setState({ active: true, dragged })
   }
 
-  handleDragOver = async (e: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => {
+  handleDragOver = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     clearTimeout(this.dragTimeoutId)
@@ -84,7 +84,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     this.setState({ active: true, dragged })
   }
 
-  handleDragLeave = (e: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => {
+  handleDragLeave = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     // prevents repeated toggling of `active` state when file is dragged over children of uploader
@@ -92,7 +92,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     this.dragTimeoutId = setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
   }
 
-  handleDrop = async (e: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => {
+  handleDrop = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
@@ -100,7 +100,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     this.handleFiles(files)
   }
 
-  handleDropDisabled = (e: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => {
+  handleDropDisabled = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
