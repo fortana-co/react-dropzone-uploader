@@ -38,7 +38,6 @@
     "@types/react": "^16.8.10",
     "@types/react-dom": "^16.8.3",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^7.2.3",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-polyfill": "^6.26.0",
@@ -46,11 +45,6 @@
     "docusaurus-init": "^1.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.7.0",
     "html5-file-selector": "^2.1.0",
     "husky": "^1.3.1",
     "jest": "^23.6.0",
@@ -83,15 +77,15 @@
     "build-styleguide-quickstart": "tsc && styleguidist build --config styleguide-quickstart.config.js",
     "build-docs": "./build_docs.sh",
     "test": "tsc && jest --coverage",
-    "lint": "prettier --check 'src/**/*.js' && eslint src",
-    "prettier": "prettier --write 'src/**/*.tsx'"
+    "prettier-check": "prettier --check src/**/*.ts src/**/*.tsx",
+    "prettier": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint && npm run test"
+      "pre-push": "npm run prettier-check"
     }
   }
 }

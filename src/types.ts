@@ -216,4 +216,3 @@ export interface IDropzoneProps {
   InputComponent?: ReactComponent<IInputProps>
   SubmitButtonComponent?: ReactComponent<ISubmitButtonProps>
 }
-

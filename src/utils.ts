@@ -1,5 +1,5 @@
 import React from 'react'
-import {IStyleCustomization } from './types.js';
+import { IStyleCustomization } from './types.js'
 
 export const formatBytes = (b: number) => {
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
@@ -26,7 +26,7 @@ export const formatDuration = (seconds: number) => {
 // returns true if file.name is empty and accept string is something like ".csv",
 // because file comes from dataTransferItem for drag events, and
 // dataTransferItem.name is always empty
-export const accepts = (file: File , accept: string) => {
+export const accepts = (file: File, accept: string) => {
   if (!accept || accept === '*') return true
 
   const mimeType = file.type || ''
@@ -49,7 +49,7 @@ export const accepts = (file: File , accept: string) => {
 type ResolveFn<T> = (...args: any[]) => T
 
 export const resolveValue = <T = any>(value: ResolveFn<T> | T, ...args: any[]) => {
-  if (typeof value === 'function') return (value as ResolveFn<T>)( ...args)
+  if (typeof value === 'function') return (value as ResolveFn<T>)(...args)
   return value
 }
 
@@ -95,7 +95,7 @@ export const getFilesFromEvent = (
   event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
 ): Promise<Array<File | DataTransferItem>> => {
   let items: FileList | DataTransferItemList
-  
+
   if ('dataTransfer' in event) {
     const dt = event.dataTransfer
 
