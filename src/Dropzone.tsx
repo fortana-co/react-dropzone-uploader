@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import LayoutDefault from './Layout'
 import InputDefault from './Input'
@@ -535,6 +536,52 @@ Dropzone.defaultProps = {
   classNames: {},
   styles: {},
   addClassNames: {},
+}
+
+// @ts-ignore
+Dropzone.propTypes = {
+  onChangeStatus: PropTypes.func,
+  getUploadParams: PropTypes.func,
+  onSubmit: PropTypes.func,
+
+  getFilesFromEvent: PropTypes.func,
+  getDataTransferItemsFromEvent: PropTypes.func,
+
+  accept: PropTypes.string,
+  multiple: PropTypes.bool,
+  minSizeBytes: PropTypes.number.isRequired,
+  maxSizeBytes: PropTypes.number.isRequired,
+  maxFiles: PropTypes.number.isRequired,
+
+  validate: PropTypes.func,
+
+  autoUpload: PropTypes.bool,
+  timeout: PropTypes.number,
+
+  initialFiles: PropTypes.arrayOf(PropTypes.any),
+
+  /* component customization */
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+
+  canCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  canRemove: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  canRestart: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+
+  inputContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  inputWithFilesContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+  submitButtonDisabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  submitButtonContent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+  classNames: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired,
+  addClassNames: PropTypes.object.isRequired,
+
+  /* component injection */
+  InputComponent: PropTypes.func,
+  PreviewComponent: PropTypes.func,
+  SubmitButtonComponent: PropTypes.func,
+  LayoutComponent: PropTypes.func,
 }
 
 export default Dropzone

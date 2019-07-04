@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { formatBytes, formatDuration } from './utils'
 import { IPreviewProps } from './types'
@@ -72,6 +73,67 @@ class Preview extends React.PureComponent<IPreviewProps> {
       </div>
     )
   }
+}
+
+// @ts-ignore
+Preview.propTypes = {
+  className: PropTypes.string,
+  imageClassName: PropTypes.string,
+  style: PropTypes.object,
+  imageStyle: PropTypes.object,
+  fileWithMeta: PropTypes.shape({
+    file: PropTypes.any.isRequired,
+    meta: PropTypes.object.isRequired,
+    cancel: PropTypes.func.isRequired,
+    restart: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+    xhr: PropTypes.any,
+  }).isRequired,
+  // copy of fileWithMeta.meta, won't be mutated
+  meta: PropTypes.shape({
+    status: PropTypes.oneOf([
+      'preparing',
+      'error_file_size',
+      'error_validation',
+      'ready',
+      'getting_upload_params',
+      'error_upload_params',
+      'uploading',
+      'exception_upload',
+      'aborted',
+      'error_upload',
+      'headers_received',
+      'done',
+    ]).isRequired,
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    uploadedDate: PropTypes.string.isRequired,
+    percent: PropTypes.number,
+    size: PropTypes.number,
+    lastModifiedDate: PropTypes.string,
+    previewUrl: PropTypes.string,
+    duration: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    videoWidth: PropTypes.number,
+    videoHeight: PropTypes.number,
+    validationError: PropTypes.any,
+  }).isRequired,
+  isUpload: PropTypes.bool.isRequired,
+  canCancel: PropTypes.bool.isRequired,
+  canRemove: PropTypes.bool.isRequired,
+  canRestart: PropTypes.bool.isRequired,
+  files: PropTypes.arrayOf(PropTypes.any).isRequired, // eslint-disable-line react/no-unused-prop-types
+  extra: PropTypes.shape({
+    active: PropTypes.bool.isRequired,
+    reject: PropTypes.bool.isRequired,
+    dragged: PropTypes.arrayOf(PropTypes.any).isRequired,
+    accept: PropTypes.string.isRequired,
+    multiple: PropTypes.bool.isRequired,
+    minSizeBytes: PropTypes.number.isRequired,
+    maxSizeBytes: PropTypes.number.isRequired,
+    maxFiles: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default Preview

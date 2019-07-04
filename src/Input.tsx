@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { IInputProps } from './types'
 
 const Input = (props: IInputProps) => {
@@ -41,6 +43,33 @@ const Input = (props: IInputProps) => {
       />
     </label>
   )
+}
+
+Input.propTypes = {
+  className: PropTypes.string,
+  labelClassName: PropTypes.string,
+  labelWithFilesClassName: PropTypes.string,
+  style: PropTypes.object,
+  labelStyle: PropTypes.object,
+  labelWithFilesStyle: PropTypes.object,
+  getFilesFromEvent: PropTypes.func.isRequired,
+  accept: PropTypes.string.isRequired,
+  multiple: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  content: PropTypes.node,
+  withFilesContent: PropTypes.node,
+  onFiles: PropTypes.func.isRequired,
+  files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  extra: PropTypes.shape({
+    active: PropTypes.bool.isRequired,
+    reject: PropTypes.bool.isRequired,
+    dragged: PropTypes.arrayOf(PropTypes.any).isRequired,
+    accept: PropTypes.string.isRequired,
+    multiple: PropTypes.bool.isRequired,
+    minSizeBytes: PropTypes.number.isRequired,
+    maxSizeBytes: PropTypes.number.isRequired,
+    maxFiles: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default Input
