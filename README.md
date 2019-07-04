@@ -112,7 +112,7 @@ Clone the project, install dependencies, and run the dev server.
 ~~~sh
 git clone git://github.com/fortana-co/react-dropzone-uploader.git
 cd react-dropzone-uploader
-npm install  # or `yarn install`
+yarn
 npm run dev
 ~~~
 
