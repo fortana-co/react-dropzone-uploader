@@ -41,5 +41,4 @@ module.exports = [
     libraryTarget: 'commonjs2',
     filename: 'react-dropzone-uploader.js',
   }),
-
 ]
