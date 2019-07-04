@@ -4,7 +4,6 @@
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
-  "module": "./dist/react-dropzone-uploader.umd.js",
   "types": "./dist/Dropzone.tsx",
   "keywords": [
     "react",
