@@ -15,16 +15,239 @@ import {
   getFilesFromEvent as defaultGetFilesFromEvent,
 } from './utils'
 
-class Dropzone extends React.Component {
-  constructor(props) {
+export type StatusValue =
+  | 'rejected_file_type'
+  | 'rejected_max_files'
+  | 'preparing'
+  | 'error_file_size'
+  | 'error_validation'
+  | 'ready'
+  | 'started'
+  | 'getting_upload_params'
+  | 'error_upload_params'
+  | 'uploading'
+  | 'exception_upload'
+  | 'aborted'
+  | 'restarted'
+  | 'removed'
+  | 'error_upload'
+  | 'headers_received'
+  | 'done'
+
+export type MethodValue =
+  | 'delete'
+  | 'get'
+  | 'head'
+  | 'options'
+  | 'patch'
+  | 'post'
+  | 'put'
+  | 'DELETE'
+  | 'GET'
+  | 'HEAD'
+  | 'OPTIONS'
+  | 'PATCH'
+  | 'POST'
+  | 'PUT'
+
+export interface IMeta {
+  id: string
+  status: StatusValue
+  type: string // MIME type, example: `image/*`
+  name: string
+  uploadedDate: string // ISO string
+  percent: number
+  size: number // bytes
+  lastModifiedDate: string // ISO string
+  previewUrl?: string // from URL.createObjectURL
+  duration?: number // seconds
+  width?: number
+  height?: number
+  videoWidth?: number
+  videoHeight?: number
+  validationError?: any
+}
+
+export interface IFileWithMeta {
+  file: File
+  meta: IMeta
+  cancel: () => void
+  restart: () => void
+  remove: () => void
+  xhr?: XMLHttpRequest
+}
+
+export interface IExtra {
+  active: boolean
+  reject: boolean
+  dragged: DataTransferItem[]
+  accept: string
+  multiple: boolean
+  minSizeBytes: number
+  maxSizeBytes: number
+  maxFiles: number
+}
+
+export interface IUploadParams {
+  url: string
+  method?: MethodValue
+  body?: string | FormData | ArrayBuffer | Blob | File | URLSearchParams
+  fields?: { [name: string]: string | Blob }
+  headers?: { [name: string]: string }
+  meta?: { [name: string]: any }
+}
+
+export type CustomizationFunction<T> = (allFiles: IFileWithMeta[], extra: IExtra) => T
+
+export interface IStyleCustomization<T> {
+  dropzone?: T | CustomizationFunction<T>
+  dropzoneActive?: T | CustomizationFunction<T>
+  dropzoneReject?: T | CustomizationFunction<T>
+  dropzoneDisabled?: T | CustomizationFunction<T>
+  input?: T | CustomizationFunction<T>
+  inputLabel?: T | CustomizationFunction<T>
+  inputLabelWithFiles?: T | CustomizationFunction<T>
+  preview?: T | CustomizationFunction<T>
+  previewImage?: T | CustomizationFunction<T>
+  submitButtonContainer?: T | CustomizationFunction<T>
+  submitButton?: T | CustomizationFunction<T>
+}
+
+export interface IExtraLayout extends IExtra {
+  onFiles(files: File[]): void
+  onCancelFile(file: IFileWithMeta): void
+  onRemoveFile(file: IFileWithMeta): void
+  onRestartFile(file: IFileWithMeta): void
+}
+
+export interface ILayoutProps {
+  files: IFileWithMeta[]
+  extra: IExtraLayout
+  input: React.ReactNode
+  previews: React.ReactNode[] | null
+  submitButton: React.ReactNode
+  dropzoneProps: {
+    ref: React.RefObject<HTMLDivElement>
+    className: string
+    style?: React.CSSProperties
+    onDragEnter(event: React.DragEvent<HTMLElement>): void
+    onDragOver(event: React.DragEvent<HTMLElement>): void
+    onDragLeave(event: React.DragEvent<HTMLElement>): void
+    onDrop(event: React.DragEvent<HTMLElement>): void
+  }
+}
+
+interface ICommonProps {
+  files: IFileWithMeta[]
+  extra: IExtra
+}
+
+export interface IPreviewProps extends ICommonProps {
+  meta: IMeta
+  className?: string
+  imageClassName?: string
+  style?: React.CSSProperties
+  imageStyle?: React.CSSProperties
+  fileWithMeta: IFileWithMeta
+  isUpload: boolean
+  canCancel: boolean
+  canRemove: boolean
+  canRestart: boolean
+}
+
+export interface IInputProps extends ICommonProps {
+  className?: string
+  labelClassName?: string
+  labelWithFilesClassName?: string
+  style?: React.CSSProperties
+  labelStyle?: React.CSSProperties
+  labelWithFilesStyle?: React.CSSProperties
+  getFilesFromEvent: (event: React.ChangeEvent<HTMLInputElement>) => Promise<File[]>
+  accept: string
+  multiple: boolean
+  disabled: boolean
+  content?: React.ReactNode
+  withFilesContent?: React.ReactNode
+  onFiles: (files: File[]) => void
+}
+
+export interface ISubmitButtonProps extends ICommonProps {
+  className?: string
+  buttonClassName?: string
+  style?: React.CSSProperties
+  buttonStyle?: React.CSSProperties
+  disabled: boolean
+  content?: React.ReactNode
+  onSubmit: (files: IFileWithMeta[]) => void
+}
+
+type ReactComponent<Props> = (props: Props) => React.ReactNode | React.Component<Props>
+
+export interface IDropzoneProps {
+  onChangeStatus?(
+    file: IFileWithMeta,
+    status: StatusValue,
+    allFiles: IFileWithMeta[],
+  ): { meta: { [name: string]: any } } | void
+  getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
+  onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
+
+  getFilesFromEvent?: (event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => Promise<File[]> | File[]
+  getDataTransferItemsFromEvent?: (event: React.DragEvent<HTMLElement>) => Promise<DataTransferItem[]> | DataTransferItem[]
+
+  accept: string
+  multiple: boolean
+  minSizeBytes: number
+  maxSizeBytes: number
+  maxFiles: number
+
+  validate?(file: IFileWithMeta): any // usually a string, but can be anything
+
+  autoUpload: boolean
+  timeout?: number
+
+  initialFiles?: File[]
+
+  /* component customization */
+  disabled: boolean | CustomizationFunction<boolean>
+
+  canCancel: boolean | CustomizationFunction<boolean>
+  canRemove: boolean | CustomizationFunction<boolean>
+  canRestart: boolean | CustomizationFunction<boolean>
+
+  inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  submitButtonDisabled: boolean | CustomizationFunction<boolean>
+  submitButtonContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+
+  classNames: IStyleCustomization<string>
+  styles: IStyleCustomization<React.CSSProperties>
+  addClassNames: IStyleCustomization<string>
+
+  /* component injection */
+  LayoutComponent?: ReactComponent<ILayoutProps>
+  PreviewComponent?: ReactComponent<IPreviewProps>
+  InputComponent?: ReactComponent<IInputProps>
+  SubmitButtonComponent?: ReactComponent<ISubmitButtonProps>
+}
+
+class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragged: (File | DataTransferItem)[] }> {
+  static defaultProps: IDropzoneProps
+  protected files: IFileWithMeta[]
+  protected mounted: boolean
+  protected dropzone: React.RefObject<HTMLDivElement>
+  protected dragTimeoutId?: number
+
+  constructor(props: IDropzoneProps) {
     super(props)
     this.state = {
       active: false,
       dragged: [],
     }
-    this._files = [] // fileWithMeta objects: { file, meta }
-    this._mounted = true
-    this._dropzone = React.createRef()
+    this.files = []
+    this.mounted = true
+    this.dropzone = React.createRef()
   }
 
   componentDidMount() {
@@ -32,12 +255,12 @@ class Dropzone extends React.Component {
   }
 
   componentWillUnmount() {
-    this._mounted = false
-    for (const fileWithMeta of this._files) this.handleCancel(fileWithMeta)
+    this.mounted = false
+    for (const fileWithMeta of this.files) this.handleCancel(fileWithMeta)
   }
 
-  _forceUpdate = () => {
-    if (this._mounted) this.forceUpdate()
+  forceUpdate = () => {
+    if (this.mounted) super.forceUpdate()
   }
 
   getFilesFromEvent = () => {
@@ -48,77 +271,77 @@ class Dropzone extends React.Component {
     return this.props.getDataTransferItemsFromEvent || defaultGetFilesFromEvent
   }
 
-  handleDragEnter = async e => {
+  handleDragEnter = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
+    const dragged = (await this.getDataTransferItemsFromEvent()(e)) as DataTransferItem[]
+    this.setState({ active: true, dragged })
+  }
+
+  handleDragOver = async (e: React.DragEvent<HTMLElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    clearTimeout(this.dragTimeoutId)
     const dragged = await this.getDataTransferItemsFromEvent()(e)
     this.setState({ active: true, dragged })
   }
 
-  handleDragOver = async e => {
-    e.preventDefault()
-    e.stopPropagation()
-    clearTimeout(this._dragTimeoutId)
-    const dragged = await this.getDataTransferItemsFromEvent()(e)
-    this.setState({ active: true, dragged })
-  }
-
-  handleDragLeave = e => {
+  handleDragLeave = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     // prevents repeated toggling of `active` state when file is dragged over children of uploader
     // see: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-    this._dragTimeoutId = setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
+    this.dragTimeoutId = window.setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
   }
 
-  handleDrop = async e => {
+  handleDrop = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
-    const files = await this.getFilesFromEvent()(e)
+    const files = (await this.getFilesFromEvent()(e)) as File[]
     this.handleFiles(files)
   }
 
-  handleDropDisabled = e => {
+  handleDropDisabled = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
     this.setState({ active: false, dragged: [] })
   }
 
-  handleChangeStatus = fileWithMeta => {
+  handleChangeStatus = (fileWithMeta: IFileWithMeta) => {
     if (!this.props.onChangeStatus) return
-    const { meta } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this._files) || {}
+    const { meta = {} } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this.files) || {}
     if (meta) {
       delete meta.status
       fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
-      this._forceUpdate()
+      this.forceUpdate()
     }
   }
 
-  handleSubmit = files => {
-    if (this.props.onSubmit) this.props.onSubmit(files, [...this._files])
+  handleSubmit = (files: IFileWithMeta[]) => {
+    if (this.props.onSubmit) this.props.onSubmit(files, [...this.files])
   }
 
-  handleCancel = fileWithMeta => {
+  handleCancel = (fileWithMeta: IFileWithMeta) => {
     if (fileWithMeta.meta.status !== 'uploading') return
     fileWithMeta.meta.status = 'aborted'
-    fileWithMeta.xhr.abort()
+    if (fileWithMeta.xhr) fileWithMeta.xhr.abort()
     this.handleChangeStatus(fileWithMeta)
-    this._forceUpdate()
+    this.forceUpdate()
   }
 
-  handleRemove = fileWithMeta => {
-    const index = this._files.findIndex(f => f === fileWithMeta)
+  handleRemove = (fileWithMeta: IFileWithMeta) => {
+    const index = this.files.findIndex(f => f === fileWithMeta)
     if (index !== -1) {
       URL.revokeObjectURL(fileWithMeta.meta.previewUrl || '')
       fileWithMeta.meta.status = 'removed'
       this.handleChangeStatus(fileWithMeta)
-      this._files.splice(index, 1)
-      this._forceUpdate()
+      this.files.splice(index, 1)
+      this.forceUpdate()
     }
   }
 
-  handleRestart = fileWithMeta => {
+  handleRestart = (fileWithMeta: IFileWithMeta) => {
     if (!this.props.getUploadParams) return
 
     if (fileWithMeta.meta.status === 'ready') fileWithMeta.meta.status = 'started'
@@ -128,18 +351,18 @@ class Dropzone extends React.Component {
     fileWithMeta.meta.status = 'getting_upload_params'
     fileWithMeta.meta.percent = 0
     this.handleChangeStatus(fileWithMeta)
-    this._forceUpdate()
+    this.forceUpdate()
     this.uploadFile(fileWithMeta)
   }
 
   // expects an array of File objects
-  handleFiles = files => {
+  handleFiles = (files: File[]) => {
     files.forEach((f, i) => this.handleFile(f, `${new Date().getTime()}-${i}`))
-    const { current } = this._dropzone
+    const { current } = this.dropzone
     if (current) setTimeout(() => current.scroll({ top: current.scrollHeight, behavior: 'smooth' }), 150)
   }
 
-  handleFile = async (file, id) => {
+  handleFile = async (file: File, id: string) => {
     const { name, size, type, lastModified } = file
     const { minSizeBytes, maxSizeBytes, maxFiles, accept, getUploadParams, autoUpload, validate } = this.props
 
@@ -148,7 +371,7 @@ class Dropzone extends React.Component {
     const fileWithMeta = {
       file,
       meta: { name, size, type, lastModifiedDate, uploadedDate, percent: 0, id },
-    }
+    } as IFileWithMeta
 
     // firefox versions prior to 53 return a bogus mime type for file drag events,
     // so files with that mime type are always accepted
@@ -157,7 +380,7 @@ class Dropzone extends React.Component {
       this.handleChangeStatus(fileWithMeta)
       return
     }
-    if (this._files.length >= maxFiles) {
+    if (this.files.length >= maxFiles) {
       fileWithMeta.meta.status = 'rejected_max_files'
       this.handleChangeStatus(fileWithMeta)
       return
@@ -168,14 +391,14 @@ class Dropzone extends React.Component {
     fileWithMeta.restart = () => this.handleRestart(fileWithMeta)
 
     fileWithMeta.meta.status = 'preparing'
-    this._files.push(fileWithMeta)
+    this.files.push(fileWithMeta)
     this.handleChangeStatus(fileWithMeta)
-    this._forceUpdate()
+    this.forceUpdate()
 
     if (size < minSizeBytes || size > maxSizeBytes) {
       fileWithMeta.meta.status = 'error_file_size'
       this.handleChangeStatus(fileWithMeta)
-      this._forceUpdate()
+      this.forceUpdate()
       return
     }
 
@@ -187,7 +410,7 @@ class Dropzone extends React.Component {
         fileWithMeta.meta.status = 'error_validation'
         fileWithMeta.meta.validationError = error // usually a string, but doesn't have to be
         this.handleChangeStatus(fileWithMeta)
-        this._forceUpdate()
+        this.forceUpdate()
         return
       }
     }
@@ -203,10 +426,10 @@ class Dropzone extends React.Component {
       fileWithMeta.meta.status = 'done'
     }
     this.handleChangeStatus(fileWithMeta)
-    this._forceUpdate()
+    this.forceUpdate()
   }
 
-  generatePreview = async fileWithMeta => {
+  generatePreview = async (fileWithMeta: IFileWithMeta) => {
     const {
       meta: { type },
       file,
@@ -218,9 +441,10 @@ class Dropzone extends React.Component {
 
     const objectUrl = URL.createObjectURL(file)
 
-    const fileCallbackToPromise = (fileObj, callback) => {
+    const fileCallbackToPromise = (fileObj:HTMLImageElement | HTMLAudioElement) => {
       return new Promise(resolve => {
-        fileObj[callback] = resolve
+        if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
+        else fileObj.onloadedmetadata = resolve
       })
     }
 
@@ -229,7 +453,7 @@ class Dropzone extends React.Component {
         const img = new Image()
         img.src = objectUrl
         fileWithMeta.meta.previewUrl = objectUrl
-        await fileCallbackToPromise(img, 'onload')
+        await fileCallbackToPromise(img)
         fileWithMeta.meta.width = img.width
         fileWithMeta.meta.height = img.height
       }
@@ -237,14 +461,14 @@ class Dropzone extends React.Component {
       if (isAudio) {
         const audio = new Audio()
         audio.src = objectUrl
-        await fileCallbackToPromise(audio, 'onloadedmetadata')
+        await fileCallbackToPromise(audio)
         fileWithMeta.meta.duration = audio.duration
       }
 
       if (isVideo) {
         const video = document.createElement('video')
         video.src = objectUrl
-        await fileCallbackToPromise(video, 'onloadedmetadata')
+        await fileCallbackToPromise(video)
         fileWithMeta.meta.duration = video.duration
         fileWithMeta.meta.videoWidth = video.videoWidth
         fileWithMeta.meta.videoHeight = video.videoHeight
@@ -253,24 +477,26 @@ class Dropzone extends React.Component {
     } catch (e) {
       URL.revokeObjectURL(objectUrl)
     }
-    this._forceUpdate()
+    this.forceUpdate()
   }
 
-  uploadFile = async fileWithMeta => {
+  uploadFile = async (fileWithMeta: IFileWithMeta) => {
     const { getUploadParams } = this.props
-    let params
+    if (!getUploadParams) return
+    let params: IUploadParams | null = null
     try {
       params = await getUploadParams(fileWithMeta)
     } catch (e) {
       console.error('Error Upload Params', e.stack)
     }
-    const { url, method = 'POST', body, fields = {}, headers = {}, meta: extraMeta = {} } = params || {}
+    if (params === null) return
+    const { url, method = 'POST', body, fields = {}, headers = {}, meta: extraMeta = {} } = params
     delete extraMeta.status
 
     if (!url) {
       fileWithMeta.meta.status = 'error_upload_params'
       this.handleChangeStatus(fileWithMeta)
-      this._forceUpdate()
+      this.forceUpdate()
       return
     }
 
@@ -286,7 +512,7 @@ class Dropzone extends React.Component {
     // update progress (can be used to show progress indicator)
     xhr.upload.addEventListener('progress', e => {
       fileWithMeta.meta.percent = (e.loaded * 100.0) / e.total || 100
-      this._forceUpdate()
+      this.forceUpdate()
     })
 
     xhr.addEventListener('readystatechange', () => {
@@ -296,7 +522,7 @@ class Dropzone extends React.Component {
       if (xhr.status === 0 && fileWithMeta.meta.status !== 'aborted') {
         fileWithMeta.meta.status = 'exception_upload'
         this.handleChangeStatus(fileWithMeta)
-        this._forceUpdate()
+        this.forceUpdate()
       }
 
       if (xhr.status > 0 && xhr.status < 400) {
@@ -304,13 +530,13 @@ class Dropzone extends React.Component {
         if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
         if (xhr.readyState === 4) fileWithMeta.meta.status = 'done'
         this.handleChangeStatus(fileWithMeta)
-        this._forceUpdate()
+        this.forceUpdate()
       }
 
       if (xhr.status >= 400 && fileWithMeta.meta.status !== 'error_upload') {
         fileWithMeta.meta.status = 'error_upload'
         this.handleChangeStatus(fileWithMeta)
-        this._forceUpdate()
+        this.forceUpdate()
       }
     })
 
@@ -320,7 +546,7 @@ class Dropzone extends React.Component {
     fileWithMeta.xhr = xhr
     fileWithMeta.meta.status = 'uploading'
     this.handleChangeStatus(fileWithMeta)
-    this._forceUpdate()
+    this.forceUpdate()
   }
 
   render() {
@@ -351,9 +577,9 @@ class Dropzone extends React.Component {
 
     const { active, dragged } = this.state
 
-    const reject = dragged.some(file => file.type !== 'application/x-moz-file' && !accepts(file, accept))
-    const extra = { active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles }
-    const files = [...this._files]
+    const reject = dragged.some(file => file.type !== 'application/x-moz-file' && !accepts(file as File, accept))
+    const extra = { active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles } as IExtra
+    const files = [...this.files]
     const dropzoneDisabled = resolveValue(disabled, files, extra)
 
     const {
@@ -394,11 +620,12 @@ class Dropzone extends React.Component {
     if (PreviewComponent !== null) {
       previews = files.map(f => {
         return (
+          //@ts-ignore
           <Preview
             className={previewClassName}
             imageClassName={previewImageClassName}
-            style={previewStyle}
-            imageStyle={previewImageStyle}
+            style={previewStyle as React.CSSProperties}
+            imageStyle={previewImageStyle as React.CSSProperties}
             key={f.meta.id}
             fileWithMeta={f}
             meta={{ ...f.meta }}
@@ -415,14 +642,15 @@ class Dropzone extends React.Component {
 
     const input =
       InputComponent !== null ? (
+        //@ts-ignore
         <Input
           className={inputClassName}
           labelClassName={inputLabelClassName}
           labelWithFilesClassName={inputLabelWithFilesClassName}
-          style={inputStyle}
-          labelStyle={inputLabelStyle}
-          labelWithFilesStyle={inputLabelWithFilesStyle}
-          getFilesFromEvent={this.getFilesFromEvent()}
+          style={inputStyle as React.CSSProperties}
+          labelStyle={inputLabelStyle as React.CSSProperties}
+          labelWithFilesStyle={inputLabelWithFilesStyle as React.CSSProperties}
+          getFilesFromEvent={this.getFilesFromEvent() as IInputProps['getFilesFromEvent']}
           accept={accept}
           multiple={multiple}
           disabled={dropzoneDisabled}
@@ -436,11 +664,12 @@ class Dropzone extends React.Component {
 
     const submitButton =
       onSubmit && SubmitButtonComponent !== null ? (
+        //@ts-ignore
         <SubmitButton
           className={submitButtonContainerClassName}
           buttonClassName={submitButtonClassName}
-          style={submitButtonContainerStyle}
-          buttonStyle={submitButtonStyle}
+          style={submitButtonContainerStyle as React.CSSProperties}
+          buttonStyle={submitButtonStyle as React.CSSProperties}
           disabled={resolveValue(submitButtonDisabled, files, extra)}
           content={resolveValue(submitButtonContent, files, extra)}
           onSubmit={this.handleSubmit}
@@ -464,32 +693,56 @@ class Dropzone extends React.Component {
     }
 
     return (
+      //@ts-ignore
       <Layout
         input={input}
         previews={previews}
         submitButton={submitButton}
         dropzoneProps={{
-          ref: this._dropzone,
+          ref: this.dropzone,
           className,
-          style,
+          style: style as React.CSSProperties,
           onDragEnter: this.handleDragEnter,
           onDragOver: this.handleDragOver,
           onDragLeave: this.handleDragLeave,
           onDrop: dropzoneDisabled ? this.handleDropDisabled : this.handleDrop,
         }}
         files={files}
-        extra={{
-          ...extra,
-          onFiles: this.handleFiles,
-          onCancelFile: this.handleCancel,
-          onRemoveFile: this.handleRemove,
-          onRestartFile: this.handleRestart,
-        }}
+        extra={
+          {
+            ...extra,
+            onFiles: this.handleFiles,
+            onCancelFile: this.handleCancel,
+            onRemoveFile: this.handleRemove,
+            onRestartFile: this.handleRestart,
+          } as IExtraLayout
+        }
       />
     )
   }
 }
 
+Dropzone.defaultProps = {
+  accept: '*',
+  multiple: true,
+  minSizeBytes: 0,
+  maxSizeBytes: Number.MAX_SAFE_INTEGER,
+  maxFiles: Number.MAX_SAFE_INTEGER,
+  autoUpload: true,
+  disabled: false,
+  canCancel: true,
+  canRemove: true,
+  canRestart: true,
+  inputContent: 'Drag Files or Click to Browse',
+  inputWithFilesContent: 'Add Files',
+  submitButtonDisabled: false,
+  submitButtonContent: 'Submit',
+  classNames: {},
+  styles: {},
+  addClassNames: {},
+}
+
+// @ts-ignore
 Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
   getUploadParams: PropTypes.func,
@@ -533,26 +786,6 @@ Dropzone.propTypes = {
   PreviewComponent: PropTypes.func,
   SubmitButtonComponent: PropTypes.func,
   LayoutComponent: PropTypes.func,
-}
-
-Dropzone.defaultProps = {
-  accept: '*',
-  multiple: true,
-  minSizeBytes: 0,
-  maxSizeBytes: Number.MAX_SAFE_INTEGER,
-  maxFiles: Number.MAX_SAFE_INTEGER,
-  autoUpload: true,
-  disabled: false,
-  canCancel: true,
-  canRemove: true,
-  canRestart: true,
-  inputContent: 'Drag Files or Click to Browse',
-  inputWithFilesContent: 'Add Files',
-  submitButtonDisabled: false,
-  submitButtonContent: 'Submit',
-  classNames: {},
-  styles: {},
-  addClassNames: {},
 }
 
 export default Dropzone

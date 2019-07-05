@@ -2,8 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { formatBytes, formatDuration } from './utils'
+import { IPreviewProps } from './Dropzone'
+//@ts-ignore
 import cancelImg from './assets/cancel.svg'
+//@ts-ignore
 import removeImg from './assets/remove.svg'
+//@ts-ignore
 import restartImg from './assets/restart.svg'
 
 const iconByFn = {
@@ -12,7 +16,7 @@ const iconByFn = {
   restart: { backgroundImage: `url(${restartImg})` },
 }
 
-class Preview extends React.PureComponent {
+class Preview extends React.PureComponent<IPreviewProps> {
   render() {
     const {
       className,
@@ -71,6 +75,7 @@ class Preview extends React.PureComponent {
   }
 }
 
+// @ts-ignore
 Preview.propTypes = {
   className: PropTypes.string,
   imageClassName: PropTypes.string,

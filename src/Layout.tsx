@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Layout = props => {
+import { ILayoutProps } from './Dropzone'
+
+const Layout = (props: ILayoutProps) => {
   const {
     input,
     previews,

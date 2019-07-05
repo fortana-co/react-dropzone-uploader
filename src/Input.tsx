@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Input = props => {
+import { IInputProps } from './Dropzone'
+
+const Input = (props: IInputProps) => {
   const {
     className,
     labelClassName,
@@ -33,9 +35,11 @@ const Input = props => {
         multiple={multiple}
         disabled={disabled}
         onChange={async e => {
+          const target = e.target
           const chosenFiles = await getFilesFromEvent(e)
           onFiles(chosenFiles)
-          e.target.value = null
+          //@ts-ignore
+          target.value = null
         }}
       />
     </label>
