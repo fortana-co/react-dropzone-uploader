@@ -38,6 +38,7 @@ const Input = (props: IInputProps) => {
           const target = e.target
           const chosenFiles = await getFilesFromEvent(e)
           onFiles(chosenFiles)
+          //@ts-ignore
           target.value = null
         }}
       />

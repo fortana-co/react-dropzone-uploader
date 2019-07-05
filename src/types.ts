@@ -177,8 +177,8 @@ export interface IDropzoneProps {
   getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
   onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
 
-  getFilesFromEvent?: (event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => Promise<File[]>
-  getDataTransferItemsFromEvent?: (event: React.DragEvent<HTMLElement>) => Promise<DataTransferItem[]>
+  getFilesFromEvent?: (event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => Promise<File[]> | File[]
+  getDataTransferItemsFromEvent?: (event: React.DragEvent<HTMLElement>) => Promise<DataTransferItem[]> | DataTransferItem[]
 
   accept: string
   multiple: boolean

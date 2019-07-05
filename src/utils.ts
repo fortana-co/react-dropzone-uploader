@@ -15,7 +15,7 @@ export const formatBytes = (b: number) => {
 }
 
 export const formatDuration = (seconds: number) => {
-  const date = new Date(null)
+  const date = new Date(0)
   date.setSeconds(seconds)
   const dateString = date.toISOString().slice(11, 19)
   if (seconds < 3600) return dateString.slice(3)
@@ -73,28 +73,28 @@ export const mergeStyles = (
   addClassNames: IStyleCustomization<string>,
   ...args: any[]
 ) => {
-  const resolvedClassNames = { ...defaultClassNames }
-  const resolvedStyles = { ...styles }
+  const resolvedClassNames: {[property:string]:string} = { ...defaultClassNames }
+  const resolvedStyles = { ...styles } as {[property:string]:string}
 
-  for (const key of Object.keys(classNames)) {
-    resolvedClassNames[key] = resolveValue(classNames[key], ...args)
+  for (const [key, value] of Object.entries(classNames)) {
+    resolvedClassNames[key] = resolveValue(value, ...args)
   }
 
-  for (const key of Object.keys(addClassNames)) {
-    resolvedClassNames[key] = `${resolvedClassNames[key]} ${resolveValue(addClassNames[key], ...args)}`
+  for (const [key, value] of Object.entries(addClassNames)) {
+    resolvedClassNames[key] = `${resolvedClassNames[key]} ${resolveValue(value, ...args)}`
   }
 
-  for (const key of Object.keys(styles)) {
-    resolvedStyles[key] = resolveValue(styles[key], ...args)
+  for (const [key,value] of Object.entries(styles)) {
+    resolvedStyles[key] = resolveValue(value, ...args)
   }
 
-  return { classNames: resolvedClassNames, styles: resolvedStyles }
+  return { classNames: resolvedClassNames, styles: resolvedStyles as IStyleCustomization<React.CSSProperties>}
 }
 
 export const getFilesFromEvent = (
   event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
-): Promise<Array<File | DataTransferItem>> => {
-  let items: FileList | DataTransferItemList
+): Array<File | DataTransferItem>=> {
+  let items = null;
 
   if ('dataTransfer' in event) {
     const dt = event.dataTransfer
@@ -108,6 +108,6 @@ export const getFilesFromEvent = (
   } else if (event.target && event.target.files) {
     items = event.target.files
   }
-
+  
   return Array.prototype.slice.call(items)
 }

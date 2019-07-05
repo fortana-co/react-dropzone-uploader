@@ -1,13 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "esModuleInterop": true,
+"compilerOptions": {
+  "target": "ESNext",
+  "esModuleInterop": true,
     "jsx": "react",
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true
   },
-  "include": ["src/*.tsx", "src/*.ts"],
+  "include": ["src/*.tsx", "src/*.ts", "examples/src/*.tsx", "examples/src/*.ts"],
   "exclude": ["node_modules"]
 }
