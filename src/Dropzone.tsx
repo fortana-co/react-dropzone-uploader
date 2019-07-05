@@ -192,8 +192,12 @@ export interface IDropzoneProps {
   getUploadParams?(file: IFileWithMeta): IUploadParams | Promise<IUploadParams>
   onSubmit?(successFiles: IFileWithMeta[], allFiles: IFileWithMeta[]): void
 
-  getFilesFromEvent?: (event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => Promise<File[]> | File[]
-  getDataTransferItemsFromEvent?: (event: React.DragEvent<HTMLElement>) => Promise<DataTransferItem[]> | DataTransferItem[]
+  getFilesFromEvent?: (
+    event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
+  ) => Promise<File[]> | File[]
+  getDataTransferItemsFromEvent?: (
+    event: React.DragEvent<HTMLElement>,
+  ) => Promise<DataTransferItem[]> | DataTransferItem[]
 
   accept: string
   multiple: boolean
@@ -441,7 +445,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
     const objectUrl = URL.createObjectURL(file)
 
-    const fileCallbackToPromise = (fileObj:HTMLImageElement | HTMLAudioElement) => {
+    const fileCallbackToPromise = (fileObj: HTMLImageElement | HTMLAudioElement) => {
       return new Promise(resolve => {
         if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
         else fileObj.onloadedmetadata = resolve
