@@ -180,35 +180,35 @@ export interface IDropzoneProps {
   getFilesFromEvent?: (event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>) => Promise<File[]>
   getDataTransferItemsFromEvent?: (event: React.DragEvent<HTMLElement>) => Promise<DataTransferItem[]>
 
-  accept?: string
-  multiple?: boolean
-  minSizeBytes?: number
-  maxSizeBytes?: number
-  maxFiles?: number
+  accept: string
+  multiple: boolean
+  minSizeBytes: number
+  maxSizeBytes: number
+  maxFiles: number
 
   validate?(file: IFileWithMeta): any // usually a string, but can be anything
 
-  autoUpload?: boolean
+  autoUpload: boolean
   timeout?: number
 
   initialFiles?: File[]
 
   /* component customization */
-  disabled?: boolean | CustomizationFunction<boolean>
+  disabled: boolean | CustomizationFunction<boolean>
 
-  canCancel?: boolean | CustomizationFunction<boolean>
-  canRemove?: boolean | CustomizationFunction<boolean>
-  canRestart?: boolean | CustomizationFunction<boolean>
+  canCancel: boolean | CustomizationFunction<boolean>
+  canRemove: boolean | CustomizationFunction<boolean>
+  canRestart: boolean | CustomizationFunction<boolean>
 
-  inputContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
-  inputWithFilesContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
+  inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
 
-  submitButtonDisabled?: boolean | CustomizationFunction<boolean>
-  submitButtonContent?: React.ReactNode | CustomizationFunction<React.ReactNode>
+  submitButtonDisabled: boolean | CustomizationFunction<boolean>
+  submitButtonContent: React.ReactNode | CustomizationFunction<React.ReactNode>
 
-  classNames?: IStyleCustomization<string>
-  styles?: IStyleCustomization<React.CSSProperties>
-  addClassNames?: IStyleCustomization<string>
+  classNames: IStyleCustomization<string>
+  styles: IStyleCustomization<React.CSSProperties>
+  addClassNames: IStyleCustomization<string>
 
   /* component injection */
   LayoutComponent?: ReactComponent<ILayoutProps>

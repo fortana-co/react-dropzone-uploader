@@ -36,7 +36,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
   protected files: IFileWithMeta[]
   protected mounted: boolean
   protected dropzone: React.RefObject<HTMLDivElement>
-  protected dragTimeoutId: ReturnType<typeof setTimeout>
+  protected dragTimeoutId?: number
 
   constructor(props: IDropzoneProps) {
     super(props)
@@ -90,7 +90,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     e.stopPropagation()
     // prevents repeated toggling of `active` state when file is dragged over children of uploader
     // see: https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-    this.dragTimeoutId = setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
+    this.dragTimeoutId = window.setTimeout(() => this.setState({ active: false, dragged: [] }), 150)
   }
 
   handleDrop = async (e: React.DragEvent<HTMLElement>) => {
@@ -124,7 +124,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
   handleCancel = (fileWithMeta: IFileWithMeta) => {
     if (fileWithMeta.meta.status !== 'uploading') return
     fileWithMeta.meta.status = 'aborted'
-    fileWithMeta.xhr.abort()
+    if (fileWithMeta.xhr) fileWithMeta.xhr.abort()
     this.handleChangeStatus(fileWithMeta)
     this.forceUpdate()
   }
@@ -240,9 +240,10 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
     const objectUrl = URL.createObjectURL(file)
 
-    const fileCallbackToPromise = (fileObj, callback) => {
+    const fileCallbackToPromise = (fileObj:HTMLImageElement | HTMLAudioElement) => {
       return new Promise(resolve => {
-        fileObj[callback] = resolve
+        if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
+        else fileObj.onloadedmetadata = resolve
       })
     }
 
@@ -251,7 +252,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         const img = new Image()
         img.src = objectUrl
         fileWithMeta.meta.previewUrl = objectUrl
-        await fileCallbackToPromise(img, 'onload')
+        await fileCallbackToPromise(img)
         fileWithMeta.meta.width = img.width
         fileWithMeta.meta.height = img.height
       }
@@ -259,14 +260,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       if (isAudio) {
         const audio = new Audio()
         audio.src = objectUrl
-        await fileCallbackToPromise(audio, 'onloadedmetadata')
+        await fileCallbackToPromise(audio)
         fileWithMeta.meta.duration = audio.duration
       }
 
       if (isVideo) {
         const video = document.createElement('video')
         video.src = objectUrl
-        await fileCallbackToPromise(video, 'onloadedmetadata')
+        await fileCallbackToPromise(video)
         fileWithMeta.meta.duration = video.duration
         fileWithMeta.meta.videoWidth = video.videoWidth
         fileWithMeta.meta.videoHeight = video.videoHeight
@@ -280,12 +281,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
   uploadFile = async (fileWithMeta: IFileWithMeta) => {
     const { getUploadParams } = this.props
-    let params
+    if (!getUploadParams) return
+    let params: IUploadParams | null = null
     try {
       params = await getUploadParams(fileWithMeta)
     } catch (e) {
       console.error('Error Upload Params', e.stack)
     }
+    if (params === null) return
     const { url, method = 'POST', body, fields = {}, headers = {}, meta: extraMeta = {} } = params
     delete extraMeta.status
 
