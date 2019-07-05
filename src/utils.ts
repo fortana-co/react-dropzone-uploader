@@ -1,5 +1,5 @@
 import React from 'react'
-import { IStyleCustomization } from './types.js'
+import { IStyleCustomization } from './Dropzone'
 
 export const formatBytes = (b: number) => {
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']

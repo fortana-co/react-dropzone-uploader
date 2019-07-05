@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ISubmitButtonProps } from './types'
+import { ISubmitButtonProps } from './Dropzone'
 
 const SubmitButton = (props: ISubmitButtonProps) => {
   const { className, buttonClassName, style, buttonStyle, disabled, content, onSubmit, files } = props

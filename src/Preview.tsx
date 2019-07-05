@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { formatBytes, formatDuration } from './utils'
-import { IPreviewProps } from './types'
+import { IPreviewProps } from './Dropzone'
 //@ts-ignore
 import cancelImg from './assets/cancel.svg'
 //@ts-ignore
