@@ -446,10 +446,23 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     const objectUrl = URL.createObjectURL(file)
 
     const fileCallbackToPromise = (fileObj: HTMLImageElement | HTMLAudioElement) => {
-      return new Promise(resolve => {
-        if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
-        else fileObj.onloadedmetadata = resolve
-      })
+      /*
+       * Use a timeout so we won't wait for too long on the onload/onloadedmetadat event.
+       * The 100ms is arbitrary, it shouldn't take that long to load a local file anyways.
+       *
+       * Another option would be to register an onerror handler. But does the spec guarantee
+       * that either onload/onerror or onloadedmetadata/onerror is called? I think it would
+       * still make sense to use a timeout regardless.
+       */
+      return Promise.race([
+        new Promise(resolve => {
+          if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve;
+          else fileObj.onloadedmetadata = resolve;
+        }),
+        new Promise((_, reject) => {
+          setTimeout(reject, 100);
+        })
+      ]);
     }
 
     try {
