@@ -109,5 +109,5 @@ export const getFilesFromEvent = (
     items = event.target.files
   }
 
-  return Array.prototype.slice.call(items)
+  return Array.prototype.slice.call(items || [])
 }
