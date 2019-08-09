@@ -537,7 +537,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         this.forceUpdate()
       }
 
-      if (xhr.status >= 400 && fileWithMeta.meta.status !== 'error_upload') {
+      if (xhr.readyState === 4 && xhr.status >= 400 && fileWithMeta.meta.status !== 'error_upload') {
         fileWithMeta.meta.status = 'error_upload'
         this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
