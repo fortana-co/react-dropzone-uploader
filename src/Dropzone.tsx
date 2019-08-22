@@ -439,9 +439,10 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       file,
     } = fileWithMeta
     const isImage = type.startsWith('image/')
+    const isTiff = type.startsWith('image/tiff')
     const isAudio = type.startsWith('audio/')
     const isVideo = type.startsWith('video/')
-    if (!isImage && !isAudio && !isVideo) return
+    if (!isImage && !isAudio && !isVideo && isTiff) return
 
     const objectUrl = URL.createObjectURL(file)
 
