@@ -7,7 +7,7 @@
 /website/build
 
 # production
-/dist
+
 
 # jest
 /coverage
