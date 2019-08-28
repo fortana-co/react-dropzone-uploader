@@ -55,7 +55,7 @@
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.5.2",
     "style-loader": "^0.23.1",
-    "typescript": "^3.4.1",
+    "typescript": "^3.5.3",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.21.0",

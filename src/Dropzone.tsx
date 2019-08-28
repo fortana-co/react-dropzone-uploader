@@ -1,19 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import React from 'react';
+import InputDefault from './Input';
+import LayoutDefault from './Layout';
+import PreviewDefault from './Preview';
+import SubmitButtonDefault from './SubmitButton';
+import { accepts, defaultClassNames, formatBytes, formatDuration, getFilesFromEvent as defaultGetFilesFromEvent, mergeStyles, resolveValue } from './utils';
 
-import LayoutDefault from './Layout'
-import InputDefault from './Input'
-import PreviewDefault from './Preview'
-import SubmitButtonDefault from './SubmitButton'
-import {
-  formatBytes,
-  formatDuration,
-  accepts,
-  resolveValue,
-  mergeStyles,
-  defaultClassNames,
-  getFilesFromEvent as defaultGetFilesFromEvent,
-} from './utils'
 
 export type StatusValue =
   | 'rejected_file_type'
@@ -314,7 +306,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
   handleChangeStatus = (fileWithMeta: IFileWithMeta) => {
     if (!this.props.onChangeStatus) return
-    const { meta = {} } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this.files) || {}
+    const { meta = null } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this.files) || {}
     if (meta) {
       delete meta.status
       fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
@@ -793,14 +785,4 @@ Dropzone.propTypes = {
 }
 
 export default Dropzone
-export {
-  LayoutDefault as Layout,
-  InputDefault as Input,
-  PreviewDefault as Preview,
-  SubmitButtonDefault as SubmitButton,
-  formatBytes,
-  formatDuration,
-  accepts,
-  defaultClassNames,
-  defaultGetFilesFromEvent as getFilesFromEvent,
-}
+export { LayoutDefault as Layout, InputDefault as Input, PreviewDefault as Preview, SubmitButtonDefault as SubmitButton, formatBytes, formatDuration, accepts, defaultClassNames, defaultGetFilesFromEvent as getFilesFromEvent, };
