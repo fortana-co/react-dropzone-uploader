@@ -446,10 +446,15 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     const objectUrl = URL.createObjectURL(file)
 
     const fileCallbackToPromise = (fileObj: HTMLImageElement | HTMLAudioElement) => {
-      return new Promise(resolve => {
-        if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
-        else fileObj.onloadedmetadata = resolve
-      })
+      return Promise.race([
+        new Promise(resolve => {
+          if (fileObj instanceof HTMLImageElement) fileObj.onload = resolve
+          else fileObj.onloadedmetadata = resolve
+        }),
+        new Promise((_, reject) => {
+          setTimeout(reject, 1000)
+        }),
+      ])
     }
 
     try {
