@@ -32,8 +32,8 @@ class Preview extends React.PureComponent<IPreviewProps> {
       extra: { minSizeBytes },
     } = this.props
 
-    let title = `${name || '?'}, ${formatBytes(size)}`
-    if (duration) title = `${title}, ${formatDuration(duration)}`
+    let title = `${name || '?'} | ${formatBytes(size)}`
+    if (duration) title = `${title} | ${formatDuration(duration)}`
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
@@ -47,9 +47,9 @@ class Preview extends React.PureComponent<IPreviewProps> {
     }
 
     if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
-      title = `${title} (upload failed)`
+      title = `${title} | (upload failed)`
     }
-    if (status === 'aborted') title = `${title} (cancelled)`
+    if (status === 'aborted') title = `${title} | (cancelled)`
 
     return (
       <div className={className} style={style}>
@@ -62,13 +62,13 @@ class Preview extends React.PureComponent<IPreviewProps> {
           )}
 
           {status === 'uploading' && canCancel && (
-            <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
+            <span className="dzu-previewButton cancel" style={iconByFn.cancel} onClick={cancel} />
           )}
           {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
-            <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />
+            <span className="dzu-previewButton remove" style={iconByFn.remove} onClick={remove} />
           )}
           {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
-            canRestart && <span className="dzu-previewButton" style={iconByFn.restart} onClick={restart} />}
+            canRestart && <span className="dzu-previewButton restart" style={iconByFn.restart} onClick={restart} />}
         </div>
       </div>
     )
