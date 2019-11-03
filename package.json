@@ -77,7 +77,8 @@
     "build-docs": "./build_docs.sh",
     "test": "tsc && jest --coverage",
     "prettier-check": "prettier --check src/**/*.ts src/**/*.tsx",
-    "prettier": "prettier --write src/**/*.ts src/**/*.tsx"
+    "prettier": "prettier --write src/**/*.ts src/**/*.tsx",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
