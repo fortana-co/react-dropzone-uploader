@@ -7,7 +7,8 @@
 /website/build
 
 # production
-/dist
+### as the npm install is not creating build..lets commit dist folder too   ref -> https://stackoverflow.com/questions/40528053/npm-install-and-build-of-forked-github-repo
+#/dist
 
 # jest
 /coverage
