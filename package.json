@@ -78,7 +78,7 @@
     "test": "tsc && jest --coverage",
     "prettier-check": "prettier --check src/**/*.ts src/**/*.tsx",
     "prettier": "prettier --write src/**/*.ts src/**/*.tsx",
-    "postinstall": "npm install && npm run build"
+    "postinstall": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2"
