@@ -258,6 +258,11 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     if (this.props.initialFiles) this.handleFiles(this.props.initialFiles)
   }
 
+  componentDidUpdate(prevProps: IDropzoneProps) {
+    const { initialFiles } = this.props
+    if (prevProps.initialFiles !== initialFiles && initialFiles) this.handleFiles(initialFiles)
+  }
+
   componentWillUnmount() {
     this.mounted = false
     for (const fileWithMeta of this.files) this.handleCancel(fileWithMeta)
