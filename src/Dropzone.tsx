@@ -66,6 +66,7 @@ export interface IMeta {
   videoWidth?: number
   videoHeight?: number
   validationError?: any
+  response?: any
 }
 
 export interface IFileWithMeta {
@@ -542,7 +543,10 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       if (xhr.status > 0 && xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
-        if (xhr.readyState === 4) fileWithMeta.meta.status = 'done'
+        if (xhr.readyState === 4){
+          fileWithMeta.meta.status = 'done'
+          fileWithMeta.meta.response = xhr.response
+        } 
         this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       }
