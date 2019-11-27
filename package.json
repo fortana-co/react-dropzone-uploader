@@ -4,7 +4,7 @@
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
-  "types": "./dist/Dropzone.tsx",
+  "types": "./dist/Dropzone.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "peerDependencies": {
+    "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
-    "react-dom": ">=16.2.0",
-    "prop-types": ">=15.5.10"
+    "react-dom": ">=16.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -41,6 +41,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-polyfill": "^6.26.0",
+    "cross-env": "^6.0.3",
     "css-loader": "^1.0.0",
     "docusaurus-init": "^1.0.2",
     "enzyme": "^3.7.0",
@@ -54,6 +55,7 @@
     "react-styleguidist": "^8.0.6",
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.5.2",
+    "rimraf": "^3.0.0",
     "style-loader": "^0.23.1",
     "typescript": "^3.4.1",
     "uglifyjs-webpack-plugin": "^2.0.1",
@@ -68,7 +70,7 @@
     }
   },
   "scripts": {
-    "build": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
+    "build": "rimraf dist/* && tsc && cross-env NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.d.ts dist && rimraf src/*.d.ts",
     "dev": "tsc -w -p tsconfig.dev.json & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "tsc -w & styleguidist server",
     "build-styleguide": "tsc && styleguidist build",
