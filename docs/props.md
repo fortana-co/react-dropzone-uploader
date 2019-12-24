@@ -19,6 +19,7 @@ The following props can be passed to `Dropzone`.
 | validate | func | | generic validation function called after file is prepared; receives __fileWithMeta__ object; should return falsy value if validation succeeds; should return truthy value if validation fails, which sets __meta.status__ to __'error_validation'__, and sets __meta.validationError__ to the returned value |
 | autoUpload | bool | `true` | pass false to prevent file from being uploaded automatically; sets __meta.status__ to __'ready'__ (instead of __'getting_upload_params'__) after file is prepared and validated; you can call __fileWithMeta.restart__ whenever you want to initiate file upload |
 | timeout | number | | pass an integer to make upload time out after this many ms; if upload times out, onChangeStatus is invoked with value __'exception_upload'__ |
+| withCredentials | boolean | | sets XMLHttpRequest.withCredentials for CORS requests |
 | initialFiles | `File[]` | | add these files to dropzone, without any user interaction; if a new array of `initialFiles` is passed, they will also be added to dropzone; see here for an [example of creating and uploading a file from a data URL](https://react-dropzone-uploader.js.org/docs/examples#initial-file-from-data-url) |
 
 
