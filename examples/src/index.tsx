@@ -66,6 +66,7 @@ const ImageAudioVideo = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       accept="image/*,audio/*,video/*"
+      previewShowImageTitle={true}
       inputContent={(files, { reject }) => (reject ? 'Image, audio and video files only' : 'Drag Files')}
       styles={{
         dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },

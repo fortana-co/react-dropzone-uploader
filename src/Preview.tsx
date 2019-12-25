@@ -23,6 +23,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
       imageClassName,
       style,
       imageStyle,
+      showImageTitle,
       fileWithMeta: { cancel, remove, restart },
       meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
       isUpload,
@@ -54,7 +55,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
     return (
       <div className={className} style={style}>
         {previewUrl && <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />}
-        {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
+        {(!previewUrl || showImageTitle) && <span className="dzu-previewFileName">{title}</span>}
 
         <div className="dzu-previewStatusContainer">
           {isUpload && (
@@ -81,6 +82,7 @@ Preview.propTypes = {
   imageClassName: PropTypes.string,
   style: PropTypes.object,
   imageStyle: PropTypes.object,
+  showImageTitle: PropTypes.bool,
   fileWithMeta: PropTypes.shape({
     file: PropTypes.any.isRequired,
     meta: PropTypes.object.isRequired,

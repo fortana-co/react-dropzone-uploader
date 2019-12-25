@@ -2,7 +2,7 @@ Only accepts __image__, __audio__, and __video__ files. Colors dropzone red on d
 
 Customization functions that receive `(files, extra)` allow `inputContent` and `inputLabel` style to react to dropzone state.
 
-Also merges extra `fileUrl` field into file meta.
+Also merges extra `fileUrl` field into file meta. Also shows the title of the previews, even when there is an image preview.
 
 ~~~js
 const ImageAudioVideo = () => {
@@ -26,6 +26,7 @@ const ImageAudioVideo = () => {
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
       accept="image/*,audio/*,video/*"
+      previewShowImageTitle={true}
       inputContent={(files, extra) => (extra.reject ? 'Image, audio and video files only' : 'Drag Files')}
       styles={{
         dropzoneReject: { borderColor: 'red', backgroundColor: '#DAA' },

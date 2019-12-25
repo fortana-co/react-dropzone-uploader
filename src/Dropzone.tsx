@@ -148,6 +148,7 @@ export interface IPreviewProps extends ICommonProps {
   imageClassName?: string
   style?: React.CSSProperties
   imageStyle?: React.CSSProperties
+  showImageTitle?: boolean
   fileWithMeta: IFileWithMeta
   isUpload: boolean
   canCancel: boolean
@@ -218,6 +219,8 @@ export interface IDropzoneProps {
   canCancel: boolean | CustomizationFunction<boolean>
   canRemove: boolean | CustomizationFunction<boolean>
   canRestart: boolean | CustomizationFunction<boolean>
+
+  previewShowImageTitle: boolean | CustomizationFunction<boolean>
 
   inputContent: React.ReactNode | CustomizationFunction<React.ReactNode>
   inputWithFilesContent: React.ReactNode | CustomizationFunction<React.ReactNode>
@@ -576,6 +579,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       canCancel,
       canRemove,
       canRestart,
+      previewShowImageTitle,
       inputContent,
       inputWithFilesContent,
       submitButtonDisabled,
@@ -640,6 +644,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
             imageClassName={previewImageClassName}
             style={previewStyle as React.CSSProperties}
             imageStyle={previewImageStyle as React.CSSProperties}
+            showImageTitle={resolveValue(previewShowImageTitle, files, extra)}
             key={f.meta.id}
             fileWithMeta={f}
             meta={{ ...f.meta }}
@@ -747,6 +752,7 @@ Dropzone.defaultProps = {
   canCancel: true,
   canRemove: true,
   canRestart: true,
+  previewShowImageTitle: false,
   inputContent: 'Drag Files or Click to Browse',
   inputWithFilesContent: 'Add Files',
   submitButtonDisabled: false,

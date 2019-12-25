@@ -29,6 +29,7 @@ The following props can be passed to `Dropzone`.
 | canCancel | bool/func | `true` | false to remove cancel button in file preview |
 | canRestart | bool/func | `true` | false to remove restart button in file preview |
 | canRemove | bool/func | `true` | false to remove remove button in file preview |
+| previewShowImageTitle | bool/func | `false` | true to show the preview title, even if there is an image preview |
 | inputContent | node/func | `'Drag Files or Click to Browse'` | child of input __label__; '' or null to remove |
 | inputWithFilesContent | node/func | `'Add Files'` | child of input __label__; '' or null to remove |
 | submitButtonDisabled | bool/func | `false` | true to disable submit button |
