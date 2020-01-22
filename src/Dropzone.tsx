@@ -321,7 +321,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     if (!this.props.onChangeStatus) return
     const { meta = {} } = this.props.onChangeStatus(fileWithMeta, fileWithMeta.meta.status, this.files) || {}
     if (meta) {
-      delete meta.status
+      delete meta['status']
       fileWithMeta.meta = { ...fileWithMeta.meta, ...meta }
       this.forceUpdate()
     }
