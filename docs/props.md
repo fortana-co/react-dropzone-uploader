@@ -50,7 +50,7 @@ The following props can be passed to `Dropzone`.
 ## Props Passed To Injected Components
 If you use the component injection API, you'll want to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types.
 
-- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
-- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
-- [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
-- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
+- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.tsx)
+- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.tsx)
+- [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.tsx)
+- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.tsx)
