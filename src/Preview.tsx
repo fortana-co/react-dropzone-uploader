@@ -58,9 +58,10 @@ class Preview extends React.PureComponent<IPreviewProps> {
         {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
 
         <div className="dzu-previewStatusContainer">
-          {isUpload && forceProgressBar && (
-            <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
-          )}
+          {isUpload ||
+            (forceProgressBar && (
+              <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
+            ))}
 
           {status === 'uploading' && canCancel && (
             <span className="dzu-previewButton" style={iconByFn.cancel} onClick={cancel} />
