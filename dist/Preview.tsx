@@ -60,7 +60,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <div className="dzu-previewStatusContainer">
           {isUpload ||
             (forceProgressBar && (
-              <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
+              <progress max={100} value={status === 'headers_received' ? 100 : percent} />
             ))}
 
           {status === 'uploading' && canCancel && (

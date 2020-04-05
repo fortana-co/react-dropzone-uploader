@@ -35,7 +35,7 @@ class Preview extends React.PureComponent {
             !previewUrl && React.createElement("span", { className: "dzu-previewFileName" }, title),
             React.createElement("div", { className: "dzu-previewStatusContainer" },
                 isUpload ||
-                    (forceProgressBar && (React.createElement("progress", { max: 100, value: status === 'done' || status === 'headers_received' ? 100 : percent }))),
+                    (forceProgressBar && (React.createElement("progress", { max: 100, value: status === 'headers_received' ? 100 : percent }))),
                 status === 'uploading' && canCancel && (React.createElement("span", { className: "dzu-previewButton", style: iconByFn.cancel, onClick: cancel })),
                 status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (React.createElement("span", { className: "dzu-previewButton", style: iconByFn.remove, onClick: remove })),
                 ['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
