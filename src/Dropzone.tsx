@@ -153,6 +153,7 @@ export interface IPreviewProps extends ICommonProps {
   canCancel: boolean
   canRemove: boolean
   canRestart: boolean
+  forceProgressBar: boolean
 }
 
 export interface IInputProps extends ICommonProps {
@@ -201,6 +202,7 @@ export interface IDropzoneProps {
 
   accept: string
   multiple: boolean
+  forceProgressBar: boolean
   minSizeBytes: number
   maxSizeBytes: number
   maxFiles: number
@@ -587,6 +589,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       PreviewComponent,
       SubmitButtonComponent,
       LayoutComponent,
+      forceProgressBar,
     } = this.props
 
     const { active, dragged } = this.state
@@ -644,6 +647,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
             fileWithMeta={f}
             meta={{ ...f.meta }}
             isUpload={Boolean(getUploadParams)}
+            forceProgressBar={forceProgressBar}
             canCancel={resolveValue(canCancel, files, extra)}
             canRemove={resolveValue(canRemove, files, extra)}
             canRestart={resolveValue(canRestart, files, extra)}
@@ -754,6 +758,7 @@ Dropzone.defaultProps = {
   classNames: {},
   styles: {},
   addClassNames: {},
+  forceProgressBar: false,
 }
 
 // @ts-ignore
@@ -761,6 +766,7 @@ Dropzone.propTypes = {
   onChangeStatus: PropTypes.func,
   getUploadParams: PropTypes.func,
   onSubmit: PropTypes.func,
+  forceProgressBar: PropTypes.bool,
 
   getFilesFromEvent: PropTypes.func,
   getDataTransferItemsFromEvent: PropTypes.func,

@@ -29,6 +29,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
       canCancel,
       canRemove,
       canRestart,
+      forceProgressBar,
       extra: { minSizeBytes },
     } = this.props
 
@@ -57,7 +58,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
         {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
 
         <div className="dzu-previewStatusContainer">
-          {isUpload && (
+          {isUpload && forceProgressBar && (
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
           )}
 
@@ -81,6 +82,7 @@ Preview.propTypes = {
   imageClassName: PropTypes.string,
   style: PropTypes.object,
   imageStyle: PropTypes.object,
+  forceProgressBar: PropTypes.bool,
   fileWithMeta: PropTypes.shape({
     file: PropTypes.any.isRequired,
     meta: PropTypes.object.isRequired,
