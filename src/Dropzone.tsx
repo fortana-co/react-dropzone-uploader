@@ -630,7 +630,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     const SubmitButton = SubmitButtonComponent || SubmitButtonDefault
     const Layout = LayoutComponent || LayoutDefault
 
-    let previews = null
+    let previews: JSX.Element[] | null = null
     if (PreviewComponent !== null) {
       previews = files.map(f => {
         return (
