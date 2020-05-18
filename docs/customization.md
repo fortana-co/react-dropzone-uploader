@@ -81,10 +81,10 @@ If you use the component injection API, you'll probably want to copy the default
 
 You'll also need to know which props are passed to your injected components. Scroll to the bottom of the following files to see their prop types. Or, [if you're using TypeScript](https://react-dropzone-uploader.js.org/docs/typescript), add a type definition to the props received by your custom component and inspect away.
 
-- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.js)
-- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.js)
-- [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.js)
-- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js)
+- [InputComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Input.tsx)
+- [PreviewComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Preview.tsx)
+- [SubmitButtonComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/SubmitButton.tsx)
+- [LayoutComponent](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.tsx)
 
 
 ### Custom Layout
@@ -92,7 +92,7 @@ By default, RDU's layout component renders previews, file input and submit butto
 
 If you want to change this layout, e.g. to render the previews and submit button outside of your dropzone, you'll need to pass your own `LayoutComponent`.
 
-If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.js) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout trivial.
+If this sounds daunting you probably haven't looked at [Layout](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Layout.tsx) yet. Layout gets pre-rendered `input`, `previews`, and `submitButton` props, which makes changing RDU's layout trivial.
 
 
 ### Pass Additional Props To Injected Components
