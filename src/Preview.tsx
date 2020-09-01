@@ -24,7 +24,20 @@ class Preview extends React.PureComponent<IPreviewProps> {
       style,
       imageStyle,
       fileWithMeta: { cancel, remove, restart },
-      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError, videoWidth, videoHeight, type, width, height },
+      meta: {
+        name = '',
+        percent = 0,
+        size = 0,
+        previewUrl,
+        status,
+        duration,
+        validationError,
+        videoWidth,
+        videoHeight,
+        type,
+        width,
+        height,
+      },
       isUpload,
       canCancel,
       canRemove,
@@ -38,7 +51,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
-        <div className={className} style={style}>
+        <div className={`${className} error`} style={style}>
           <p className="dzu-previewFileNameError">{title}</p>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
@@ -53,12 +66,13 @@ class Preview extends React.PureComponent<IPreviewProps> {
     if (status === 'aborted') title = `${title} | (cancelled)`
 
     return (
-      <div className={className} style={style}>
-        {previewUrl && <div className="imgContainer">
+      <div className={`${className} preview`} style={style}>
+        {previewUrl && (
+          <div className="imgContainer">
             <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />
             <p className="dzu-previewFileName">{title}</p>
           </div>
-        }
+        )}
         {!previewUrl && <p className="dzu-previewFileName">{title}</p>}
         <br />
         <div className="dzu-previewStatusContainer">
@@ -67,13 +81,21 @@ class Preview extends React.PureComponent<IPreviewProps> {
           )}
 
           {status === 'uploading' && canCancel && (
-            <span className="dzu-previewButton cancel" style={iconByFn.cancel} onClick={cancel} />
+            <span className="dzu-previewButton cancel" onClick={cancel}>
+              Cancel
+            </span>
           )}
           {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
-            <span className="dzu-previewButton remove" style={iconByFn.remove} onClick={remove} />
+            <span className="dzu-previewButton remove" onClick={remove}>
+              Remove
+            </span>
           )}
           {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
-            canRestart && <span className="dzu-previewButton restart" style={iconByFn.restart} onClick={restart} />}
+            canRestart && (
+              <span className="dzu-previewButton restart" onClick={restart}>
+                Upload
+              </span>
+            )}
         </div>
       </div>
     )

@@ -24,7 +24,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
       style,
       imageStyle,
       fileWithMeta: { cancel, remove, restart },
-      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError },
+      meta: { name = '', percent = 0, size = 0, previewUrl, status, duration, validationError, videoWidth, videoHeight, type, width, height },
       isUpload,
       canCancel,
       canRemove,
@@ -33,12 +33,13 @@ class Preview extends React.PureComponent<IPreviewProps> {
     } = this.props
 
     let title = `${name || '?'} | ${formatBytes(size)}`
-    if (duration) title = `${title} | ${formatDuration(duration)}`
+    if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}px X ${videoHeight}px | ${type}`
+    if (type.startsWith('image/')) title = `${title} | ${width}px X ${height}px | ${type}`
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
         <div className={className} style={style}>
-          <span className="dzu-previewFileNameError">{title}</span>
+          <p className="dzu-previewFileNameError">{title}</p>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
           {canRemove && <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />}
@@ -53,9 +54,13 @@ class Preview extends React.PureComponent<IPreviewProps> {
 
     return (
       <div className={className} style={style}>
-        {previewUrl && <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />}
-        {!previewUrl && <span className="dzu-previewFileName">{title}</span>}
-
+        {previewUrl && <div className="imgContainer">
+            <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />
+            <p className="dzu-previewFileName">{title}</p>
+          </div>
+        }
+        {!previewUrl && <p className="dzu-previewFileName">{title}</p>}
+        <br />
         <div className="dzu-previewStatusContainer">
           {isUpload && (
             <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />

@@ -72,15 +72,16 @@
 .dzu-previewContainer {
   padding: 40px 3%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   position: relative;
   width: 100%;
-  min-height: 60px;
+  /* min-height: 60px; */
   z-index: 1;
-  border-bottom: 1px solid #ECECEC;
+  /* border-bottom: 1px solid #ECECEC; */
   box-sizing: border-box;
+
 }
 
 .dzu-previewStatusContainer {
@@ -93,12 +94,14 @@
   font-size: 14px;
   font-weight: 400;
   color: #333333;
+  text-align: center;
+  font-weight: 600;
 }
 
 .dzu-previewImage {
-  width: auto;
-  max-height: 40px;
-  max-width: 140px;
+  width: 250px;
+  /* max-height: 40px; */
+  /* max-width: 140px; */
   border-radius: 4px;
 }
 
@@ -137,4 +140,9 @@
   background-color: #E6E6E6;
   color: #333333;
   cursor: unset;
+}
+
+.imgContainer {
+  width: 100%;
+  text-align: center;
 }
