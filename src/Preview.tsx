@@ -91,7 +91,24 @@ class Preview extends React.PureComponent<IPreviewProps> {
                   {Math.round(percent)}%
                 </span>
                 <span className={`${status} status`}>
-                  {status === 'done' || status === 'headers_received' ? 'Success' : status}
+                  {status === 'done' || status === 'headers_received'
+                    ? 'Success'
+                    : ['started', 'getting_upload_params', 'ready', 'preparing', 'restarted'].includes(status)
+                    ? 'Ready'
+                    : [
+                        'rejected_file_type',
+                        'rejected_max_files',
+                        'error_file_size',
+                        'error_validation',
+                        'error_upload_params',
+                        'exception_upload',
+                        'error_upload',
+                        'removed',
+                      ].includes(status)
+                    ? 'Error'
+                    : status === 'uploading'
+                    ? 'Uploading'
+                    : 'Upload Now!'}
                 </span>
               </div>
             </div>
