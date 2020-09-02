@@ -86,7 +86,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
               <div
                 className="progress-bar"
                 role="progressbar"
-                style={{ Width: status === 'done' || status === 'headers_received' ? 100 : percent }}
+                style={{ Width: status === 'done' || status === 'headers_received' ? '100%' : `${percent}%` }}
               >
                 <span className="percent" style={{ marginRight: 10 }}>
                   {Math.round(percent)}%
