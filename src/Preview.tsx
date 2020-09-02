@@ -55,7 +55,11 @@ class Preview extends React.PureComponent<IPreviewProps> {
           <p className="dzu-previewFileNameError">{title}</p>
           {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
-          {canRemove && <span className="dzu-previewButton" style={iconByFn.remove} onClick={remove} />}
+          {canRemove && (
+            <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
+              Remove
+            </button>
+          )}
         </div>
       )
     }
@@ -81,20 +85,20 @@ class Preview extends React.PureComponent<IPreviewProps> {
           )}
 
           {status === 'uploading' && canCancel && (
-            <span className="dzu-previewButton cancel" onClick={cancel}>
+            <button type="button" className="dzu-previewButton cancel btn btn-outline-warning" onClick={cancel}>
               Cancel
-            </span>
+            </button>
           )}
           {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
-            <span className="dzu-previewButton remove" onClick={remove}>
+            <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
               Remove
-            </span>
+            </button>
           )}
           {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
             canRestart && (
-              <span className="dzu-previewButton restart" onClick={restart}>
+              <button type="button" className="dzu-previewButton restart btn btn-outline-primary" onClick={restart}>
                 Upload
-              </span>
+              </button>
             )}
         </div>
       </div>
