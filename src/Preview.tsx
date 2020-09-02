@@ -64,10 +64,11 @@ class Preview extends React.PureComponent<IPreviewProps> {
       )
     }
 
-    // if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
-    //   title = `${title} | (upload failed)`
-    // }
-    // if (status === 'aborted') title = `${title} | (cancelled)`
+    let error_encountered = ''
+    if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
+      error_encountered = 'Upload Failed'
+    }
+    if (status === 'aborted') error_encountered = 'Cancelled'
 
     return (
       <div className={`${className} preview`} style={style}>
@@ -108,6 +109,8 @@ class Preview extends React.PureComponent<IPreviewProps> {
                     ? 'Error'
                     : status === 'uploading'
                     ? 'Uploading'
+                    : error_encountered != ''
+                    ? error_encountered
                     : 'Upload Now!'}
                 </span>
               </div>
