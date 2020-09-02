@@ -46,8 +46,8 @@ class Preview extends React.PureComponent<IPreviewProps> {
     } = this.props
 
     let title = `${name || '?'} | ${formatBytes(size)}`
-    if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}px X ${videoHeight}px | ${type}`
-    if (type.startsWith('image/')) title = `${title} | ${width}px X ${height}px | ${type}`
+    if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}X${videoHeight} | ${type}`
+    if (type.startsWith('image/')) title = `${title} | ${width}X${height} px | ${type}`
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
@@ -64,10 +64,10 @@ class Preview extends React.PureComponent<IPreviewProps> {
       )
     }
 
-    if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
-      title = `${title} | (upload failed)`
-    }
-    if (status === 'aborted') title = `${title} | (cancelled)`
+    // if (status === 'error_upload_params' || status === 'exception_upload' || status === 'error_upload') {
+    //   title = `${title} | (upload failed)`
+    // }
+    // if (status === 'aborted') title = `${title} | (cancelled)`
 
     return (
       <div className={`${className} preview`} style={style}>
@@ -81,7 +81,27 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <br />
         <div className="dzu-previewStatusContainer">
           {isUpload && (
-            <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
+            <div className="progress">
+              <div
+                className="progress-bar"
+                role="progressbar"
+                style={{ Width: status === 'done' || status === 'headers_received' ? 100 : percent }}
+              >
+                <span className="percent" style={{ marginRight: 10 }}>
+                  {Math.round(percent)}%
+                </span>
+                <span className={`${status} status`}>
+                  {status === 'done' || status === 'headers_received' ? 'Success' : status}
+                </span>
+              </div>
+            </div>
+            // <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent}>
+            //   {Math.round(percent)}%
+            // </progress>
+            // <div>
+            //   <span style={{ marginRight: 10 }}>{Math.round(percent)}%</span>
+            //   <span className={status}>{status === 'done' || status === 'headers_received' ? 'Success' : status}</span>
+            // </div>
           )}
 
           {status === 'uploading' && canCancel && (
