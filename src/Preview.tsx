@@ -82,46 +82,34 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <br />
         <div className="dzu-previewStatusContainer">
           {isUpload && (
-            <div className="progress">
-              <div
-                className="progress-bar"
-                role="progressbar"
-                style={{ Width: status === 'done' || status === 'headers_received' ? '100%' : `${percent}%` }}
-              >
-                <span className="percent" style={{ marginRight: 10 }}>
-                  {Math.round(percent)}%
-                </span>
-                <span className={`${status} status`}>
-                  {status === 'done' || status === 'headers_received'
-                    ? 'Success'
-                    : ['started', 'getting_upload_params', 'ready', 'preparing', 'restarted'].includes(status)
-                    ? 'Ready'
-                    : [
-                        'rejected_file_type',
-                        'rejected_max_files',
-                        'error_file_size',
-                        'error_validation',
-                        'error_upload_params',
-                        'exception_upload',
-                        'error_upload',
-                        'removed',
-                      ].includes(status)
-                    ? 'Error'
-                    : status === 'uploading'
-                    ? 'Uploading'
-                    : error_encountered != ''
-                    ? error_encountered
-                    : 'Upload Now!'}
-                </span>
-              </div>
+            <div>
+              <span className="percent" style={{ marginRight: 10 }}>
+                {Math.round(percent)}%
+              </span>
+              <span className={`${status} status`}>
+                {status === 'done' || status === 'headers_received'
+                  ? 'Success'
+                  : ['started', 'getting_upload_params', 'ready', 'preparing', 'restarted'].includes(status)
+                  ? 'Ready'
+                  : [
+                      'rejected_file_type',
+                      'rejected_max_files',
+                      'error_file_size',
+                      'error_validation',
+                      'error_upload_params',
+                      'exception_upload',
+                      'error_upload',
+                      'removed',
+                    ].includes(status)
+                  ? 'Error'
+                  : status === 'uploading'
+                  ? 'Uploading'
+                  : error_encountered != ''
+                  ? error_encountered
+                  : 'Upload Now!'}
+              </span>
+              - <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
             </div>
-            // <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent}>
-            //   {Math.round(percent)}%
-            // </progress>
-            // <div>
-            //   <span style={{ marginRight: 10 }}>{Math.round(percent)}%</span>
-            //   <span className={status}>{status === 'done' || status === 'headers_received' ? 'Success' : status}</span>
-            // </div>
           )}
 
           {status === 'uploading' && canCancel && (
