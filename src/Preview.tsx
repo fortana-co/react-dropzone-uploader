@@ -10,11 +10,11 @@ import removeImg from './assets/remove.svg'
 //@ts-ignore
 import restartImg from './assets/restart.svg'
 
-const iconByFn = {
-  cancel: { backgroundImage: `url(${cancelImg})` },
-  remove: { backgroundImage: `url(${removeImg})` },
-  restart: { backgroundImage: `url(${restartImg})` },
-}
+// const iconByFn = {
+//   cancel: { backgroundImage: `url(${cancelImg})` },
+//   remove: { backgroundImage: `url(${removeImg})` },
+//   restart: { backgroundImage: `url(${restartImg})` },
+// }
 
 class Preview extends React.PureComponent<IPreviewProps> {
   render() {
