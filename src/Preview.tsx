@@ -82,7 +82,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <br />
         <div className="dzu-previewStatusContainer">
           {isUpload && (
-            <div>
+            <div className="progressDetailsContainer">
               <span className="percent" style={{ marginRight: 10 }}>
                 {Math.round(percent)}%
               </span>
@@ -109,7 +109,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
                   : 'Upload Now!'}
               </span>
               <progress
-                className="my-progress"
+                className="myProgress"
                 max={100}
                 value={status === 'done' || status === 'headers_received' ? 100 : percent}
               />
