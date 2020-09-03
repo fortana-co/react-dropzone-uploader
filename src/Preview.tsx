@@ -108,7 +108,11 @@ class Preview extends React.PureComponent<IPreviewProps> {
                   ? error_encountered
                   : 'Upload Now!'}
               </span>
-              - <progress max={100} value={status === 'done' || status === 'headers_received' ? 100 : percent} />
+              <progress
+                className="my-progress"
+                max={100}
+                value={status === 'done' || status === 'headers_received' ? 100 : percent}
+              />
             </div>
           )}
 
