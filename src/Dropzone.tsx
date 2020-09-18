@@ -344,8 +344,8 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     if (index !== -1) {
       URL.revokeObjectURL(fileWithMeta.meta.previewUrl || '')
       fileWithMeta.meta.status = 'removed'
-      this.handleChangeStatus(fileWithMeta)
       this.files.splice(index, 1)
+      this.handleChangeStatus(fileWithMeta)
       this.forceUpdate()
     }
   }
