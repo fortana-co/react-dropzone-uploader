@@ -49,6 +49,18 @@ class Preview extends React.PureComponent<IPreviewProps> {
     if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}X${videoHeight} | ${type}`
     if (type.startsWith('image/')) title = `${title} | ${width}X${height} px | ${type}`
 
+    //need to add custom styles based on uploaded type - icon,color, etc
+    let typeClassName = "";
+    if (type.startsWith('image/')) {
+      typeClassName = 'image';
+    }else if (type.startsWith('video/')) {
+      typeClassName = 'video';
+    }else if (type.startsWith('audio/')){
+      typeClassName = 'audio';
+    }else {
+      typeClassName = type;
+    }
+
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
         <div className={`${className} error`} style={style}>
@@ -71,7 +83,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
     if (status === 'aborted') error_encountered = 'Cancelled'
 
     return (
-      <div className={`${className} preview`} style={style}>
+      <div className={`${className} ${typeClassName} preview`} style={style}>
         {previewUrl && (
           <div className="imgContainer">
             <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />
@@ -116,22 +128,25 @@ class Preview extends React.PureComponent<IPreviewProps> {
             </div>
           )}
 
-          {status === 'uploading' && canCancel && (
-            <button type="button" className="dzu-previewButton cancel btn btn-outline-warning" onClick={cancel}>
-              Cancel
-            </button>
-          )}
-          {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
-            <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
-              Remove
-            </button>
-          )}
-          {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
-            canRestart && (
-              <button type="button" className="dzu-previewButton restart btn btn-outline-primary" onClick={restart}>
-                Upload
+          <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+            {status === 'uploading' && canCancel && (
+              <button type="button" className="dzu-previewButton cancel btn btn-outline-warning" onClick={cancel}>
+                Cancel
               </button>
             )}
+            {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
+              <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
+                Remove
+              </button>
+            )}
+            {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
+              canRestart && (
+                <button type="button" className="dzu-previewButton restart btn btn-outline-primary" onClick={restart}>
+                  Upload
+                </button>
+              )}
+          </div>
         </div>
       </div>
     )
