@@ -94,7 +94,7 @@ export const mergeStyles = (
 export const getFilesFromEvent = (
   event: React.DragEvent<HTMLElement> | React.ChangeEvent<HTMLInputElement>,
 ): Array<File | DataTransferItem> => {
-  let items = null
+  let items = [];
 
   if ('dataTransfer' in event) {
     const dt = event.dataTransfer
@@ -109,5 +109,5 @@ export const getFilesFromEvent = (
     items = event.target.files
   }
 
-  return Array.prototype.slice.call(items)
+  return Array.prototype.slice.call(items);
 }
