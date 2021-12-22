@@ -95,6 +95,7 @@ export interface IUploadParams {
   fields?: { [name: string]: string | Blob }
   headers?: { [name: string]: string }
   meta?: { [name: string]: any }
+  withCredentials?: boolean
 }
 
 export type CustomizationFunction<T> = (allFiles: IFileWithMeta[], extra: IExtra) => T
@@ -515,6 +516,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     }
 
     const xhr = new XMLHttpRequest()
+    if (params.withCredentials) xhr.withCredentials = true
     const formData = new FormData()
     xhr.open(method, url, true)
 
