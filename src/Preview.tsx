@@ -94,7 +94,7 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <br />
         <div className="dzu-previewStatusContainer">
           {isUpload && (
-            <div className="progressDetailsContainer">
+            <div className="progressDetailsContainer" style={{ marginRight: '10px' }}>
               <span className="percent">
                 {Math.round(percent)}%
               </span>
