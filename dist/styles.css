@@ -148,7 +148,6 @@
 
 .btn-toolbar .remove, .btn-toolbar .cancel, .btn-toolbar .restart {
   width: auto;
-  padding: 15px;
   display: flex;
   justify-content: center;
   flex-direction: column;
