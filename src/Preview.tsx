@@ -46,8 +46,8 @@ class Preview extends React.PureComponent<IPreviewProps> {
     } = this.props
 
     let title = `${name || '?'} | ${formatBytes(size)}`
-    if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}X${videoHeight} | ${type}`
-    if (type.startsWith('image/')) title = `${title} | ${width}X${height} px | ${type}`
+    // if (duration) title = `${title} | ${formatDuration(duration)} | ${videoWidth}X${videoHeight} | ${type}`
+    // if (type.startsWith('image/')) title = `${title} | ${width}X${height} px | ${type}`
 
     //need to add custom styles based on uploaded type - icon,color, etc
     let typeClassName = "";
@@ -95,10 +95,10 @@ class Preview extends React.PureComponent<IPreviewProps> {
         <div className="dzu-previewStatusContainer">
           {isUpload && (
             <div className="progressDetailsContainer">
-              <span className="percent" style={{ marginRight: 10 }}>
+              <span className="percent">
                 {Math.round(percent)}%
               </span>
-              <span className={`${status} status`}>
+              <span className={`${status} status`} style={{ padding: '0 10px' }}>
                 {status === 'done' || status === 'headers_received'
                   ? 'Success'
                   : ['started', 'getting_upload_params', 'ready', 'preparing', 'restarted'].includes(status)

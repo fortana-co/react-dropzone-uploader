@@ -95,7 +95,6 @@
   font-weight: 400;
   color: #333333;
   text-align: center;
-  font-weight: 600;
 }
 
 .dzu-previewImage {
@@ -145,4 +144,12 @@
 .imgContainer {
   width: 100%;
   text-align: center;
+}
+
+.btn-toolbar .remove, .btn-toolbar .cancel, .btn-toolbar .restart {
+  width: auto;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
