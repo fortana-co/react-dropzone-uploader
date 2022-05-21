@@ -142,9 +142,9 @@ class Preview extends React.PureComponent<IPreviewProps> {
               )}
           </div>
         </div>
-        <div className='relative w-full block mt-4'>
+        <div className='relative w-full min-width-full block mt-4'>
           <progress
-            className="myProgress w-full h-1.5 absolute bottom-0"
+            className="myProgress h-1.5 absolute bottom-0 min-w-full left-0 right-0 block"
             max={100}
             value={status === 'done' || status === 'headers_received' ? 100 : percent}
             style={{backgroundColor: 'yellow', background: 'yellow'}}
