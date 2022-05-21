@@ -14,7 +14,7 @@ const Layout = (props: ILayoutProps) => {
   } = props
 
   return (
-    <div {...dropzoneProps}>
+    <div {...dropzoneProps} className="mt-1 px-6 pt-5 pb-6 space-y-5 ">
       {previews}
 
       {files.length < maxFiles && input}

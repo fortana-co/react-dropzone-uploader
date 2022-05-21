@@ -627,7 +627,8 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
     let previews = null
     if (PreviewComponent !== null) {
-      previews = files.map(f => {
+      <div className='grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8'>
+      {previews = files.map(f => {
         return (
           //@ts-ignore
           <Preview
@@ -647,6 +648,8 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
           />
         )
       })
+    }
+    </div>
     }
 
     const input =
@@ -675,7 +678,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       onSubmit && SubmitButtonComponent !== null ? (
         //@ts-ignore
         <SubmitButton
-          className={submitButtonContainerClassName}
+          className={`${submitButtonContainerClassName} relative block w-full w-100 flex flex-block items-center justify-center space-y-4`}
           buttonClassName={submitButtonClassName}
           style={submitButtonContainerStyle as React.CSSProperties}
           buttonStyle={submitButtonStyle as React.CSSProperties}

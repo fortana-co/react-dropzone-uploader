@@ -1,16 +1,16 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css');
+
+
 .dzu-dropzone {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 120px;
-  overflow: scroll;
+  overflow: auto;
   margin: 0 auto;
   position: relative;
   box-sizing: border-box;
   transition: all .15s linear;
-  border: 2px solid #d9d9d9;
-  border-radius: 4px;
 }
 
 .dzu-dropzoneActive {
@@ -152,3 +152,8 @@
   justify-content: center;
   flex-direction: column;
 }
+
+/* //custom progress color */
+progress::-moz-progress-bar { background: #64e46fbb; }
+progress::-webkit-progress-value { background: #64e46fbb; }
+progress { color: #64e46fbb; }

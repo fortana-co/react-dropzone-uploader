@@ -20,9 +20,9 @@ class Preview extends React.PureComponent<IPreviewProps> {
   render() {
     const {
       className,
-      imageClassName,
+      // imageClassName,
       style,
-      imageStyle,
+      // imageStyle,
       fileWithMeta: { cancel, remove, restart },
       meta: {
         name = '',
@@ -83,22 +83,21 @@ class Preview extends React.PureComponent<IPreviewProps> {
     if (status === 'aborted') error_encountered = 'Cancelled'
 
     return (
-      <div className={`${className} ${typeClassName} preview`} style={style}>
+      <div className={`${typeClassName} lg:flex flex-col lg:items-center lg:justify-between md:block  p-3 bg-gray-100 shadow rounded max-w-2xl mx-auto px-4`} style={style}>
         {previewUrl && (
-          <div className="imgContainer">
-            <img className={imageClassName} style={imageStyle} src={previewUrl} alt={title} title={title} />
-            <p className="dzu-previewFileName">{title}</p>
+          <div className="block space-y-5 truncate">
+            {/* <img className={`${imageClassName} group-hover:opacity-75 object-cover pointer-events-none md:invisible lg:visible hidden lg:block`} style={imageStyle} src={previewUrl} alt={title} title={title} /> */}
+            <p className="m-2 block text-lg font-medium text-indigo-900 truncate pointer-events-none">{title}</p>
           </div>
         )}
-        {!previewUrl && <p className="dzu-previewFileName">{title}</p>}
-        <br />
-        <div className="dzu-previewStatusContainer">
+        {!previewUrl && <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">{title}</p>}
+        <div className="dzu-previewStatusContainer  flex items-center flex-inline justify-between block w-full">
           {isUpload && (
-            <div className="progressDetailsContainer">
+            <div className="progressDetailsContainer  flex items-center flex-inline justify-between">
               <span className="percent" style={{ marginRight: '10px' }}>
                 {Math.round(percent)}%
               </span>
-              <span className={`${status} status`} style={{ padding: '0 10px' }}>
+              <span className={`${status == 'aborted' ? 'text-red-500' : 'text-indigo-500'} status`} style={{ padding: '0 10px' }}>
                 {status === 'done' || status === 'headers_received'
                   ? 'Success'
                   : ['started', 'getting_upload_params', 'ready', 'preparing', 'restarted'].includes(status)
@@ -120,34 +119,37 @@ class Preview extends React.PureComponent<IPreviewProps> {
                   ? error_encountered
                   : 'Upload Now!'}
               </span>
-              <progress
-                className="myProgress"
-                max={100}
-                value={status === 'done' || status === 'headers_received' ? 100 : percent}
-              />
             </div>
           )}
 
-          <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div className="btn-toolbar flex flex-col items-center space-y-3" role="toolbar" aria-label="Toolbar with button groups">
 
             {status === 'uploading' && canCancel && (
-              <button type="button" className="dzu-previewButton cancel btn btn-outline-warning" onClick={cancel}>
+              <button type="button" className="cancel ml-3 inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" onClick={cancel}>
                 Cancel
               </button>
             )}
             {status !== 'preparing' && status !== 'getting_upload_params' && status !== 'uploading' && canRemove && (
-              <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
+              <button type="button" className="remove ml-3 inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={remove}>
                 Remove
               </button>
             )}
             {['error_upload_params', 'exception_upload', 'error_upload', 'aborted', 'ready'].includes(status) &&
               canRestart && (
-                <button type="button" className="dzu-previewButton restart btn btn-outline-primary" onClick={restart}>
+                <button type="button" className="restart ml-3 inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={restart}>
                   Upload
                 </button>
               )}
           </div>
         </div>
+        <div className='relative w-full block mt-4'>
+          <progress
+            className="myProgress w-full h-1.5 absolute bottom-0"
+            max={100}
+            value={status === 'done' || status === 'headers_received' ? 100 : percent}
+            style={{backgroundColor: 'yellow', background: 'yellow'}}
+          />
+          </div>
       </div>
     )
   }
