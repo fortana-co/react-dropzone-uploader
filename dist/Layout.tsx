@@ -14,13 +14,16 @@ const Layout = (props: ILayoutProps) => {
   } = props
 
   return (
+    <>
     <div {...dropzoneProps} className="mt-1 px-6 pt-5 pb-6 space-y-5 ">
       {previews}
-
+    </div>
+    <div className="mt-1 px-6 pt-5 pb-6 space-y-5 ">
       {files.length < maxFiles && input}
 
       {files.length > 0 && submitButton}
     </div>
+    </>
   )
 }
 

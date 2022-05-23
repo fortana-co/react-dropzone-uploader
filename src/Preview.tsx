@@ -63,12 +63,12 @@ class Preview extends React.PureComponent<IPreviewProps> {
 
     if (status === 'error_file_size' || status === 'error_validation') {
       return (
-        <div className={`${className} error`} style={style}>
-          <p className="dzu-previewFileNameError">{title}</p>
-          {status === 'error_file_size' && <span>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
+        <div className={`${className} error sm:flex sm:items-center sm:justify-between lg:flex-row flex-col relative block w-full border-2 border-red-300 p-12 text-center bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`} style={style}>
+          <div className="dzu-previewFileNameError">{title}</div>
+          {status === 'error_file_size' && <span className='text-lg text-red-900 font-semibold'>{size < minSizeBytes ? 'File too small' : 'File too big'}</span>}
           {status === 'error_validation' && <span>{String(validationError)}</span>}
           {canRemove && (
-            <button type="button" className="dzu-previewButton remove btn btn-outline-danger" onClick={remove}>
+            <button type="button" className="dzu-previewButton remove inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 self-center" onClick={remove}>
               Remove
             </button>
           )}
