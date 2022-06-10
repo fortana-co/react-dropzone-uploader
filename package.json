@@ -1,10 +1,10 @@
 {
-  "name": "react-dropzone-uploader",
-  "version": "2.11.0",
+  "name": "@cruisecritic/react-dropzone-uploader",
+  "version": "2.12.4",
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
-  "types": "./dist/Dropzone.tsx",
+  "types": "./dist/Dropzone.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "peerDependencies": {
+    "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
-    "react-dom": ">=16.2.0",
-    "prop-types": ">=15.5.10"
+    "react-dom": ">=16.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -41,7 +41,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^1.0.0",
+    "css-loader": "^6.7.1",
     "docusaurus-init": "^1.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
@@ -54,13 +54,14 @@
     "react-styleguidist": "^8.0.6",
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.5.2",
-    "style-loader": "^0.23.1",
-    "typescript": "^3.4.1",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.21.0",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.3",
+    "ts-loader": "^9.3.0",
+    "typescript": "^4.7.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.2"
   },
   "jest": {
     "moduleNameMapper": {
@@ -68,7 +69,7 @@
     }
   },
   "scripts": {
-    "build": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
+    "build": "rm -rf dist && tsc && NODE_ENV=production webpack --config webpack.build.config.js",
     "dev": "tsc -w -p tsconfig.dev.json & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "tsc -w & styleguidist server",
     "build-styleguide": "tsc && styleguidist build",

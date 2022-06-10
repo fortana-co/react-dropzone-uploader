@@ -6,7 +6,9 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true
+    "strict": true,
+    "outDir": "dist",
+    "declaration": true
   },
   "include": ["src/*.tsx", "src/*.ts"],
   "exclude": ["node_modules"]
