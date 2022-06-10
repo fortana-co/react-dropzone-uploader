@@ -36,12 +36,12 @@ function createConfig(entry, output) {
 }
 
 module.exports = [
-  createConfig('./src/Dropzone.js', {
+  createConfig('./dist/Dropzone.js', {
     path: path.resolve('dist'),
     libraryTarget: 'commonjs2',
     filename: 'react-dropzone-uploader.js',
   }),
-  createConfig('./src/Dropzone.js', {
+  createConfig('./dist/Dropzone.js', {
     path: path.resolve('dist'),
     libraryTarget: 'umd',
     filename: 'react-dropzone-uploader.umd.js',
