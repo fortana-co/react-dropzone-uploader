@@ -8,6 +8,8 @@
     "noUnusedParameters": true,
     "strict": true,
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "outDir": "dist"
   },
   "include": ["src/*.tsx", "src/*.ts"],
