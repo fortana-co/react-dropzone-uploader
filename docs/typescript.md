@@ -4,7 +4,7 @@ title: TypeScript
 ---
 
 
-RDU [ships with precise TypeScript definitions](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Dropzone.d.ts) for just about everything in the library.
+RDU [ships with precise TypeScript definitions](https://github.com/fortana-co/react-dropzone-uploader/blob/master/src/Dropzone.tsx) for just about everything in the library.
 
 RDU has a flexible and powerful API. Using TypeScript will help you use it properly, and help you get a handle on everything it can do.
 
