@@ -18,7 +18,7 @@ function createConfig(entry, output) {
       rules: [
         {
           test: /\.js?$/,
-          exclude: /node_modules/,
+          exclude: [/node_modules/, /src\/*.tsx/],
           use: 'babel-loader',
         },
         {
