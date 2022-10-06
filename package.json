@@ -4,7 +4,7 @@
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
-  "types": "./dist/Dropzone.tsx",
+  "types": "./dist/Dropzone.d.ts",
   "keywords": [
     "react",
     "react-component",
@@ -68,7 +68,7 @@
     }
   },
   "scripts": {
-    "build": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
+    "build": "rm -f dist/* && tsc && NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css",
     "dev": "tsc -w -p tsconfig.dev.json & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "tsc -w & styleguidist server",
     "build-styleguide": "tsc && styleguidist build",
