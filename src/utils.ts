@@ -109,5 +109,7 @@ export const getFilesFromEvent = (
     items = event.target.files
   }
 
+  if(!items) return []
+
   return Array.prototype.slice.call(items)
 }
