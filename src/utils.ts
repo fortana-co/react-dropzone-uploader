@@ -34,8 +34,8 @@ export const accepts = (file: File, accept: string) => {
 
   return accept
     .split(',')
-    .map(t => t.trim())
-    .some(type => {
+    .map((t) => t.trim())
+    .some((type) => {
       if (type.charAt(0) === '.') {
         return file.name === undefined || file.name.toLowerCase().endsWith(type.toLowerCase())
       } else if (type.endsWith('/*')) {
