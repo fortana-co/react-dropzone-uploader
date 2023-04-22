@@ -2,7 +2,6 @@
 export = null
 
 import 'babel-polyfill'
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 //@ts-ignore
@@ -12,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import '../../src/styles.css'
+
 import Dropzone, {
   defaultClassNames,
   IDropzoneProps,
@@ -36,12 +36,14 @@ const Standard = () => {
   }
 
   return (
+    <div className='max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
     <Dropzone
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      styles={{ dropzone: { minHeight: 200, maxHeight: 250 } }}
+      // styles={{ dropzone: { minHeight: 200, maxHeight: 250 } }}
     />
+    </div>
   )
 }
 
