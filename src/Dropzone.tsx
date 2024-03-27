@@ -500,8 +500,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     let params: IUploadParams | null = null
     try {
       params = await getUploadParams(fileWithMeta)
-    } catch (e) {
-      console.error('Error Upload Params', e.stack)
+    } catch (e: unknown) { // or just catch (e) which implicitly has the type unknown
+      // Check if 'e' is an instance of 'Error' and has the 'stack' property
+      if (e instanceof Error && e.stack) {
+        console.error('Error Upload Params', e.stack);
+      } else {
+        // If it's not an Error, you might just log it or handle it differently
+        console.error('Error Upload Params', e);
+      }
     }
     if (params === null) return
     const { url, method = 'POST', body, fields = {}, headers = {}, meta: extraMeta = {} } = params
@@ -513,6 +519,8 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       this.forceUpdate()
       return
     }
+
+    
 
     const xhr = new XMLHttpRequest()
     const formData = new FormData()
